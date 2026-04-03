@@ -654,6 +654,8 @@ const links = [
       const intro = document.querySelector(".intro");
       const linksPanel = document.querySelector(".links-panel");
       let introHeightLocked = false;
+      let lastViewportWidth = window.innerWidth;
+      let lastIsDesktopViewport = window.innerWidth >= 860;
 
       const syncColumnHeights = () => {
         if (!intro || !linksPanel || window.innerWidth < 860) {
@@ -767,10 +769,21 @@ const links = [
         syncColumnHeights();
         window.addEventListener("scroll", syncBackToTop, { passive: true });
         window.addEventListener("resize", () => {
+          const nextViewportWidth = window.innerWidth;
+          const nextIsDesktopViewport = nextViewportWidth >= 860;
+          const crossedDesktopBreakpoint = nextIsDesktopViewport !== lastIsDesktopViewport;
+          const widthChangedEnough = Math.abs(nextViewportWidth - lastViewportWidth) > 80;
+
           introHeightLocked = false;
-          syncVisibleShowcaseLayout();
+
+          if (nextIsDesktopViewport && (crossedDesktopBreakpoint || widthChangedEnough)) {
+            syncVisibleShowcaseLayout();
+          }
+
           syncBackToTop();
           syncColumnHeights();
+          lastViewportWidth = nextViewportWidth;
+          lastIsDesktopViewport = nextIsDesktopViewport;
         });
         backToTopButton.addEventListener("click", () => {
           window.scrollTo({ top: 0, behavior: "smooth" });
