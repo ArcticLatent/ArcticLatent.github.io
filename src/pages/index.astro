@@ -70,13 +70,19 @@ const fetchLatestVideos = async () => {
 };
 
 const videos = await fetchLatestVideos();
-const vimeoUrl = "https://vimeo.com/1044521891";
+const vimeoUrls = [
+  "https://vimeo.com/1044521891",
+  "https://vimeo.com/1090716436",
+  "https://vimeo.com/424411862",
+  "https://vimeo.com/299818240"
+];
+const vimeoUrl = vimeoUrls[0];
 const imdbUrl = "https://www.imdb.com/name/nm9667865/";
 
-const fetchVimeoData = async () => {
+const fetchVimeoData = async (url) => {
   try {
     const response = await fetch(
-      `https://vimeo.com/api/oembed.json?url=${encodeURIComponent(vimeoUrl)}`
+      `https://vimeo.com/api/oembed.json?url=${encodeURIComponent(url)}`
     );
 
     if (!response.ok) {
@@ -85,12 +91,12 @@ const fetchVimeoData = async () => {
 
     return response.json();
   } catch (error) {
-    console.error("Failed to load Vimeo reel", error);
+    console.error("Failed to load Vimeo reel", url, error);
     return null;
   }
 };
 
-const vimeoData = await fetchVimeoData();
+const vimeoReels = (await Promise.all(vimeoUrls.map((url) => fetchVimeoData(url)))).filter(Boolean);
 
 const metacriticImageBase = "https://www.metacritic.com/a/img/catalog";
 const metacriticSiteBase = "https://www.metacritic.com";
@@ -230,11 +236,11 @@ const collectionStructuredData = {
     name: "Burce Boran"
   },
   hasPart: [
-    {
+    ...vimeoUrls.map((url, index) => ({
       "@type": "VideoObject",
-      name: "VFX Demo Reel",
-      url: vimeoUrl
-    },
+      name: index === 0 ? "VFX Demo Reel" : `VFX Demo Reel ${index + 1}`,
+      url
+    })),
     {
       "@type": "CreativeWork",
       name: "Arctic Latent",
@@ -601,22 +607,32 @@ const links = [
         hidden
       >
         <div class="showcase-header">
-          <a class="showcase-link" href={vimeoUrl} target="_blank" rel="noreferrer">
-            Open on Vimeo
-          </a>
+          <p class="showcase-kicker">Selected Reels</p>
         </div>
 
-        {vimeoData ? (
-          <div class="reel-layout">
-            <div class="reel-player">
-              <iframe
-                src={`https://player.vimeo.com/video/${vimeoData.video_id}?title=0&byline=0&portrait=0`}
-                title={vimeoData.title}
-                loading="lazy"
-                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-                allowfullscreen
-              ></iframe>
-            </div>
+        {vimeoReels.length > 0 ? (
+          <div class="reel-grid">
+            {vimeoReels.map((reel, index) => (
+              <article class="reel-card">
+                <div class="reel-card-header">
+                  <p class="reel-title">{index === 0 ? "VFX Demo Reel" : `VFX Demo Reel ${index + 1}`}</p>
+                  <a class="showcase-link" href={vimeoUrls[index]} target="_blank" rel="noreferrer">
+                    Open on Vimeo
+                  </a>
+                </div>
+                <div class="reel-layout">
+                  <div class="reel-player">
+                    <iframe
+                      src={`https://player.vimeo.com/video/${reel.video_id}?title=0&byline=0&portrait=0`}
+                      title={reel.title}
+                      loading="lazy"
+                      allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                      allowfullscreen
+                    ></iframe>
+                  </div>
+                </div>
+              </article>
+            ))}
           </div>
         ) : (
           <p class="video-fallback">

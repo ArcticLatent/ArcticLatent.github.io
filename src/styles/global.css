@@ -736,6 +736,30 @@ body::before {
   align-items: center;
 }
 
+.reel-grid {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.reel-card {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.reel-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.reel-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
 .reel-player {
   overflow: hidden;
   border-radius: 1.5rem;
@@ -812,10 +836,10 @@ body::before {
 
 .back-to-top.is-floating {
   position: fixed;
-  left: 50%;
-  bottom: calc(1rem + env(safe-area-inset-bottom, 0px) + 4.5rem);
+  right: calc(1rem + env(safe-area-inset-right, 0px));
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px) + 1rem);
   z-index: 50;
-  transform: translateX(-50%) translateY(14px);
+  transform: translateY(14px);
 }
 
 .back-to-top.is-visible {
@@ -825,7 +849,7 @@ body::before {
 }
 
 .back-to-top.is-floating.is-visible {
-  transform: translateX(-50%) translateY(0);
+  transform: translateY(0);
 }
 
 .back-to-top:hover,
@@ -989,6 +1013,11 @@ body::before {
     padding-right: 0;
   }
 
+  .headline-switcher.is-about .headline-about-copy p {
+    font-size: 1rem;
+    line-height: 1.56;
+  }
+
   .video-grid {
     grid-template-columns: 1fr;
   }
@@ -1006,7 +1035,8 @@ body::before {
   }
 
   .back-to-top.is-floating {
-    bottom: calc(1rem + env(safe-area-inset-bottom, 0px) + 5rem);
+    right: calc(0.9rem + env(safe-area-inset-right, 0px));
+    bottom: calc(0.9rem + env(safe-area-inset-bottom, 0px));
   }
 
   h1 {
