@@ -76,6 +76,12 @@ const vimeoUrls = [
   "https://vimeo.com/424411862",
   "https://vimeo.com/299818240"
 ];
+const vimeoLabels = [
+  "VFX Demo Reel",
+  "Unreal Environment Reel",
+  "VFX Demo Reel 3",
+  "VFX Demo Reel 4"
+];
 const vimeoUrl = vimeoUrls[0];
 const imdbUrl = "https://www.imdb.com/name/nm9667865/";
 
@@ -238,7 +244,7 @@ const collectionStructuredData = {
   hasPart: [
     ...vimeoUrls.map((url, index) => ({
       "@type": "VideoObject",
-      name: index === 0 ? "VFX Demo Reel" : `VFX Demo Reel ${index + 1}`,
+      name: vimeoLabels[index] ?? `VFX Demo Reel ${index + 1}`,
       url
     })),
     {
@@ -615,7 +621,7 @@ const links = [
             {vimeoReels.map((reel, index) => (
               <article class="reel-card">
                 <div class="reel-card-header">
-                  <p class="reel-title">{index === 0 ? "VFX Demo Reel" : `VFX Demo Reel ${index + 1}`}</p>
+                  <p class="reel-title">{vimeoLabels[index] ?? `VFX Demo Reel ${index + 1}`}</p>
                   <a class="showcase-link" href={vimeoUrls[index]} target="_blank" rel="noreferrer">
                     Open on Vimeo
                   </a>
