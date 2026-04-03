@@ -1,0 +1,53 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="80" y1="40" x2="1080" y2="610" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0E2028"/>
+      <stop offset="1" stop-color="#07111A"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(260 170) rotate(30) scale(380 280)">
+      <stop stop-color="#93F5D8" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#93F5D8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="line" x1="120" y1="120" x2="520" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#93F5D8" stop-opacity="0.8"/>
+      <stop offset="0.5" stop-color="#F0B986" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#F0B986" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <g opacity="0.12" stroke="#CAE7FF">
+    <path d="M0 70H1200"/>
+    <path d="M0 210H1200"/>
+    <path d="M0 350H1200"/>
+    <path d="M0 490H1200"/>
+    <path d="M90 0V630"/>
+    <path d="M300 0V630"/>
+    <path d="M510 0V630"/>
+    <path d="M720 0V630"/>
+    <path d="M930 0V630"/>
+    <path d="M1140 0V630"/>
+  </g>
+
+  <g opacity="0.45" stroke="#CAE7FF" stroke-width="1.2">
+    <path d="M842 130L965 100L1042 182L1016 304L892 338L803 261L842 130Z"/>
+    <path d="M803 261L1016 304"/>
+    <path d="M842 130L892 338"/>
+    <path d="M965 100L803 261"/>
+    <path d="M1042 182L892 338"/>
+  </g>
+
+  <text x="120" y="124" fill="#A4F2DA" font-family="'Space Grotesk', Arial, sans-serif" font-size="34" font-weight="700" letter-spacing="8">BURCE BORAN</text>
+  <rect x="120" y="138" width="400" height="1" fill="url(#line)"/>
+
+  <text x="120" y="240" fill="#F4F8FB" font-family="'Space Grotesk', Arial, sans-serif" font-size="84" font-weight="700">
+    <tspan x="120" dy="0">VFX, AI workflows,</tspan>
+    <tspan x="120" dy="96">and creative technology.</tspan>
+  </text>
+
+  <text x="120" y="454" fill="#A8B8C5" font-family="'Space Grotesk', Arial, sans-serif" font-size="32" font-weight="500">
+    Asset supervision, filmography, tutorials, tools, and experiments.
+  </text>
+</svg>

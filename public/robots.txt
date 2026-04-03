@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://burceboran.ca/sitemap-index.xml
