@@ -673,6 +673,23 @@ body::before {
   opacity: 0.55;
 }
 
+.repo-logo {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 0.95rem;
+  box-shadow: 0 10px 30px -12px color-mix(in srgb, var(--repo-accent) 70%, transparent);
+}
+
+/* A logo without its own tile gets one. */
+.repo-logo-tile {
+  padding: 0.5rem;
+  background: #16191d;
+}
+
 .repo-thumb-label,
 .repo-thumb h2 {
   position: relative;
@@ -681,6 +698,8 @@ body::before {
 }
 
 .repo-thumb-label {
+  /* (Clear of the logo, top right.) */
+  padding-right: 4.5rem;
   color: color-mix(in srgb, var(--repo-accent) 76%, white);
   text-transform: uppercase;
   letter-spacing: 0.16em;

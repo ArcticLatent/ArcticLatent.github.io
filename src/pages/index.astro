@@ -29,16 +29,6 @@ const getAlternateLink = (source) => {
   return match ? decodeXml(match[1]) : "";
 };
 
-const decodeHtml = (value) =>
-  value
-    .replaceAll("&amp;", "&")
-    .replaceAll("&quot;", '"')
-    .replaceAll("&#39;", "'")
-    .replaceAll("&lt;", "<")
-    .replaceAll("&gt;", ">")
-    .replaceAll("&#x27;", "'")
-    .replaceAll("&#x2F;", "/");
-
 const formatPublishedDate = (value) =>
   new Intl.DateTimeFormat("en", {
     month: "short",
@@ -46,15 +36,28 @@ const formatPublishedDate = (value) =>
     year: "numeric"
   }).format(new Date(value));
 
+// YouTube's feed and Metacritic answer with errors now and then, so each
+// fetch is tried a few times before giving up.
+const fetchWithRetry = async (url, options = {}, tries = 8) => {
+  let lastError;
+  for (let attempt = 1; attempt <= tries; attempt += 1) {
+    try {
+      const response = await fetch(url, options);
+      if (response.ok) {
+        return response;
+      }
+      lastError = new Error(`${url} answered ${response.status}`);
+    } catch (error) {
+      lastError = error;
+    }
+    await new Promise((resolve) => setTimeout(resolve, 1500 * attempt));
+  }
+  throw lastError;
+};
+
 const fetchLatestVideos = async () => {
   try {
-    const response = await fetch(youtubeFeedUrl);
-
-    if (!response.ok) {
-      throw new Error(`Feed request failed with ${response.status}`);
-    }
-
-    const xml = await response.text();
+    const xml = await (await fetchWithRetry(youtubeFeedUrl)).text();
 
     return [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].slice(0, 4).map(([, entry]) => ({
       id: getTagValue(entry, "yt:videoId"),
@@ -63,6 +66,47 @@ const fetchLatestVideos = async () => {
       publishedAt: formatPublishedDate(getTagValue(entry, "published")),
       thumbnail: getThumbnailUrl(entry)
     }));
+  } catch (error) {
+    console.error("Arctic Latent's video feed failed; trying the channel page", error);
+    return fetchChannelVideos();
+  }
+};
+
+// The same latest videos from the channel's own page (its embedded data),
+// for when the feed is down. It gives dates as "8mo ago", not exact ones.
+const fetchChannelVideos = async () => {
+  try {
+    const response = await fetchWithRetry(
+      "https://www.youtube.com/@ArcticLatent/videos",
+      { headers: { "User-Agent": "Mozilla/5.0", "Accept-Language": "en" } },
+      3
+    );
+    const html = await response.text();
+    const data = JSON.parse(html.match(/var ytInitialData = (\{.*?\});<\/script>/s)[1]);
+    const lockups = [];
+    const walk = (node) => {
+      if (Array.isArray(node)) {
+        node.forEach(walk);
+      } else if (node && typeof node === "object") {
+        if (node.lockupViewModel?.contentType === "LOCKUP_CONTENT_TYPE_VIDEO") {
+          lockups.push(node.lockupViewModel);
+        }
+        Object.values(node).forEach(walk);
+      }
+    };
+    walk(data);
+    return lockups.slice(0, 4).map((video) => {
+      const meta = video.metadata.lockupMetadataViewModel;
+      const parts = meta.metadata?.contentMetadataViewModel?.metadataRows?.[0]?.metadataParts ?? [];
+      const age = parts.map((part) => part.text?.content ?? "").find((text) => text.endsWith("ago")) ?? "";
+      return {
+        id: video.contentId,
+        title: meta.title.content,
+        href: `https://www.youtube.com/watch?v=${video.contentId}`,
+        publishedAt: age.replace(/(\d+)mo\b/, "$1 months").replace(/(\d+)y\b/, "$1 years"),
+        thumbnail: `https://i.ytimg.com/vi/${video.contentId}/hqdefault.jpg`
+      };
+    });
   } catch (error) {
     console.error("Failed to load Arctic Latent videos", error);
     return [];
@@ -114,7 +158,7 @@ const fetchFilmography = async () => {
   ];
 
   try {
-    const responses = await Promise.all(endpoints.map((url) => fetch(url).then((response) => response.json())));
+    const responses = await Promise.all(endpoints.map((url) => fetchWithRetry(url).then((response) => response.json())));
     const items = responses.flatMap((payload) => payload?.data?.items ?? []);
 
     return items
@@ -136,65 +180,66 @@ const fetchFilmography = async () => {
 };
 
 const filmography = await fetchFilmography();
+
+// On GitHub (the daily rebuild), a section that couldn't be fetched stops
+// the build: GitHub Pages then keeps the last good version of the site
+// instead of publishing it with that section empty.
+if (process.env.GITHUB_ACTIONS && (videos.length === 0 || filmography.length === 0)) {
+  throw new Error(`Not publishing: ${videos.length} videos, ${filmography.length} credits fetched`);
+}
 const githubUrl = "https://github.com/ArcticLatent";
 
-const fetchPinnedRepos = async () => {
-  try {
-    const response = await fetch(githubUrl, {
-      headers: {
-        "User-Agent": "Mozilla/5.0"
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error(`GitHub request failed with ${response.status}`);
-    }
-
-    const html = await response.text();
-    const pinnedSectionMatch = html.match(
-      /<div class="js-pinned-items-reorder-container">([\s\S]*?)<\/ol>/i
-    );
-
-    if (!pinnedSectionMatch) {
-      return [];
-    }
-
-    const items = [...pinnedSectionMatch[1].matchAll(/<li[\s\S]*?<\/li>/g)].slice(0, 6);
-
-    return items.map(([block]) => {
-      const hrefMatch = block.match(/href="(\/ArcticLatent\/[^"]+)"/);
-      const nameMatch = block.match(/<span class="repo">([\s\S]*?)<\/span>/);
-      const descriptionMatch = block.match(/<p class="pinned-item-desc[\s\S]*?>([\s\S]*?)<\/p>/);
-      const languageMatch = block.match(/<span itemprop="programmingLanguage">([\s\S]*?)<\/span>/);
-      const languageColorMatch = block.match(/repo-language-color" style="background-color:\s*([^";]+)[^"]*"/);
-      const starsMatch = block.match(/octicon-star[\s\S]*?<\/svg>\s*([0-9]+)/);
-
-      return {
-        name: decodeHtml((nameMatch?.[1] ?? "").trim()),
-        href: hrefMatch ? `https://github.com${hrefMatch[1]}` : githubUrl,
-        description: decodeHtml((descriptionMatch?.[1] ?? "").replace(/<[^>]+>/g, "").trim()),
-        language: decodeHtml((languageMatch?.[1] ?? "").trim()),
-        languageColor: (languageColorMatch?.[1] ?? "#93f5d8").trim(),
-        stars: (starsMatch?.[1] ?? "").trim()
-      };
-    });
-  } catch (error) {
-    console.error("Failed to load GitHub pinned repos", error);
-    return [];
+// The apps I build (the same four as on my GitHub profile).
+const apps = [
+  {
+    name: "harlo",
+    href: "https://harlo.run",
+    logo: "/apps/harlo.svg",
+    accent: "#c6a0f6",
+    platforms: "Linux · iPhone",
+    description: "Your coding agents in one native app: Claude Code, OpenCode, pi and Oh My Pi, with an iPhone app to follow and answer them.",
+    tech: ["Rust", "Qt 6", "SwiftUI"]
+  },
+  {
+    name: "ComfyPilot",
+    href: "https://github.com/ArcticLatent/ComfyPilot",
+    logo: "/apps/comfypilot.svg",
+    tile: true,
+    accent: "#bd93f9",
+    platforms: "Linux · Windows",
+    description: "Install, run and keep ComfyUI up to date, with the right models, LoRAs and workflows for your GPU.",
+    tech: ["Rust", "Qt 6", "ComfyUI"]
+  },
+  {
+    name: "Bootcraft",
+    href: "https://github.com/ArcticLatent/Bootcraft",
+    logo: "/apps/bootcraft.svg",
+    accent: "#5ee0b5",
+    platforms: "Fedora · Arch · Ubuntu · Mint · Debian",
+    description: "Set up a fresh Linux install in one go: drivers, codecs, Flatpak and your apps.",
+    tech: ["Rust", "Qt 6", "Linux"]
+  },
+  {
+    name: "ComfyCatalog",
+    href: "https://github.com/ArcticLatent/ComfyCatalog",
+    logo: "/apps/comfypilot.svg",
+    tile: true,
+    accent: "#ff79c6",
+    platforms: "The catalog behind ComfyPilot",
+    description: "Curates ComfyPilot's models, LoRAs and workflows: from a link to a published catalog in a few clicks.",
+    tech: ["Rust", "TypeScript", "Supabase"]
   }
-};
-
-const pinnedRepos = await fetchPinnedRepos();
+];
 const defaultHeadline = "A focused hub for the work I make, teach, and build.";
 const siteUrl = "https://burceboran.ca";
-const pageTitle = "Burce Boran | Asset Supervisor, VFX, AI Workflows";
+const pageTitle = "Burce Boran | Asset Supervisor, VFX, AI Workflows and Apps";
 const pageDescription =
   "Burce Boran is an Asset Supervisor sharing VFX work, film and television credits, AI workflows, ComfyUI education, GitHub projects, and creative technology experiments.";
 const canonicalUrl = `${siteUrl}/`;
 const ogImageUrl = `${siteUrl}/og-image.svg`;
 const faviconUrl = `${siteUrl}/favicon.svg`;
 const ledeText =
-  "Asset supervision, VFX, AI workflows, ComfyUI education, and creative technology in one place.";
+  "Asset supervision, VFX, AI workflows, ComfyUI education, and the apps I build, in one place.";
 const socialLinks = [
   "https://www.linkedin.com/in/burceboran/",
   "https://github.com/ArcticLatent",
@@ -217,7 +262,8 @@ const structuredData = {
     "Texturing",
     "AI Workflows",
     "ComfyUI",
-    "Creative Technology"
+    "Creative Technology",
+    "Desktop App Development"
   ]
 };
 const websiteStructuredData = {
@@ -273,7 +319,7 @@ const aboutParagraphs = [
   `Asset Supervisor with 15+ years of experience across design, visual effects, film, and television. Experienced in leading asset teams, improving workflows, and delivering high-quality 3D assets and textures for film and television.`,
   `Known for mentoring artists, coaching teams, teaching practical workflows, and creating supportive environments where people can grow while delivering strong production results.`,
   `Credits include Final Destination: Bloodlines, Borderlands, Avatar: The Last Airbender (8 episodes, all 3 seasons), Goliath (10 episodes), The Mandalorian (4 episodes), Star Trek: Discovery (21 episodes), Carnival Row (8 episodes), Colony (6 episodes), See (1 episode), The Stand (1 episode), Midway, and Goosebumps 2: Haunted Halloween.`,
-  `Alongside that production background, brings strong curiosity for new AI tools and emerging technology, now applying that mindset to AI workflow design, ComfyUI education, and creator tooling with a focus on practical systems, knowledge sharing, and artist-friendly pipelines.`
+  `Alongside that production background, brings strong curiosity for new AI tools and emerging technology, now applying that mindset to AI workflow design, ComfyUI education, and free, open-source creator tools: native Linux apps such as harlo, ComfyPilot and Bootcraft, with a focus on practical systems and artist-friendly pipelines.`
 ];
 
 const links = [
@@ -305,9 +351,9 @@ const links = [
     icon: "film"
   },
   {
-    label: "GitHub",
+    label: "Apps",
     href: githubUrl,
-    note: "Code, builds, and tools",
+    note: "harlo, ComfyPilot, Bootcraft and more",
     icon: "github"
   },
   {
@@ -328,7 +374,7 @@ const links = [
     <meta name="description" content={pageDescription} />
     <meta name="robots" content="index,follow,max-image-preview:large" />
     <meta name="author" content="Burce Boran" />
-    <meta name="keywords" content="Burce Boran, Asset Supervisor, VFX, AI workflows, ComfyUI, creative technology, filmography, GitHub, Vimeo, YouTube" />
+    <meta name="keywords" content="Burce Boran, Asset Supervisor, VFX, AI workflows, ComfyUI, creative technology, filmography, harlo, ComfyPilot, Bootcraft, Rust, Qt, GitHub, Vimeo, YouTube" />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href={faviconUrl} type="image/svg+xml" />
     <meta property="og:type" content="website" />
@@ -384,7 +430,7 @@ const links = [
 
         <section class="links-panel" aria-label="Primary links" style={`--link-count:${links.length};`}>
           {links.map((link, index) => (
-            link.variant === "about" || link.variant === "youtube" || link.variant === "vimeo" || link.label === "Filmography" || link.label === "GitHub" ? (
+            link.variant === "about" || link.variant === "youtube" || link.variant === "vimeo" || link.label === "Filmography" || link.label === "Apps" ? (
               <button
                 class="link-card link-card-button"
                 type="button"
@@ -519,46 +565,39 @@ const links = [
       <section
         class="video-showcase github-showcase"
         id="github-projects"
-        aria-label="Pinned GitHub repositories"
+        aria-label="The apps I build"
         hidden
       >
         <div class="showcase-header">
-          <p class="showcase-kicker">Pinned Repositories</p>
+          <p class="showcase-kicker">Apps I build · free and open source</p>
           <a class="showcase-link" href={githubUrl} target="_blank" rel="noreferrer">
             Open GitHub
           </a>
         </div>
 
-        {pinnedRepos.length > 0 ? (
-          <div class="repo-grid">
-            {pinnedRepos.map((repo, index) => (
-              <a class="repo-card" href={repo.href} target="_blank" rel="noreferrer" style={`--repo-accent:${repo.languageColor}; --repo-index:${index};`}>
-                <div class="repo-thumb">
-                  <div class="repo-thumb-noise"></div>
-                  <p class="repo-thumb-label">{repo.language || "Repository"}</p>
-                  <h2>{repo.name}</h2>
+        <div class="repo-grid">
+          {apps.map((app, index) => (
+            <a class="repo-card" href={app.href} target="_blank" rel="noreferrer" style={`--repo-accent:${app.accent}; --repo-index:${index};`}>
+              <div class="repo-thumb">
+                <div class="repo-thumb-noise"></div>
+                <img class:list={["repo-logo", app.tile && "repo-logo-tile"]} src={app.logo} alt="" width="56" height="56" loading="lazy" />
+                <p class="repo-thumb-label">{app.platforms}</p>
+                <h2>{app.name}</h2>
+              </div>
+              <div class="repo-meta">
+                <p>{app.description}</p>
+                <div class="repo-stats">
+                  {app.tech.map((tech) => (
+                    <span class="repo-pill">
+                      <span class="repo-pill-dot" style={`--dot:${app.accent};`}></span>
+                      {tech}
+                    </span>
+                  ))}
                 </div>
-                <div class="repo-meta">
-                  <p>{repo.description || "Open repository on GitHub."}</p>
-                  <div class="repo-stats">
-                    {repo.language ? (
-                      <span class="repo-pill">
-                        <span class="repo-pill-dot" style={`--dot:${repo.languageColor};`}></span>
-                        {repo.language}
-                      </span>
-                    ) : null}
-                    {repo.stars ? <span class="repo-pill">{repo.stars} stars</span> : null}
-                  </div>
-                </div>
-              </a>
-            ))}
-          </div>
-        ) : (
-          <p class="video-fallback">
-            Pinned repositories are temporarily unavailable here. Visit
-            <a href={githubUrl} target="_blank" rel="noreferrer"> GitHub</a>.
-          </p>
-        )}
+              </div>
+            </a>
+          ))}
+        </div>
       </section>
 
       <section
