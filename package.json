@@ -1,21 +1,16 @@
 {
   "name": "burceboran.ca",
   "version": "1.0.0",
-  "description": "Personal links site for Burce Boran",
+  "private": true,
+  "description": "burceboran.ca: my website",
+  "author": "Burce Boran",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview"
   },
-  "keywords": [
-    "astro",
-    "personal-site"
-  ],
-  "author": "Burce Boran",
-  "license": "ISC",
   "dependencies": {
-    "@fontsource/space-grotesk": "^5.2.10",
     "astro": "^6.1.3"
   }
 }

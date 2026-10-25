@@ -1,14 +1,20 @@
 <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="64" height="64" rx="16" fill="#07111A"/>
-  <rect x="1" y="1" width="62" height="62" rx="15" stroke="rgba(202, 231, 255, 0.16)"/>
+  <defs>
+    <linearGradient id="ink" x1="14" y1="20" x2="50" y2="44" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C6A0F6"/>
+      <stop offset="1" stop-color="#8AADF4"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="#1B1C21"/>
+  <rect x="1" y="1" width="62" height="62" rx="15" stroke="#33343C"/>
   <text
     x="32"
-    y="38"
+    y="41"
     text-anchor="middle"
-    fill="#93F5D8"
-    font-family="'Space Grotesk', 'Segoe UI', sans-serif"
+    fill="url(#ink)"
+    font-family="Geist, 'Segoe UI', sans-serif"
     font-size="26"
     font-weight="700"
-    letter-spacing="-1.4"
+    letter-spacing="-1"
   >BB</text>
 </svg>

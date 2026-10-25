@@ -1,0 +1,24 @@
+---
+// A section a link card opens: a heading, a link to the source, and its
+// content. Hidden until opened (or, without JavaScript, until its address,
+// burceboran.ca/#id, is visited).
+const { id, title, link, linkLabel, empty } = Astro.props;
+---
+
+<section class="showcase" id={id} aria-labelledby={`${id}-title`}>
+  <div class="showcase-header">
+    <h2 class="showcase-kicker" id={`${id}-title`}>{title}</h2>
+    {link && (
+      <a class="showcase-link" href={link} target="_blank" rel="noreferrer">
+        {linkLabel}
+      </a>
+    )}
+  </div>
+  {empty ? (
+    <p class="video-fallback">
+      <slot name="empty" />
+    </p>
+  ) : (
+    <slot />
+  )}
+</section>
