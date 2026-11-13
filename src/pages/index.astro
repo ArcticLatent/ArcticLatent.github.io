@@ -76,36 +76,27 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
          tools & teaching: Apps, Arctic Latent), and both lanes wire into
          Contact. Narrower screens get one column, each node wired to the next. -->
     <main class="canvas">
+      <!-- The first node is me: my name in its title bar, my role first. -->
       <header id="about" class="head">
-        <div class="masthead">
-          <div>
-            <h1>Burce Boran</h1>
-            <p class="role">GenAI Pipeline TD · Asset Supervisor</p>
-          </div>
-        </div>
-
         <div class="node">
           <div class="node-bar">
-            <h2 class="node-title">About</h2>
+            <h1 class="node-title">Burce Boran</h1>
           </div>
           <div class="node-io" aria-hidden="true">
             <div class="io"><span class="out is-film">film</span></div>
             <div class="io"><span class="out is-ai">tools</span></div>
           </div>
           <div class="node-body">
+            <p class="role"><span>GenAI Pipeline TD</span><span class="sep"> · </span><span>Asset Supervisor</span></p>
             <p>
-              I work in the VFX industry as a GenAI TD in pipeline, bringing generative AI tools and workflows into how
+              I work in the VFX industry as a GenAI pipeline TD, bringing generative AI tools and workflows into how
               shows get made. Before that I spent over 15 years in visual effects, most recently as an asset supervisor,
               building and leading the models, textures and look development for films and series, including
               <em>The Mandalorian</em>, <em>House of the Dragon</em> and <em>Avatar: The Last Airbender</em>.
             </p>
             <p>
-              Outside the studio I make free, open-source apps like
-              <a href="https://harlo.run">harlo</a>, <a href="https://github.com/ArcticLatent/ComfyPilot">ComfyPilot</a>
-              and <a href="https://github.com/ArcticLatent/Bootcraft">Bootcraft</a>, and on my YouTube channel,
-              <a href={youtubeUrl}>Arctic Latent</a>, I teach artists ComfyUI and AI workflows. Before the channel I
-              taught 3D surfacing at Seneca Polytechnic for four years, and I've spoken about careers in VFX and 3D at
-              TIFF Next Wave and Anadolu University.
+              Outside the studio I make <a href="#apps">free, open-source apps</a> and teach artists ComfyUI and AI
+              workflows on my YouTube channel, <a href="#videos">Arctic Latent</a>.
             </p>
             <p>
               Get in touch at <a href={`mailto:${email}`}>{email}</a> or on <a href={linkedinUrl}>LinkedIn</a>, or read
@@ -120,7 +111,7 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
               <div>
                 <span>AI tools &amp; teaching</span>
                 <a href="#apps">Apps</a>
-                <a href="#videos">Videos</a>
+                <a href="#videos">Arctic Latent</a>
               </div>
             </nav>
           </div>
@@ -252,6 +243,7 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
             <div class="io"><span class="in">tools</span><span class="out">apps</span></div>
           </div>
           <div class="node-body">
+            <p class="intro">Free and open source, made outside the studio.</p>
             <ul class="rows apps">
               {apps.map((app) => (
                 <li>
@@ -286,7 +278,11 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
             <div class="io"><span class="in">apps</span><span class="out">videos</span></div>
           </div>
           <div class="node-body">
-            <p class="intro">My YouTube channel: ComfyUI and AI workflow tutorials for artists, on Windows and Linux.</p>
+            <p class="intro">
+              My YouTube channel: ComfyUI and AI workflow tutorials for artists, on Windows and Linux. Before it I
+              taught 3D surfacing at Seneca Polytechnic for four years, and I've spoken about careers in VFX and 3D at
+              TIFF Next Wave and Anadolu University.
+            </p>
             {videos.length ? (
               <ul class="rows videos">
                 {videos.map((video) => (
@@ -305,18 +301,19 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
         </div>
       </section>
 
-      <!-- Into Contact: the film wire runs straight across from Credits; the
-           videos wire runs across from Arctic Latent, up and across. -->
-      <div class="link is-in-film" aria-hidden="true">
-        <span class="h is-film at-film"></span>
-        <span class="v is-ai at-about-ai down"></span>
-        <span class="h is-ai at-about-ai from-mid"></span>
-        <span class="joint is-ai at-about-ai"></span>
+      <!-- Into Contact, which sits level with Arctic Latent so the graph ends
+           on it: the videos wire runs straight across; the film wire runs
+           across from Credits, down past it and across into Contact. -->
+      <div class="link is-in-run" aria-hidden="true">
+        <span class="h is-film at-film to-mid"></span>
+        <span class="v is-film at-film down"></span>
+        <span class="joint is-film at-film"></span>
       </div>
-      <div class="link is-in-ai" aria-hidden="true">
-        <span class="h is-ai at-videos to-mid"></span>
-        <span class="v is-ai at-videos up"></span>
-        <span class="joint is-ai at-videos"></span>
+      <div class="link is-in-end" aria-hidden="true">
+        <span class="v is-film at-contact-film up"></span>
+        <span class="h is-film at-contact-film from-mid"></span>
+        <span class="joint is-film at-contact-film"></span>
+        <span class="h is-ai at-videos"></span>
       </div>
       <div class="wires is-ai" aria-hidden="true"></div>
 

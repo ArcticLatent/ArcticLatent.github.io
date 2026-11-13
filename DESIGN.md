@@ -66,9 +66,9 @@ spacing:
   xl: "56px"
   measure: "580px"
   canvas: "1680px"
-  wire-column: "48px"
-  about-column: "320px"
-  contact-column: "220px"
+  wire-column: "44px"
+  about-column: "clamp(272px, 21vw, 320px)"
+  contact-column: "clamp(184px, 15vw, 220px)"
 components:
   link:
     textColor: "{colors.ink}"
@@ -123,12 +123,12 @@ components:
 
 **Creative North Star: "The Wired Page"**
 
-The page is a small node graph that runs left to right, the way a ComfyUI workflow reads: an About node on the left wires out into two lanes laid out as rows, Film & VFX (Reels → Credits) and AI tools & teaching (Apps → Arctic Latent), and both lanes wire into a Contact node on the right. Every node has labelled sockets on its sides (inputs left, outputs right) naming what flows: film, tools, reels, credits, apps, videos. It stays in the modern minimal developer register (leerob.com is still the craft bar): one type size, neutral greys, hairline frames, rows inside every node. The graph is the structure, not decoration; it says what the page is about (pipelines, two careers feeding one person) without a single extra word.
+The page is a small node graph that runs left to right, the way a ComfyUI workflow reads: an About node on the left (the name in its title bar) wires out into two lanes laid out as rows, Film & VFX (Reels → Credits) and AI tools & teaching (Apps → Arctic Latent), and both lanes wire into a Contact node on the right. Every node has labelled sockets on its sides (inputs left, outputs right) naming what flows: film, tools, reels, credits, apps, videos. It stays in the modern minimal developer register (leerob.com is still the craft bar): one type size, neutral greys, hairline frames, rows inside every node. The graph is the structure, not decoration; it says what the page is about (pipelines, two careers feeding one person) without a single extra word.
 
 The canvas is the system ground with a faint dot grid. Nodes are opaque ground-coloured frames with a 1px Edge border, a title bar and a body. Wires and sockets carry the only colour on the page: a quiet blue for Film & VFX and a quiet pink for AI tools & teaching, after ComfyUI's IMAGE and LATENT wire colours. Everything else is grey. Motion is limited to short colour transitions; none of it runs under reduced motion. The only behaviour is the reel: a still that becomes the Vimeo player when pressed.
 
 **Key Characteristics:**
-- A node graph: About → two lanes → Contact, left to right from 1400px; one wired column, top to bottom, below.
+- A node graph: About → two lanes → Contact, left to right from 1280px; one wired column, top to bottom, below.
 - One type size (15px), stepped by weight (400/500/600) and colour; 14px only for meta and small print.
 - Neutral palette, light and dark by `prefers-color-scheme`; colour only on wires, sockets and title-bar dots, one hue per lane.
 - Rows with 1px hairlines as the universal list form, inside nodes.
@@ -166,8 +166,8 @@ Neutrals in two modes, swapped wholesale by `prefers-color-scheme`; every token 
 **Character:** A neutral grotesque used at a single size, so the page reads like well-set notes inside a diagram rather than a layout.
 
 ### Hierarchy
-- **Headline** (600, 15px, 1.5): the name (h1) and the lane names (h2, set on their wire). Ink.
-- **Title** (500, 15px, 1.5): node titles in the title bars (About, Contact as h2; Reels, Credits, Apps, Arctic Latent as h3). Ink.
+- **Headline** (600, 15px, 1.5): the name (h1, in the About node's title bar) and the lane names (h2, set on their wire). Ink.
+- **Title** (500, 15px, 1.5): node titles in the title bars (Contact as h2; Reels, Credits, Apps, Arctic Latent as h3). Ink.
 - **Body** (400, 15px, 1.7): prose in Body Grey; `em` is upright 500 in Ink (show names). Paragraphs 16px apart, `text-wrap: pretty`; headings `balance`.
 - **Label** (400, 14px, tabular figures): meta (years, dates, episode counts, platforms), "more" links, the index, the Contact links, the Play pill (500). Meta never wraps.
 
@@ -178,12 +178,12 @@ Neutrals in two modes, swapped wholesale by `prefers-color-scheme`; every token 
 
 ## Layout
 
-`main.canvas` and `footer.foot` share a 1080px max width, centred, with 24px side padding and `clamp(40px, 8vh, 96px)` above.
+`main.canvas` is the whole page (there is no masthead or footer): 1680px max width, centred, with 24px side padding (from 1280px, `clamp(24px, 10vw - 104px, 64px)`), `clamp(32px, 6vh, 80px)` above and 56px below.
 
-- **From 1400px (left to right):** a seven-column grid: About (320px) | wire (48px) | node column | wire | node column | wire | Contact (220px); the two node columns share what is left. The first node column holds Reels, then Apps; the second Credits, then Arctic Latent; each stacks on its own, so Apps starts right under Reels and Arctic Latent right under Credits. This is done with three rows, `auto 1fr auto`: Reels is the only thing in row 1 and Arctic Latent the only thing in row 3, while Credits (rows 1–2), Apps (rows 2–3), About and Contact (rows 1–3) span the flexible middle row, so they don't stretch the first or last row. The lane sections are `display: contents` so their nodes sit on this grid; each lane name is absolutely placed in its first node's row. Positions are fixed so wires need no measuring: About, Contact, Reels and Credits start 88px down (`--top`), Apps 72px into row 2 (`--ai-pad`, room for its lane name), Arctic Latent 56px into row 3 (`--videos-pad`), and every node's socket rows sit 61px and 85px below its top edge (`--s1`, `--s2`: 1px border, 40px title bar, 8px, then 24px rows). Wires are CSS spans placed in the wire columns, each spanning the rows it crosses: film runs straight across (About → Reels → Credits → Contact); tools runs across, down and across into Apps; apps runs across, down between the columns and across into Arctic Latent; videos runs across, up and across into Contact's second input. From 1400 to 1799px a video's date goes under its title.
-- **Below 1400px:** one column, 580px max. About, Reels, Credits, Apps, Arctic Latent and Contact stack, each wired to the next by a straight wire (a lane's wire runs down its middle behind its nodes; 40px straight strips join About to the first lane and the last lane to Contact), sockets sit on the top and bottom edges, About and Contact show one centred socket, and the side sockets and their labels are hidden.
+- **From 1280px (left to right):** a seven-column grid: About (`clamp(272px, 21vw, 320px)`) | wire (44px) | node column | wire | node column | wire | Contact (`clamp(184px, 15vw, 220px)`); the two node columns share what is left, so a 1280 laptop still gets lanes about 320px wide and the reel starts in the first screen. The first node column holds Reels, then Apps; the second Credits, then Arctic Latent; each stacks on its own, so Apps starts right under Reels and Arctic Latent right under Credits. This is done with three rows, `auto 1fr auto`: Reels is the only thing in row 1 and Arctic Latent and Contact the only things in row 3, while Credits (rows 1–2), Apps (rows 2–3) and About (rows 1–3) span the flexible middle row, so they don't stretch the first or last row. The lane sections are `display: contents` so their nodes sit on this grid; each lane name is absolutely placed in its first node's row. Positions are fixed so wires need no measuring: About, Reels and Credits start 40px down (`--top`, room for the first lane name), Apps 72px into row 2 (`--ai-pad`, room for its lane name), Arctic Latent 56px into row 3 (`--videos-pad`), Contact far enough into row 3 that its first input lines up with Arctic Latent's output (`--contact-pad`, 32px), and every node's socket rows sit 61px and 85px below its top edge (`--s1`, `--s2`: 1px border, 40px title bar, 8px, then 24px rows). Wires are CSS spans placed in the wire columns, each spanning the rows it crosses: film runs straight across (About → Reels → Credits), then down the last wire column into Contact's first input; tools runs across, down and across into Apps; apps runs across, down between the columns and across into Arctic Latent; videos runs straight across into Contact's second input. From 1280 to 1799px a video's date goes under its title.
+- **Below 1280px:** one column, 580px max. About, Reels, Credits, Apps, Arctic Latent and Contact stack, each wired to the next by a straight wire (a lane's wire runs down its middle behind its nodes; 40px straight strips join About to the first lane and the last lane to Contact), sockets sit on the top and bottom edges, About and Contact show one centred socket, and the side sockets and their labels are hidden.
 - **Lane names:** left to right, each sits 36px above its row's first node, at the lane's left edge, like a group title; in one column, on the wire (18px above and below, starting 14px right of it). Nodes in one column are 48px apart.
-- **Inside a node:** a 40px title bar (16px side padding), then (left to right only) the socket rows (8px, then 24px a row, 14px Quiet Grey labels), then a 16px body. Rows are a two-column grid (`1fr auto`, 16px gap, baseline-aligned, 10px vertical padding); rows with an image (credits, videos) become three columns (`auto 1fr auto`, centre-aligned). A list that opens a node body (or follows the reel) drops its first rule and top padding. Below 520px, video rows drop the meta under the title.
+- **Inside a node:** a 40px title bar (16px side padding), then (left to right only) the socket rows (8px, then 24px a row, 14px Quiet Grey labels), then a 16px body. Rows are a two-column grid (`1fr auto`, 16px gap, baseline-aligned, 10px vertical padding); rows with an image (credits, videos) become three columns (`auto 1fr auto`, centre-aligned). A list that opens a node body (or follows the reel) drops its first rule and top padding. Below 520px, video rows drop the meta under the title. App rows wrap: name, then meta pushed right, then the description on its own line; when the Apps body is narrower than 312px (a container query), the meta drops under the name.
 
 ## Elevation & Depth
 
@@ -227,14 +227,14 @@ Real images only: poster 28x42 (3px radius), thumb 64x36 (4px radius), both with
 - **Without a still** (a reel set to `still: false` in `src/site.js`): no frame, just a lone filled pill in Ink with Ground text reading "Play {title}, {year}" and the length at 70% opacity; hover adds a 4px Hairline halo.
 - **Behaviour:** pressing the still or any row loads that reel's Vimeo player into the frame with autoplay, marks its row current, scrolls the frame into view if needed (instantly under reduced motion) and moves focus to it. Without JavaScript each links to Vimeo.
 
-### Masthead
-Above the About node: the name (h1, Headline) and, under it, the role in Quiet Grey, "GenAI Pipeline TD · Asset Supervisor". No drawing or logo beside it; the graph below is the page's only picture.
+### About node
+The first node. Its title bar is the name (h1, Headline, 600); there is no masthead above it, and no drawing or logo: the graph is the page's only picture. The body opens with the role in Quiet Grey, "GenAI Pipeline TD · Asset Supervisor" (left to right the About column is narrow, so the two roles sit one to a line and the dot is hidden), then the bio, the line about the apps and the channel, and the contact sentence.
 
 ### Index
-At the end of the About body, a two-line index at 14px: each half's name in Quiet Grey (152px column), then links to its nodes (Reels, Credits; Apps, Videos). Nodes keep a 24px scroll margin.
+At the end of the About body in one column only, a two-line index at 14px: each half's name in Quiet Grey (152px column), then links to its nodes (Reels, Credits; Apps, Arctic Latent). Left to right every node is on screen at once, so the index is hidden. Nodes keep a 24px scroll margin.
 
 ### Contact
-The last node, a `section#contact` inside `main` (the grid needs it there): on the right with two labelled inputs (credits, videos) left to right, at the bottom with one top socket in a column; its body (10px vertical padding) is the contact links as a wrapping inline list (0/14px gaps, 6px vertical padding on each link for touch), starting with the visible email address, all at 14px.
+The last node, a `section#contact` inside `main` (the grid needs it there): on the right with two labelled inputs (credits, videos) left to right, at the bottom with one top socket in a column; its body (10px vertical padding) is the contact links, starting with the visible email address, all at 14px: in one column a wrapping inline list (0/14px gaps, 6px vertical padding on each link for touch); left to right one to a line (3px vertical padding), like a node's list of outputs. Left to right it is the last node in the graph's bottom row, beside Arctic Latent.
 
 ### Fallbacks
 A failed section is one Quiet Grey line with a link to the source, inside its node; the node and its wires stay.
