@@ -13,7 +13,7 @@ export const youtubeUrl = "https://www.youtube.com/@ArcticLatent";
 
 export const pageTitle = "Burce Boran, GenAI Pipeline TD and Asset Supervisor";
 export const pageDescription =
-  "GenAI Pipeline TD and asset supervisor, with over 15 years in visual effects on films and series including The Mandalorian, Star Trek: Discovery and Avatar: The Last Airbender. I also teach ComfyUI on Arctic Latent and build free, open-source apps.";
+  "GenAI Pipeline TD and asset supervisor, with over 15 years in visual effects on films and series including The Mandalorian, House of the Dragon and Avatar: The Last Airbender. I also teach ComfyUI on Arctic Latent and build free, open-source apps.";
 export const email = "burce.boran@gmail.com";
 
 // A reel's still is its Vimeo thumbnail unless `still` says otherwise: a
