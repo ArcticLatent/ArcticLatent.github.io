@@ -848,9 +848,12 @@ a:hover {
     grid-row: 3;
   }
 
+  /* Fixed shares, not sized to the facts: browsers measure a flex row's
+     width differently, and one that took the facts' unwrapped length left
+     the bio a sliver. */
   .runs {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: minmax(0, 11fr) minmax(0, 10fr);
     column-gap: 4ch;
     align-items: start;
   }
@@ -865,7 +868,8 @@ a:hover {
   }
 
   .facts {
-    flex: 0 1 46ch;
+    flex: 1 1 0;
+    max-width: 46ch;
   }
 
   .logo {
