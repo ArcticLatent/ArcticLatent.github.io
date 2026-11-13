@@ -5,7 +5,7 @@ export default defineConfig({
   // Thumbnails and posters are downloaded when the site is built, and served
   // from it, resized.
   image: {
-    domains: ["i.ytimg.com", "www.metacritic.com"]
+    domains: ["i.ytimg.com", "www.metacritic.com", "i.vimeocdn.com"]
   },
   devToolbar: {
     enabled: false

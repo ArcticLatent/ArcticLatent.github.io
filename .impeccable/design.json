@@ -1,0 +1,385 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-13T08:37:53.590786+00:00",
+  "title": "Design System: Burce Boran",
+  "extensions": {
+    "colorMeta": {
+      "ground": {
+        "role": "neutral",
+        "displayName": "Ground (light)",
+        "tonalRamp": [
+          "#1f1f1f",
+          "#333333",
+          "#4a4a4a",
+          "#6b6b6b",
+          "#8f8f8f",
+          "#b8b8b8",
+          "#dedede",
+          "#f2f2f2"
+        ]
+      },
+      "ground-dark": {
+        "role": "neutral",
+        "displayName": "Ground (dark)",
+        "tonalRamp": [
+          "#1f1f1f",
+          "#333333",
+          "#4a4a4a",
+          "#6b6b6b",
+          "#8f8f8f",
+          "#b8b8b8",
+          "#dedede",
+          "#f2f2f2"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink (light)",
+        "tonalRamp": [
+          "#1f1f1f",
+          "#333333",
+          "#4a4a4a",
+          "#6b6b6b",
+          "#8f8f8f",
+          "#b8b8b8",
+          "#dedede",
+          "#f2f2f2"
+        ]
+      },
+      "ink-dark": {
+        "role": "neutral",
+        "displayName": "Ink (dark)",
+        "tonalRamp": [
+          "#1f1f1f",
+          "#333333",
+          "#4a4a4a",
+          "#6b6b6b",
+          "#8f8f8f",
+          "#b8b8b8",
+          "#dedede",
+          "#f2f2f2"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Body Grey (light)",
+        "tonalRamp": [
+          "#1f1f1f",
+          "#333333",
+          "#4a4a4a",
+          "#6b6b6b",
+          "#8f8f8f",
+          "#b8b8b8",
+          "#dedede",
+          "#f2f2f2"
+        ]
+      },
+      "text-dark": {
+        "role": "neutral",
+        "displayName": "Body Grey (dark)",
+        "tonalRamp": [
+          "#1f1f1f",
+          "#333333",
+          "#4a4a4a",
+          "#6b6b6b",
+          "#8f8f8f",
+          "#b8b8b8",
+          "#dedede",
+          "#f2f2f2"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Quiet Grey (light)",
+        "tonalRamp": [
+          "#1f1f1f",
+          "#333333",
+          "#4a4a4a",
+          "#6b6b6b",
+          "#8f8f8f",
+          "#b8b8b8",
+          "#dedede",
+          "#f2f2f2"
+        ]
+      },
+      "muted-dark": {
+        "role": "neutral",
+        "displayName": "Quiet Grey (dark)",
+        "tonalRamp": [
+          "#1f1f1f",
+          "#333333",
+          "#4a4a4a",
+          "#6b6b6b",
+          "#8f8f8f",
+          "#b8b8b8",
+          "#dedede",
+          "#f2f2f2"
+        ]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline (light)",
+        "tonalRamp": [
+          "#1f1f1f",
+          "#333333",
+          "#4a4a4a",
+          "#6b6b6b",
+          "#8f8f8f",
+          "#b8b8b8",
+          "#dedede",
+          "#f2f2f2"
+        ]
+      },
+      "hairline-dark": {
+        "role": "neutral",
+        "displayName": "Hairline (dark)",
+        "tonalRamp": [
+          "#1f1f1f",
+          "#333333",
+          "#4a4a4a",
+          "#6b6b6b",
+          "#8f8f8f",
+          "#b8b8b8",
+          "#dedede",
+          "#f2f2f2"
+        ]
+      },
+      "underline": {
+        "role": "neutral",
+        "displayName": "Underline Grey (light)",
+        "tonalRamp": [
+          "#1f1f1f",
+          "#333333",
+          "#4a4a4a",
+          "#6b6b6b",
+          "#8f8f8f",
+          "#b8b8b8",
+          "#dedede",
+          "#f2f2f2"
+        ]
+      },
+      "underline-dark": {
+        "role": "neutral",
+        "displayName": "Underline Grey (dark)",
+        "tonalRamp": [
+          "#1f1f1f",
+          "#333333",
+          "#4a4a4a",
+          "#6b6b6b",
+          "#8f8f8f",
+          "#b8b8b8",
+          "#dedede",
+          "#f2f2f2"
+        ]
+      },
+      "still": {
+        "role": "neutral",
+        "displayName": "Still (light)",
+        "tonalRamp": [
+          "#1f1f1f",
+          "#333333",
+          "#4a4a4a",
+          "#6b6b6b",
+          "#8f8f8f",
+          "#b8b8b8",
+          "#dedede",
+          "#f2f2f2"
+        ]
+      },
+      "still-dark": {
+        "role": "neutral",
+        "displayName": "Still (dark)",
+        "tonalRamp": [
+          "#1f1f1f",
+          "#333333",
+          "#4a4a4a",
+          "#6b6b6b",
+          "#8f8f8f",
+          "#b8b8b8",
+          "#dedede",
+          "#f2f2f2"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Name (h1) and section headings (h2), Ink."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Block headings (h3), Quiet Grey."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Prose in Body Grey; em is upright 500 Ink."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Meta, more-links, footer, Play pill; tabular figures."
+      }
+    },
+    "shadows": [
+      {
+        "name": "hairline-ring",
+        "value": "inset 0 0 0 1px var(--line)",
+        "purpose": "Reel still edge (Underline Grey on hover). A line, not elevation."
+      }
+    ],
+    "motion": [
+      {
+        "name": "link",
+        "value": "150ms ease-out",
+        "purpose": "Underline/colour on links."
+      },
+      {
+        "name": "reel",
+        "value": "200ms ease-out",
+        "purpose": "Ring, image opacity (0.88) and Play pill on reel hover."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "transition: none",
+        "purpose": "All transitions removed under prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "narrow",
+        "value": "520px"
+      }
+    ],
+    "focus": {
+      "value": "outline: 2px solid var(--fg); outline-offset: 3px; border-radius: 3px",
+      "purpose": ":focus-visible everywhere."
+    },
+    "selection": {
+      "value": "background: var(--fg); color: var(--bg)"
+    },
+    "scrollbar": {
+      "value": "scrollbar-color: var(--underline) var(--bg)"
+    },
+    "detectorExceptions": [
+      {
+        "rule": "overused-font",
+        "value": "geist"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "src/styles/global.css"
+        ]
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Link",
+      "kind": "custom",
+      "refersTo": "link",
+      "description": "The only link style: Ink text, 1px Underline Grey underline offset 3px, darkening on hover.",
+      "html": "<p class=\"ds-p\">Apps like <a class=\"ds-link\" href=\"#\">harlo</a> and <a class=\"ds-link\" href=\"#\">ComfyPilot</a>.</p>",
+      "css": ":host{--bg:#fff;--fg:#111;--text:#3b3b3b;--muted:#6b6b6b;--line:#ebebeb;--underline:#c4c4c4;--still:#f2f2f2;}.ds-p{font-family:Geist,-apple-system,'Segoe UI',system-ui,sans-serif;font-size:15px;line-height:1.7;color:var(--text);margin:0}.ds-link{color:var(--fg);text-decoration:underline;text-decoration-color:var(--underline);text-decoration-thickness:1px;text-underline-offset:3px;transition:text-decoration-color 150ms ease-out}.ds-link:hover{text-decoration-color:currentColor}.ds-link:focus-visible{outline:2px solid var(--fg);outline-offset:3px;border-radius:3px}"
+    },
+    {
+      "name": "Headings",
+      "kind": "custom",
+      "refersTo": "headline",
+      "description": "Name/section heading (600, Ink) and block heading (500, Quiet Grey), both 15px.",
+      "html": "<div class=\"ds-h2\">Film &amp; VFX</div><div class=\"ds-h3\">Reels</div>",
+      "css": ":host{--bg:#fff;--fg:#111;--text:#3b3b3b;--muted:#6b6b6b;--line:#ebebeb;--underline:#c4c4c4;--still:#f2f2f2;}.ds-h2,.ds-h3{font-family:Geist,-apple-system,'Segoe UI',system-ui,sans-serif;font-size:15px;line-height:1.5}.ds-h2{font-weight:600;color:var(--fg)}.ds-h3{font-weight:500;color:var(--muted);margin-top:16px}"
+    },
+    {
+      "name": "Rows",
+      "kind": "custom",
+      "refersTo": "row",
+      "description": "Title left, tabular meta right, 1px hairline between.",
+      "html": "<ul class=\"ds-rows\"><li><a class=\"ds-link\" href=\"#\">Unreal environment reel</a><span class=\"ds-meta\">2025</span></li><li><a class=\"ds-link\" href=\"#\">VFX demo reel</a><span class=\"ds-meta\">2020</span></li></ul>",
+      "css": ":host{--bg:#fff;--fg:#111;--text:#3b3b3b;--muted:#6b6b6b;--line:#ebebeb;--underline:#c4c4c4;--still:#f2f2f2;}.ds-rows{list-style:none;margin:0;padding:0;width:580px;max-width:100%;font-family:Geist,-apple-system,'Segoe UI',system-ui,sans-serif;font-size:15px;line-height:1.7}.ds-rows li{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;column-gap:16px;padding:10px 0;border-top:1px solid var(--line)}.ds-rows li:last-child{border-bottom:1px solid var(--line)}.ds-rows a{justify-self:start}.ds-link{color:var(--fg);text-decoration:underline;text-decoration-color:var(--underline);text-decoration-thickness:1px;text-underline-offset:3px;transition:text-decoration-color 150ms ease-out}.ds-link:hover{text-decoration-color:currentColor}.ds-meta{color:var(--muted);font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap}"
+    },
+    {
+      "name": "Credit row with poster",
+      "kind": "custom",
+      "refersTo": "poster",
+      "description": "Three-column row with a 28x42 poster, hairline ring and Still fill.",
+      "html": "<ul class=\"ds-rows\"><li><span class=\"ds-poster\"></span><span class=\"ds-title\">Avatar: The Last Airbender</span><span class=\"ds-meta\">8 ep · 2024</span></li></ul>",
+      "css": ":host{--bg:#fff;--fg:#111;--text:#3b3b3b;--muted:#6b6b6b;--line:#ebebeb;--underline:#c4c4c4;--still:#f2f2f2;}.ds-rows{list-style:none;margin:0;padding:0;width:580px;max-width:100%;font-family:Geist,-apple-system,'Segoe UI',system-ui,sans-serif;font-size:15px}.ds-rows li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;column-gap:16px;padding:10px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.ds-poster{display:block;width:28px;height:42px;border-radius:3px;background:var(--still);outline:1px solid var(--line);outline-offset:-1px}.ds-title{color:var(--fg)}.ds-meta{color:var(--muted);font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap}"
+    },
+    {
+      "name": "Reel still with Play pill",
+      "kind": "custom",
+      "refersTo": "reel-still",
+      "description": "16:9 still, 8px radius, inset hairline ring, translucent Play pill bottom-left.",
+      "html": "<a class=\"ds-reel\" href=\"#\"><span class=\"ds-play\"><svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"currentColor\"><path d=\"M8 5.5v13l10.5-6.5z\"/></svg>Play <span class=\"ds-len\">4:37</span></span></a>",
+      "css": ":host{--bg:#fff;--fg:#111;--text:#3b3b3b;--muted:#6b6b6b;--line:#ebebeb;--underline:#c4c4c4;--still:#f2f2f2;}.ds-reel{position:relative;display:block;width:420px;max-width:100%;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:var(--still);box-shadow:inset 0 0 0 1px var(--line);transition:box-shadow 200ms ease-out;font-family:Geist,-apple-system,'Segoe UI',system-ui,sans-serif;}.ds-reel:hover{box-shadow:inset 0 0 0 1px var(--underline)}.ds-reel:focus-visible{outline:2px solid var(--fg);outline-offset:3px}.ds-play{position:absolute;left:14px;bottom:14px;display:inline-flex;align-items:center;gap:6px;padding:6px 14px 6px 10px;border-radius:999px;background:rgb(0 0 0/.66);color:#fff;font-size:14px;font-weight:500;transition:background-color 200ms ease-out}.ds-reel:hover .ds-play{background:rgb(0 0 0/.86)}.ds-len{color:rgb(255 255 255/.72);font-variant-numeric:tabular-nums}"
+    },
+    {
+      "name": "Play pill (no still)",
+      "kind": "button",
+      "refersTo": "play-pill-blank",
+      "description": "A reel with still:false: a lone filled Ink pill naming the reel.",
+      "html": "<a class=\"ds-pill\" href=\"#\"><svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"currentColor\"><path d=\"M8 5.5v13l10.5-6.5z\"/></svg>Play VFX demo reel, 2025 <span class=\"ds-len\">4:37</span></a>",
+      "css": ":host{--bg:#fff;--fg:#111;--text:#3b3b3b;--muted:#6b6b6b;--line:#ebebeb;--underline:#c4c4c4;--still:#f2f2f2;}.ds-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 14px 6px 10px;border-radius:999px;background:var(--fg);color:var(--bg);font-family:Geist,-apple-system,'Segoe UI',system-ui,sans-serif;font-size:14px;font-weight:500;text-decoration:none;transition:opacity 200ms ease-out}.ds-pill:hover{opacity:.86}.ds-pill:focus-visible{outline:2px solid var(--fg);outline-offset:3px}.ds-len{opacity:.7;font-variant-numeric:tabular-nums}"
+    },
+    {
+      "name": "Footer",
+      "kind": "nav",
+      "refersTo": "link",
+      "description": "Hairline rule, contact links left, updated date right, 14px.",
+      "html": "<footer class=\"ds-foot\"><ul><li><a class=\"ds-link\" href=\"#\">Email</a></li><li><a class=\"ds-link\" href=\"#\">LinkedIn</a></li><li><a class=\"ds-link\" href=\"#\">Résumé</a></li></ul><span class=\"ds-meta\">Updated 13 November 2026</span></footer>",
+      "css": ":host{--bg:#fff;--fg:#111;--text:#3b3b3b;--muted:#6b6b6b;--line:#ebebeb;--underline:#c4c4c4;--still:#f2f2f2;}.ds-foot{width:580px;max-width:100%;padding:24px 0;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;font-family:Geist,-apple-system,'Segoe UI',system-ui,sans-serif;font-size:14px}.ds-foot ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:4px 12px}.ds-link{color:var(--fg);text-decoration:underline;text-decoration-color:var(--underline);text-decoration-thickness:1px;text-underline-offset:3px;transition:text-decoration-color 150ms ease-out}.ds-link:hover{text-decoration-color:currentColor}.ds-meta{color:var(--muted);font-variant-numeric:tabular-nums}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Plain Page",
+    "overview": "One narrow column of text and quiet lists, in the modern minimal developer register. Hierarchy comes from weight and colour, never from size: the name, the section headings and the body all sit at 15px. Everything after the bio is a row (title left, details right, a hairline between), with small real images only where the work is visual.\n\nThe world is neutral grey on white, or on near-black when the system is dark; there is no accent colour. Links are text-coloured with a thin underline. Motion is limited to short colour and opacity transitions, and none of it runs under reduced motion. The only behaviour is the reel: a still (or a lone Play pill) that becomes the Vimeo player when pressed.",
+    "keyCharacteristics": [
+      "One 580px measure, centred, generous top space.",
+      "One type size (15px), stepped by weight (400/500/600) and colour; 14px only for meta and small print.",
+      "Neutral palette, light and dark by `prefers-color-scheme`, no accent.",
+      "Rows with 1px hairlines as the universal list form.",
+      "Flat: no shadows, no cards, no gradients."
+    ],
+    "rules": [
+      {
+        "name": "The No Accent Rule",
+        "body": "Nothing is coloured. Emphasis is Ink against Body Grey; interaction is an underline darkening to `currentColor`.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Modes Rule",
+        "body": "A new colour is only allowed as a light/dark pair under the same role name. The one exception is the Play pill over a still, which sits on the image and uses fixed black at 66% (86% on hover) with white text, the same in both modes.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Size Rule",
+        "body": "Hierarchy is weight and colour, not size. A new heading is 15px; it steps by 600/500 and Ink/Quiet Grey. (Recorded as a detector exception, `flat-type-hierarchy`, in `.impeccable/config.json`; Geist is likewise a recorded `overused-font` exception.)",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Meta Rule",
+        "body": "Every number in a meta column uses tabular figures so years and dates align down a list.",
+        "section": "typography"
+      },
+      {
+        "name": "The Hairline Rule",
+        "body": "Separation is a 1px Hairline line or ring, never a shadow, card or background panel.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** keep every text element at 15px (14px for meta/footer) and step hierarchy with weight 600/500/400 and Ink/Quiet Grey.",
+      "**Do** present any new list as rows: title left, tabular meta right, 1px Hairline between.",
+      "**Do** give every image a Still fill and a 1px Hairline ring.",
+      "**Do** define any new colour as a light/dark pair under one role.",
+      "**Do** limit motion to 150-200ms ease-out colour/opacity transitions, removed under `prefers-reduced-motion`."
+    ],
+    "donts": [
+      "**Don't** add an accent colour, gradient, or coloured link.",
+      "**Don't** use drop shadows, cards or tinted panels to separate content; use the hairline.",
+      "**Don't** set a heading larger than body size.",
+      "**Don't** load embeds (players, iframes) before the visitor asks for them."
+    ]
+  }
+}

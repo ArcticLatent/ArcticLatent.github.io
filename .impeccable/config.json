@@ -1,0 +1,23 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "geist",
+        "createdAt": "2026-11-13T08:30:52.231Z",
+        "reason": "Canon direction the user chose (modern minimal developer site, leerob.com as bar); Geist is that register's face and the site's incumbent font"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "src/styles/global.css"
+        ],
+        "createdAt": "2026-11-13T08:30:52.238Z",
+        "reason": "Direction contract: one type size with weight/colour steps, as in the leerob.com register the user chose"
+      }
+    ]
+  }
+}

@@ -14,7 +14,9 @@ export const fetchFilmography = async () => {
     return responses
       .flatMap((payload) => payload?.data?.items ?? [])
       .map((item) => ({
-        title: item.product.title,
+        // (Remakes carry their year in the title, "Avatar: The Last Airbender
+        // (2024)"; the year is shown on its own.)
+        title: item.product.title.replace(/\s*\(\d{4}\)$/, ""),
         year: item.product.releaseYear,
         type: item.product.type === "show" ? "Series" : "Film",
         role: item.roles?.[0] ?? "",
@@ -26,4 +28,18 @@ export const fetchFilmography = async () => {
     console.error("Failed to load filmography", error);
     return [];
   }
+};
+
+/// My credits (from src/site.js) with Metacritic's poster, year and kind,
+/// newest first. Warns, when the site is built, about credits on one list
+/// and not the other.
+export const matchCredits = (credits, filmography) => {
+  const byTitle = new Map(filmography.map((project) => [project.title, project]));
+  const missing = credits.filter((credit) => !byTitle.has(credit.title)).map((credit) => credit.title);
+  const extra = filmography.filter((project) => !credits.some((credit) => credit.title === project.title)).map((project) => project.title);
+  if (filmography.length && missing.length) console.warn(`Credits not on Metacritic (shown without a poster): ${missing.join(", ")}`);
+  if (extra.length) console.warn(`On Metacritic but not in my credits (not shown): ${extra.join(", ")}`);
+  return credits
+    .map((credit) => ({ type: "", year: "", image: "", ...credit, ...(byTitle.get(credit.title) ?? {}), episodes: credit.episodes }))
+    .sort((left, right) => (right.year || 0) - (left.year || 0));
 };

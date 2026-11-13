@@ -17,6 +17,10 @@ const getAlternateLink = (source) => {
 const formatPublishedDate = (value) =>
   new Intl.DateTimeFormat("en", { month: "short", day: "numeric", year: "numeric" }).format(new Date(value));
 
+// "Arctic ComfyUI Helper: The Desktop Manager | Stop Breaking Your Setup":
+// the part before " | ".
+const shortTitle = (title) => title.split(" | ")[0];
+
 const thumbnail = (id) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 
 /// The channel's latest videos: from its feed, or its page when the feed is down.
@@ -27,7 +31,7 @@ export const fetchLatestVideos = async (count = 4) => {
       const id = getTagValue(entry, "yt:videoId");
       return {
         id,
-        title: getTagValue(entry, "title"),
+        title: shortTitle(getTagValue(entry, "title")),
         href: getAlternateLink(entry) || `https://www.youtube.com/watch?v=${id}`,
         publishedAt: formatPublishedDate(getTagValue(entry, "published")),
         thumbnail: thumbnail(id)
@@ -68,7 +72,7 @@ const fetchChannelVideos = async (count) => {
       const age = parts.map((part) => part.text?.content ?? "").find((text) => text.endsWith("ago")) ?? "";
       return {
         id: video.contentId,
-        title: meta.title.content,
+        title: shortTitle(meta.title.content),
         href: `https://www.youtube.com/watch?v=${video.contentId}`,
         publishedAt: age.replace(/(\d+)mo\b/, "$1 months").replace(/(\d+)y\b/, "$1 years"),
         thumbnail: thumbnail(video.contentId)
