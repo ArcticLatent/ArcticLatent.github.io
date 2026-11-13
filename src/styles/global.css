@@ -61,8 +61,10 @@
 html {
   background: var(--desk);
   scrollbar-color: var(--border) var(--desk);
-  /* Room for the status bar when jumping to a section. */
-  scroll-padding: 8px 0 48px;
+  /* A little room above a section jumped to. The status bar's own room is
+     kept by what's in the panes (below), not here: the bar sits inside any
+     bottom padding, so tabbing to it would scroll the page each time. */
+  scroll-padding-top: 8px;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -152,16 +154,23 @@ a:hover {
   top: 8px;
   left: 8px;
   z-index: 10;
-  padding: 0 1ch;
+  padding-inline: 1ch;
   background: var(--fg);
   color: var(--bg);
   font-weight: 700;
   text-decoration: none;
+  padding-block: 0.1lh;
   transform: translateY(calc(-100% - 16px));
 }
 
 .skip:focus {
   transform: none;
+}
+
+/* Whatever in the panes is scrolled to (by tabbing, the prompt, the reel
+   player) stops clear of the status bar. */
+main * {
+  scroll-margin-bottom: 48px;
 }
 
 .visually-hidden {
@@ -331,20 +340,13 @@ a:hover {
   margin-top: 0.5lh;
 }
 
+/* The logo: me in pixel art, as tall as the facts beside it. */
 .logo {
   display: block;
   flex: none;
-  height: 3lh;
+  height: 9lh;
   width: auto;
-  aspect-ratio: 13 / 7;
-}
-
-.logo .is-film {
-  fill: var(--blue);
-}
-
-.logo .is-ai {
-  fill: var(--magenta);
+  aspect-ratio: 607 / 1350;
 }
 
 .facts {
@@ -769,7 +771,7 @@ a:hover {
   pointer-events: none;
 }
 
-.field.is-focused .hint,
+/* The hint stays until something is typed. */
 .field.has-text .hint {
   display: none;
 }
@@ -827,12 +829,85 @@ a:hover {
   outline-offset: 0;
 }
 
+/* The current tab is filled with on-green, so its ring goes inside, in green. */
+.status a[aria-current]:focus-visible {
+  outline-color: var(--green);
+  outline-offset: -4px;
+}
+
 .status .session {
   font-weight: 700;
 }
 
 .status .host {
   margin-left: auto;
+}
+
+/* ": command", tmux's command prompt key, before the host. */
+.status-hint {
+  margin: 0 0 0 auto;
+  padding: 0 1ch;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.status-hint:hover {
+  text-decoration: underline;
+}
+
+.status-hint:focus-visible {
+  outline-color: var(--on-green);
+  outline-offset: 0;
+}
+
+.status-hint[hidden],
+.status-prompt[hidden] {
+  display: none;
+}
+
+.status-hint:not([hidden]) + .status-prompt + .host {
+  margin-left: 0;
+}
+
+/* The bar while the prompt is open: only ":" and what's typed, as tmux
+   draws it. The cursor and caret take the bar's text colour. */
+.status.is-prompting > :not(.status-prompt) {
+  display: none;
+}
+
+.status-prompt {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  column-gap: 0;
+  font-weight: 700;
+}
+
+.status-prompt label {
+  flex: none;
+}
+
+.status-prompt .field input {
+  color: var(--on-green);
+  font-weight: 700;
+}
+
+.status-prompt .field .cursor {
+  box-shadow: inset 0 0 0 1px var(--on-green);
+}
+
+.status-prompt .field.is-focused .cursor {
+  background: var(--on-green);
+}
+
+/* The hint only where the bar has room; ":" works at any width. */
+@container term (max-width: 799px) {
+  .status-hint {
+    display: none;
+  }
 }
 
 @media (max-width: 560px) {
@@ -914,45 +989,19 @@ a:hover {
     max-width: 46ch;
   }
 
-  .logo {
-    height: 3lh;
-  }
 }
 
-@container term (min-width: 600px) and (max-width: 999px) {
-  .logo {
-    height: 4lh;
-  }
-}
-
-/* A phone-sized window: the logo shrinks to sit beside the name, as
+/* A phone-sized window: the logo shrinks and stays beside the facts, as
    fastfetch does in a narrow terminal, and the swatches go, so the reel
    comes up sooner. */
 @container term (max-width: 599px) {
   .fastfetch {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
+    flex-wrap: nowrap;
     column-gap: 2ch;
-    row-gap: 0;
-  }
-
-  .facts {
-    display: contents;
   }
 
   .logo {
-    grid-row: 1 / 3;
-    height: 2lh;
-  }
-
-  .facts h1,
-  .facts .underline {
-    grid-column: 2;
-  }
-
-  .facts dl {
-    grid-column: 1 / -1;
-    margin-top: 0.5lh;
+    height: 6lh;
   }
 
   .swatches {
@@ -979,8 +1028,41 @@ a:hover {
     padding-block: 0;
   }
 
+  /* Links in running text grow their tap area, not their lines (inline
+     padding doesn't move the text). App names are rows of their own. */
+  .facts a,
+  .prose a,
+  .comment a {
+    padding-block: 0.2lh;
+  }
+
+  .apps .name {
+    padding-block: 0.1lh;
+  }
+
   .prompt {
     padding-block: 0.3lh;
+  }
+
+  /* iOS zooms into any field set smaller than 16px. The prompts' text is set
+     at 16px and scaled back down to the page's one cell size, so nothing
+     zooms and nothing looks bigger. */
+  .field {
+    --shrink: 0.875;
+    height: 1lh;
+  }
+
+  .field input {
+    width: calc(100% / var(--shrink));
+    font-size: 16px;
+    transform: scale(var(--shrink));
+    transform-origin: 0 0;
+  }
+}
+
+@media (pointer: coarse) and (min-width: 900px) {
+  .field {
+    --shrink: 0.9375;
   }
 }
 

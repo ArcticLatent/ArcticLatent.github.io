@@ -7,7 +7,6 @@ const shell = document.querySelector("[data-shell]");
 if (shell) {
   const form = shell.querySelector("[data-prompt]");
   const input = shell.querySelector("[data-input]");
-  const field = input.parentElement;
   const log = shell.querySelector("[data-log]");
   const cwdLabel = shell.querySelector("[data-cwd]");
   const titlebar = document.querySelector("[data-titlebar]");
@@ -182,7 +181,8 @@ if (shell) {
         ["fastfetch", "who this is, in short"],
         ["clear", "clear the screen"]
       ]);
-      line("Tab completes; the up and down arrows recall earlier commands.", "is-dim");
+      if (matchMedia("(pointer: coarse)").matches) line("Names that ls lists can be tapped.", "is-dim");
+      else line("Tab completes, the up and down arrows recall earlier commands, and : opens this prompt from anywhere.", "is-dim");
     },
     ls([dir]) {
       const where = dir ? dir.replace(/\/$/, "") : cwd === "~" ? "" : cwd.replace("~/", "");
@@ -353,7 +353,7 @@ if (shell) {
     if (["cat", "less", "bat"].includes(command)) return Object.keys(files);
     return [];
   };
-  const complete = () => {
+  const complete = (input) => {
     const words = input.value.split(" ");
     const last = words[words.length - 1];
     const matches = candidates(words).filter((candidate) => candidate.startsWith(last));
@@ -372,70 +372,146 @@ if (shell) {
       words[words.length - 1] = prefix;
     }
     input.value = words.join(" ");
-    moveCursor();
   };
 
-  // The block cursor sits under the character at the caret.
-  const moveCursor = () => {
-    const at = input.selectionStart ?? input.value.length;
-    field.style.setProperty("--at", String(Math.max(0, at - Math.floor(input.scrollLeft / chWidth()))));
-    field.classList.toggle("has-text", input.value.length > 0);
+  // A prompt line: its block cursor, Tab completion, history and Ctrl+L.
+  // There are two: the one at the end of the page, and tmux's command prompt
+  // in the status bar (":").
+  const wire = (input, { submit, escape }) => {
+    const field = input.parentElement;
+    let measured = 0;
+    const chWidth = () => {
+      if (!measured) {
+        const probe = document.createElement("span");
+        probe.style.cssText = "position:absolute;visibility:hidden;width:1ch";
+        field.append(probe);
+        measured = probe.getBoundingClientRect().width || 8;
+        probe.remove();
+      }
+      return measured;
+    };
+    // The cursor sits under the character at the caret. (On touch screens the
+    // input's text is set larger and scaled back down, hence the ratio.)
+    const moveCursor = () => {
+      const at = input.selectionStart ?? input.value.length;
+      const ratio = parseFloat(getComputedStyle(input).fontSize) / parseFloat(getComputedStyle(field).fontSize) || 1;
+      field.style.setProperty("--at", String(Math.max(0, at - Math.floor(input.scrollLeft / (chWidth() * ratio)))));
+      field.classList.toggle("has-text", input.value.length > 0);
+    };
+
+    input.addEventListener("input", moveCursor);
+    input.addEventListener("keyup", moveCursor);
+    input.addEventListener("click", moveCursor);
+    document.addEventListener("selectionchange", () => {
+      if (document.activeElement === input) moveCursor();
+    });
+    input.addEventListener("focus", () => {
+      field.classList.add("is-focused");
+      moveCursor();
+    });
+    input.addEventListener("blur", () => field.classList.remove("is-focused"));
+
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Tab" && input.value.trim()) {
+        event.preventDefault();
+        complete(input);
+        moveCursor();
+      } else if (event.key === "ArrowUp" && history.length) {
+        event.preventDefault();
+        recalled = Math.max(0, recalled - 1);
+        input.value = history[recalled];
+        requestAnimationFrame(moveCursor);
+      } else if (event.key === "ArrowDown" && history.length) {
+        event.preventDefault();
+        recalled = Math.min(history.length, recalled + 1);
+        input.value = history[recalled] ?? "";
+        requestAnimationFrame(moveCursor);
+      } else if (event.key === "l" && event.ctrlKey) {
+        event.preventDefault();
+        commands.clear();
+      } else if (event.key === "Escape" && escape) {
+        event.preventDefault();
+        escape();
+      }
+    });
+
+    input.form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const text = input.value;
+      input.value = "";
+      moveCursor();
+      jumped = false;
+      const before = log.childElementCount;
+      run(text);
+      submit({ printed: log.childElementCount - before > 1 });
+    });
+
+    // Clicking anywhere on the prompt's line focuses it.
+    input.form.addEventListener("click", () => input.focus());
   };
-  let measured = 0;
-  const chWidth = () => {
-    if (!measured) {
-      const probe = document.createElement("span");
-      probe.style.cssText = "position:absolute;visibility:hidden;width:1ch";
-      field.append(probe);
-      measured = probe.getBoundingClientRect().width || 8;
-      probe.remove();
+
+  // The prompt at the end of the page stays on screen, unless the command
+  // went somewhere.
+  wire(input, {
+    submit() {
+      if (!jumped) form.scrollIntoView({ block: "nearest" });
     }
-    return measured;
-  };
-
-  input.addEventListener("input", moveCursor);
-  input.addEventListener("keyup", moveCursor);
-  input.addEventListener("click", moveCursor);
-  document.addEventListener("selectionchange", () => {
-    if (document.activeElement === input) moveCursor();
   });
-  input.addEventListener("focus", () => {
-    field.classList.add("is-focused");
-    moveCursor();
-  });
-  input.addEventListener("blur", () => field.classList.remove("is-focused"));
 
-  input.addEventListener("keydown", (event) => {
-    if (event.key === "Tab" && input.value.trim()) {
+  // tmux's command prompt: ":" anywhere (or the bar's ": command") opens it in
+  // the status bar, so a command can be typed without going to the end of the
+  // page. Escape, or leaving it, closes it; what it prints goes to the
+  // session at the end of the page, which comes into view.
+  const bar = document.querySelector(".status");
+  const barForm = document.querySelector("[data-command-prompt]");
+  const barInput = document.querySelector("[data-command-input]");
+  const opener = document.querySelector("[data-command-open]");
+  if (bar && barForm && barInput) {
+    let returnTo = null;
+    const open = () => {
+      returnTo = document.activeElement;
+      bar.classList.add("is-prompting");
+      barForm.hidden = false;
+      barInput.value = "";
+      barInput.focus();
+    };
+    const close = ({ restore = true } = {}) => {
+      if (barForm.hidden) return;
+      barForm.hidden = true;
+      bar.classList.remove("is-prompting");
+      if (restore && returnTo?.isConnected && returnTo !== document.body) returnTo.focus({ preventScroll: true });
+    };
+
+    wire(barInput, {
+      submit({ printed }) {
+        close({ restore: false });
+        if (jumped) return;
+        if (printed) {
+          // (The input's scroll margin keeps it clear of the status bar.)
+          input.scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "end" });
+          input.focus({ preventScroll: true });
+        } else if (returnTo?.isConnected && returnTo !== document.body) {
+          returnTo.focus({ preventScroll: true });
+        }
+      },
+      escape: () => close()
+    });
+    barInput.addEventListener("blur", () => {
+      // (Submitting closes it itself.)
+      setTimeout(() => {
+        if (document.activeElement !== barInput) close({ restore: false });
+      });
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== ":" || event.ctrlKey || event.metaKey || event.altKey || event.defaultPrevented) return;
+      if (event.target.closest?.("input, textarea, select, [contenteditable]")) return;
       event.preventDefault();
-      complete();
-    } else if (event.key === "ArrowUp" && history.length) {
-      event.preventDefault();
-      recalled = Math.max(0, recalled - 1);
-      input.value = history[recalled];
-      requestAnimationFrame(moveCursor);
-    } else if (event.key === "ArrowDown" && history.length) {
-      event.preventDefault();
-      recalled = Math.min(history.length, recalled + 1);
-      input.value = history[recalled] ?? "";
-      requestAnimationFrame(moveCursor);
-    } else if (event.key === "l" && event.ctrlKey) {
-      event.preventDefault();
-      commands.clear();
+      open();
+    });
+    if (opener) {
+      opener.hidden = false;
+      opener.addEventListener("click", open);
     }
-  });
-
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const text = input.value;
-    input.value = "";
-    moveCursor();
-    jumped = false;
-    run(text);
-    // The prompt stays on screen, unless the command went somewhere.
-    if (!jumped) form.scrollIntoView({ block: "nearest" });
-  });
-
-  // Clicking anywhere on the prompt's line focuses it.
-  form.addEventListener("click", () => input.focus());
+  }
 }

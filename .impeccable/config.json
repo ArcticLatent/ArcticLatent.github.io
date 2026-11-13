@@ -1,14 +1,9 @@
 {
   "detector": {
-    "ignoreRules": [],
+    "ignoreRules": [
+      "flat-type-hierarchy"
+    ],
     "ignoreFiles": [],
-    "ignoreValues": [
-      {
-        "rule": "flat-type-hierarchy",
-        "value": "*",
-        "createdAt": "2026-11-13T08:30:52.238Z",
-        "reason": "Terminal direction (user-pinned 2026-11-13): one Commit Mono cell size, as in a terminal; hierarchy is weight and ANSI colour. Applies to the rendered page too (URL scans report the page, not global.css)"
-      }
-    ]
+    "ignoreValues": []
   }
 }

@@ -149,8 +149,8 @@ A cool, low-chroma terminal ground with the eight ANSI colours, each assigned a 
 - **Prompt Green** (`green` / `green-dark`): the `$` prompt (bold), the tmux status bar background, the About and Contact pane accent (pane number, active border), the play triangle on the current reel and on the Play control, and the name in the fastfetch card.
 
 ### Secondary
-- **Film Blue** (`blue` / `blue-dark`): the Film & VFX pane accent, the first B of the pixel logo, and directory names in the prompt's `ls` output.
-- **Tools Magenta** (`magenta` / `magenta-dark`): the AI tools & teaching pane accent, the second B of the logo, and app names in `ls apps`.
+- **Film Blue** (`blue` / `blue-dark`): the Film & VFX pane accent, the first B of the favicon, and directory names in the prompt's `ls` output.
+- **Tools Magenta** (`magenta` / `magenta-dark`): the AI tools & teaching pane accent, the second B of the favicon, and app names in `ls apps`.
 
 ### Tertiary
 - **Path Cyan** (`cyan` / `cyan-dark`): the working directory before every prompt (bold) and the focus ring.
@@ -195,11 +195,11 @@ A terminal window on a desk. On phones the window fills the screen edge to edge;
 
 Inside, the panes are a grid with a 1px column gap that shows the border colour between them. In a window narrower than 1000px (screens below about 1060px) they stack in one column. In a window 1000px or wider: About spans the top (fastfetch beside `cat about.txt`, in a two-column run grid of fixed shares, 12fr and 9fr, with a 4ch gap (wide enough for the Role line on one row); never sized to the facts' content, which browsers measure differently); Film & VFX takes the left column across two rows; AI tools & teaching and Contact stack on the right.
 
-Each pane has 2ch side padding and 1.5lh at the bottom. Within a pane: a blank line (1lh) between runs, half a line between a command and its output, 2ch between columns of `ls`-style rows. The fastfetch logo is 4lh in a 600-999px window and 3lh in the split layout (so the facts, up to 46ch, keep to few lines beside the bio). In a window under 600px the logo shrinks to 2lh beside the name and underline, the facts run full width beneath, and the swatches hide, so the reel comes up sooner.
+Each pane has 2ch side padding and 1.5lh at the bottom. Within a pane: a blank line (1lh) between runs, half a line between a command and its output, 2ch between columns of `ls`-style rows. The fastfetch logo (the pixel-art portrait) is 9lh tall beside the facts, about as tall as they are. In a window under 600px it shrinks to 6lh and stays beside the facts, as fastfetch does in a narrow terminal, and the swatches hide, so the reel comes up sooner.
 
-On touch screens (`pointer: coarse`) the tapped lists get 0.3lh vertical padding on their links (reel rows, contact links, status tabs) and on the prompt, about a 36px target; pointers keep the tight one-line rows.
+On touch screens (`pointer: coarse`) the tapped lists get 0.3lh vertical padding on their links (reel rows, contact links, status tabs) and on the prompt, about a 36px target; pointers keep the tight one-line rows. Links in running text (fastfetch, the bio, comments) get 0.2lh inline padding, which grows the tap area without moving the lines, and app names 0.1lh.
 
-The status bar is sticky to the bottom of the viewport; the document has a 48px bottom scroll-padding so jumps clear it.
+The status bar is sticky to the bottom of the viewport. Everything inside the panes has a 48px bottom scroll-margin, so whatever is scrolled to (by tabbing, the prompt or the reel player) stops clear of the bar. The document itself has only an 8px top scroll-padding: a bottom one would contain the bar, and tabbing through it would scroll the page each time.
 
 ### Named Rules
 **The Whole Line Rule.** Vertical spacing is a whole or half line (`1lh`, `0.5lh`), with small fractions (0.15-0.35lh) only for bar padding and table cells.
@@ -216,7 +216,7 @@ The terminal is flat. The only shadow in the system is the window's own, which l
 
 ## Shapes
 
-Square by default. The window has a 10px radius (from 640px, with `overflow: clip`), the one rounded shape, as a desktop window has. Everything inside it is square: panes, the reel frame, posters, thumbnails, the Play control, tabs, the cursor. Images carry a 1px inset outline of `fg` at 14% and a `still` fill. The pixel BB logo is drawn in crisp-edged unit squares (13x7 cells). The current reel's marker is a 1ch green triangle (clip-path).
+Square by default. The window has a 10px radius (from 640px, with `overflow: clip`), the one rounded shape, as a desktop window has. Everything inside it is square: panes, the reel frame, posters, thumbnails, the Play control, tabs, the cursor. Images carry a 1px inset outline of `fg` at 14% and a `still` fill. The fastfetch logo is a pixel-art portrait with a transparent ground (no outline or fill); the favicon's pixel BB is drawn in crisp-edged unit squares. The current reel's marker is a 1ch green triangle (clip-path).
 
 ## Components
 
@@ -232,7 +232,7 @@ Square by default. The window has a 10px radius (from 640px, with `overflow: cli
 - **Errors:** a failed fetch prints one line with a bold red `error:` tag and a link to the source; the pane stays.
 
 ### fastfetch card
-- Pixel BB logo (first B blue, second magenta), then facts: the name as h1 in bold green, a dim dashed underline, `key: value` lines with bold yellow keys and a 2ch hanging indent, then eight ANSI swatches (3ch x 1lh each): swatch-black, red, green, yellow, blue, magenta, cyan, swatch-white (hidden in a window under 600px). The facts carry the named shows and the contact (email and résumé); the bio beside them tells the story without repeating them.
+- The logo is a pixel-art portrait of me (`src/assets/burce-hero.png`, cropped to the figure, served as WebP at 1x-3x, alt "Burce Boran in pixel art"), then facts: the name as h1 in bold green, a dim dashed underline, `key: value` lines with bold yellow keys and a 2ch hanging indent, then eight ANSI swatches (3ch x 1lh each): swatch-black, red, green, yellow, blue, magenta, cyan, swatch-white (hidden in a window under 600px). The facts carry the named shows and the contact (email and résumé); the bio beside them tells the story without repeating them.
 
 ### Reel player
 - **Frame:** inline 16:9, square-cornered, `still` fill. The Vimeo player replaces the still in place, only when asked for.
@@ -250,13 +250,14 @@ Square by default. The window has a 10px radius (from 640px, with `overflow: cli
 
 ### Inputs / Fields (the prompt)
 - **Without JS:** an idle prompt (`~ $`) with a solid 1ch block cursor.
-- **With JS:** a live form. The label is the cwd and `$`; the input is borderless, transparent, with a transparent caret. A 1ch x 1lh block cursor is positioned by `--at` (in ch): hollow (1px inset fg) when unfocused, solid fg and blinking (1.1s, `steps(1)`) when focused, static under reduced motion. A dim "type help" hint shows while empty and unfocused. Output prints into a log (`aria-live="polite"`); dim lines for secondary output, bold blue directory names.
+- **With JS:** a live form. The label is the cwd and `$`; the input is borderless, transparent, with a transparent caret. A 1ch x 1lh block cursor is positioned by `--at` (in ch): hollow (1px inset fg) when unfocused, solid fg and blinking (1.1s, `steps(1)`) when focused, static under reduced motion. A dim "type help" hint shows until something is typed. On touch screens the input's text is set at 16px and scaled back to the cell (`--shrink` 0.875, or 0.9375 from 900px), so iOS doesn't zoom into it; the cursor maths takes the ratio into account. Output prints into a log (`aria-live="polite"`); dim lines for secondary output, bold blue directory names.
 - **Behaviour:** every command printed on the page works when typed (`cat about.txt|contact|arctic-latent/README` prints the file from the page, `fastfetch` prints the facts, `yt-dlp …` lists the videos, `mpv <file>` plays the first reel, `man` is help; `less`/`bat` alias cat). Also help, ls, cd, pwd, whoami, reel/play N, credits, apps, videos, channel, reels, contact, email/linkedin/resume/github/youtube/imdb, open, clear (and Ctrl+L), history, echo, date, sudo, exit; Tab completes, arrows recall history; unknown commands answer `zsh: command not found: X`, with "did you mean" for a near miss. A command that goes somewhere prints a dim `→ Pane: part` line (heard through the live log), scrolls there and moves focus to it (`tabindex=-1`, no ring); otherwise the prompt scrolls back into view.
 - **Focus:** the focus ring is not drawn on the input; the solid blinking cursor is its focus state.
+- **Command prompt in the status bar:** as tmux's `prefix :`. `:` pressed anywhere outside a field (or the bar's `: command` button, shown in windows 800px and wider) turns the bar into a `:` prompt in bold on-green with its own on-green block cursor; everything else in the bar hides. It runs the same shell: a command that goes somewhere leaves you there; one that prints brings the session at the end of the page into view and focuses its prompt. Escape, or leaving the field, closes it and returns focus. Help mentions `:` (on touch screens it says ls names can be tapped instead).
 
 ### Navigation (status bar)
 - **Style:** tmux's status bar, sticky to the bottom of the viewport, green background, on-green text: `[burce]` session (bold), then `0:about 1:film 2:tools 3:contact`, then `"arcticlatent"` and the build date (dd-Mon-yy) on the right.
-- **Current:** the current tab inverts (on-green background, green bold text) with a trailing `*` and `aria-current="location"`. Hover underlines; focus uses an on-green outline at 0 offset.
+- **Current:** the current tab inverts (on-green background, green bold text) with a trailing `*` and `aria-current="location"`. Hover underlines; focus uses an on-green outline at 0 offset, and on the current tab a green outline inset 4px.
 - **Source order:** first in the source after a skip link ("skip to content", inverse video in the top-left corner, shown on focus), drawn at the bottom with flex `order`.
 - **Narrow:** the host and date hide under 560px, the session under 420px; the four tabs then spread across the bar.
 
@@ -266,7 +267,7 @@ Square by default. The window has a 10px radius (from 640px, with `overflow: cli
 - **Scrollbar:** border-coloured thumb on the desk.
 
 ### Link preview and favicon
-- Both follow the dark theme: the preview is the fastfetch card in a terminal window on the desk; the favicon is the pixel BB on the dark ground.
+- Both follow the dark theme: the preview is the fastfetch card, with the pixel-art portrait, in a terminal window on the desk; the favicon is the pixel BB on the dark ground (a full figure doesn't read at 16px).
 
 ## Do's and Don'ts
 

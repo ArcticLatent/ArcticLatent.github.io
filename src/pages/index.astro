@@ -1,6 +1,8 @@
 ---
 import { Image } from "astro:assets";
 import "../styles/global.css";
+// fastfetch's logo: me, in pixel art.
+import portrait from "../assets/burce-hero.png";
 import { fetchLatestVideos } from "../lib/youtube.js";
 import { fetchFilmography, matchCredits } from "../lib/metacritic.js";
 import { fetchReels } from "../lib/vimeo.js";
@@ -47,12 +49,6 @@ const otherShows = shownCredits.length - namedShows.length;
 // When the site was built (daily), as tmux shows the date: 13-Nov-26.
 const built = new Date();
 const builtDate = `${String(built.getUTCDate()).padStart(2, "0")}-${built.toLocaleString("en", { month: "short", timeZone: "UTC" })}-${String(built.getUTCFullYear()).slice(2)}`;
-
-// fastfetch's logo: my initials, BB, in pixels (one in each lane's colour).
-const letterB = ["#####.", "##..##", "##..##", "#####.", "##..##", "##..##", "#####."];
-const logoPixels = [0, 7].flatMap((offset, letter) =>
-  letterB.flatMap((row, y) => [...row].flatMap((cell, x) => (cell === "#" ? [{ x: x + offset, y, letter }] : [])))
-);
 
 const contactLinks = [
   { key: "email", href: `mailto:${email}`, text: email },
@@ -112,6 +108,25 @@ const contactLinks = [
           <li><a href="#tools" data-goto="tools"><span aria-hidden="true">2:</span>tools</a></li>
           <li><a href="#contact" data-goto="contact"><span aria-hidden="true">3:</span>contact</a></li>
         </ul>
+        <!-- tmux's command prompt (src/scripts/shell.js): ":" anywhere opens
+             it here. Without JavaScript neither shows. -->
+        <button class="status-hint" type="button" data-command-open aria-keyshortcuts=":" hidden>: command</button>
+        <form class="status-prompt" data-command-prompt hidden>
+          <label for="status-command">:<span class="visually-hidden"> Command (help lists them; Escape closes)</span></label>
+          <span class="field">
+            <input
+              id="status-command"
+              name="status-command"
+              type="text"
+              autocomplete="off"
+              autocapitalize="off"
+              spellcheck="false"
+              enterkeyhint="go"
+              data-command-input
+            />
+            <span class="cursor" aria-hidden="true"></span>
+          </span>
+        </form>
         <span class="host" aria-hidden="true">"arcticlatent" {builtDate}</span>
       </nav>
 
@@ -123,11 +138,14 @@ const contactLinks = [
             <div class="run">
               <p class="cmd" aria-hidden="true"><span class="cwd">~</span> <span class="ps">$</span> fastfetch</p>
               <div class="fastfetch">
-                <svg class="logo" viewBox="0 0 13 7" aria-hidden="true" focusable="false" shape-rendering="crispEdges">
-                  {logoPixels.map(({ x, y, letter }) => (
-                    <rect x={x} y={y} width="1" height="1" class={letter ? "is-ai" : "is-film"} />
-                  ))}
-                </svg>
+                <Image
+                  class="logo"
+                  src={portrait}
+                  width={160}
+                  densities={[1, 2, 3]}
+                  alt="Burce Boran in pixel art"
+                  loading="eager"
+                />
                 <div class="facts">
                   <h1>Burce Boran</h1>
                   <p class="underline" aria-hidden="true">-----------</p>
