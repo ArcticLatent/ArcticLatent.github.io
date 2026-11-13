@@ -1,0 +1,475 @@
+/* The résumé in the website's terminal: Commit Mono at one size, the light
+   "Arctic" palette (paper is light), one tmux window on one Letter page. */
+/* TrueType copies of the site's Commit Mono (resume/fonts): Chrome embeds
+   the site's CFF-flavoured fonts in a PDF as Type 3 glyphs, which viewers
+   render poorly; TrueType outlines embed as real fonts. */
+@font-face { font-family: "Commit Mono"; font-weight: 400; src: url("fonts/CommitMono-Regular.ttf") format("truetype"); }
+@font-face { font-family: "Commit Mono"; font-weight: 700; src: url("fonts/CommitMono-Bold.ttf") format("truetype"); }
+
+@page {
+  size: letter;
+  margin: 0;
+}
+
+:root {
+  --bg: #fdfdfe;
+  --bar: #eceff3;
+  --border: #cfd5de;
+  --fg: #1c2330;
+  --dim: #5c6676;
+  --red: #b4373b;
+  --green: #2c7a41;
+  --yellow: #86610a;
+  --blue: #2b67ad;
+  --magenta: #95398f;
+  --cyan: #1b7880;
+  --swatch-black: #1c2330;
+  --swatch-white: #c7ced8;
+  --on-green: #f8f9fb;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: #dde2e8;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+body {
+  font: 400 7.9pt/1.38 "Commit Mono", ui-monospace, monospace;
+  font-variant-ligatures: none;
+  color: var(--fg);
+}
+
+h1, h2, h3 {
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: 700;
+}
+
+b {
+  font-weight: 700;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+  text-decoration-thickness: 0.5pt;
+  text-underline-offset: 2pt;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.dim,
+.meta,
+.comment {
+  color: var(--dim);
+}
+
+/* One page, one window. On screen the pages sit on the desk. */
+.page {
+  width: 8.5in;
+  height: 11in;
+  padding: 0.3in;
+  background: white;
+  break-after: page;
+  overflow: hidden;
+}
+
+@media screen {
+  .page {
+    margin: 24px auto;
+    box-shadow: 0 10px 30px -12px rgb(28 35 48 / 0.3);
+  }
+}
+
+.window {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.titlebar {
+  padding: 0.3lh 2ch;
+  background: var(--bar);
+  border-bottom: 1px solid var(--border);
+  color: var(--dim);
+  text-align: center;
+}
+
+/* tmux panes: a title cut into a 1px rule along the top. */
+.pane {
+  --accent: var(--green);
+  padding: 0 2ch 0.6lh;
+}
+
+.pane.is-film { --accent: var(--blue); }
+.pane.is-ai { --accent: var(--magenta); }
+
+.pane-title {
+  display: flex;
+  align-items: center;
+  gap: 1ch;
+  margin: 0 -2ch 0.4lh;
+  font-weight: 700;
+}
+
+.pane-title::before,
+.pane-title::after {
+  content: "";
+  height: 1px;
+  background: var(--accent);
+}
+
+.pane-title::before { flex: 0 0 2ch; }
+.pane-title::after { flex: 1; }
+
+.pane-title > span {
+  color: var(--accent);
+}
+
+/* Below About: Experience on the left, Apps over the rest on the right,
+   with tmux's 1px divider between them. */
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 23fr) minmax(0, 20fr);
+  column-gap: 1px;
+  flex: 1;
+  background: var(--border);
+}
+
+.split .pane,
+.stack {
+  background: var(--bg);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.stack > .pane:last-child {
+  flex: 1;
+}
+
+.run + .run {
+  margin-top: 0.8lh;
+}
+
+.split .run + .run {
+  margin-top: 0.7lh;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.cmd {
+  margin-bottom: 0.3lh;
+}
+
+.cmd .cwd {
+  color: var(--cyan);
+  font-weight: 700;
+}
+
+.cmd .ps {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.comment {
+  margin-top: 0.3lh;
+}
+
+.cmd + .visually-hidden + .comment {
+  margin-top: 0;
+  margin-bottom: 0.4lh;
+}
+
+/* fastfetch beside cat profile.txt. */
+.about {
+  display: grid;
+  grid-template-columns: minmax(0, 21fr) minmax(0, 22fr);
+  column-gap: 3ch;
+  align-items: start;
+}
+
+.fastfetch {
+  display: flex;
+  align-items: flex-start;
+  gap: 2ch;
+}
+
+.logo {
+  flex: none;
+  height: 9lh;
+  width: auto;
+}
+
+.facts h1 {
+  color: var(--green);
+}
+
+.facts dl > div {
+  padding-left: 2ch;
+  text-indent: -2ch;
+}
+
+.facts dt,
+.facts dd {
+  display: inline;
+}
+
+.facts dt {
+  color: var(--yellow);
+  font-weight: 700;
+}
+
+.facts dt::after {
+  content: ":";
+}
+
+.facts dd {
+  margin-left: 0.6ch;
+}
+
+.swatches {
+  display: flex;
+  margin-top: 0.4lh;
+}
+
+.swatches span {
+  width: 2.5ch;
+  height: 0.9lh;
+}
+
+.swatches .c0 { background: var(--swatch-black); }
+.swatches .c1 { background: var(--red); }
+.swatches .c2 { background: var(--green); }
+.swatches .c3 { background: var(--yellow); }
+.swatches .c4 { background: var(--blue); }
+.swatches .c5 { background: var(--magenta); }
+.swatches .c6 { background: var(--cyan); }
+.swatches .c7 { background: var(--swatch-white); }
+
+.prose p {
+  text-wrap: pretty;
+}
+
+.prose p + p {
+  margin-top: 0.6lh;
+}
+
+.prose .ai {
+  color: var(--magenta);
+}
+
+/* cat experience: company in its lane's colour, each role with its dates on
+   the right, notes as "- " lines with a hanging indent. */
+.job {
+  --accent: var(--blue);
+  break-inside: avoid;
+}
+
+.job.is-ai {
+  --accent: var(--magenta);
+}
+
+.job + .job {
+  margin-top: 0.55lh;
+}
+
+.company {
+  color: var(--accent);
+}
+
+.role {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  column-gap: 2ch;
+}
+
+.role .title {
+  font-weight: 700;
+}
+
+.role .when {
+  flex: none;
+  color: var(--dim);
+}
+
+.note {
+  padding-left: 2ch;
+  text-wrap: pretty;
+}
+
+.note + .role {
+  margin-top: 0.25lh;
+}
+
+.notes + .role {
+  margin-top: 0.25lh;
+}
+
+.notes li,
+.talk p,
+.app p {
+  padding-left: 2ch;
+  text-indent: -2ch;
+  text-wrap: pretty;
+}
+
+.notes li::before {
+  content: "- ";
+  color: var(--dim);
+}
+
+.talk p,
+.app p {
+  padding-left: 2ch;
+  text-indent: 0;
+}
+
+.talk .role {
+  display: block;
+}
+
+.talk .role .when {
+  display: block;
+}
+
+.talk + .talk {
+  margin-top: 0.4lh;
+}
+
+/* ls apps */
+.app + .app {
+  margin-top: 0.35lh;
+}
+
+.app h3 {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 2ch;
+  font-weight: 400;
+}
+
+.app .name {
+  color: var(--magenta);
+  font-weight: 700;
+}
+
+/* Tables: education and the eza-style credits. */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.rows td {
+  padding: 0 0 0.35lh;
+  vertical-align: top;
+}
+
+.num {
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* ls credits: the names run on and wrap, as ls prints them. */
+.credits {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 2ch;
+}
+
+.credits li {
+  white-space: nowrap;
+}
+
+/* cat skills: key: value, keys in a column. */
+.keys > div {
+  display: grid;
+  grid-template-columns: 9ch minmax(0, 1fr);
+  column-gap: 1ch;
+}
+
+.keys > div + div {
+  margin-top: 0.15lh;
+}
+
+.keys dt {
+  color: var(--yellow);
+  font-weight: 700;
+}
+
+.shell {
+  padding: 0.3lh 2ch 0.5lh;
+  border-top: 1px solid var(--border);
+}
+
+.shell .cmd {
+  margin: 0;
+}
+
+.cursor {
+  display: inline-block;
+  width: 1ch;
+  height: 1lh;
+  vertical-align: top;
+  background: var(--fg);
+}
+
+/* tmux's status bar along each window's foot. */
+.status {
+  display: flex;
+  align-items: center;
+  column-gap: 2ch;
+  margin-top: auto;
+  padding: 0.15lh 1ch;
+  background: var(--green);
+  color: var(--on-green);
+  white-space: nowrap;
+}
+
+.status .session {
+  font-weight: 700;
+}
+
+.status .tab {
+  padding: 0 1ch;
+}
+
+.status .tab.is-current {
+  background: var(--on-green);
+  color: var(--green);
+  font-weight: 700;
+}
+
+.status .host {
+  margin-left: auto;
+}
+
+

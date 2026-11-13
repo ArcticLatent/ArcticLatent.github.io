@@ -18,8 +18,17 @@ npm run build    # dist/
 | Playing the reel (the Vimeo player loads only when it's played) | `src/scripts/reel.js` |
 | The prompt at the end (optional commands: `help`, `cd`, `cat`, `reel`, `open` …, and every command printed on the page; `:` opens it in the status bar from anywhere) and the status bar marking the pane in view | `src/scripts/shell.js`, `src/scripts/status.js` |
 | Styles: tmux panes in a terminal window, light and dark with the system | `src/styles/global.css` |
-| Résumé, favicon, fonts (Commit Mono), link preview | `public/` |
+| The résumé's source: the same terminal, one tmux window on one page | `resume/` |
+| The résumé PDF the site links to, favicon, fonts (Commit Mono), link preview | `public/` |
 | Publishing (on push, and daily) | `.github/workflows/deploy.yml` |
 | What the site is for, and its design | `PRODUCT.md`, `DESIGN.md` |
 
 The old addresses still work: `#reels`, `#films`, `#apps`, `#videos` and `#about` jump to their part of the page. The link preview, `public/og-image.png`, is a screenshot of `public/og-image.svg`.
+
+The résumé is `resume/index.html` (with `resume/resume.css`), printed to `public/Burce_Boran_Resume_2026.pdf` by headless Chrome or Chromium:
+
+```sh
+node resume/build.mjs   # set CHROME=/path/to/chrome if it isn't found
+```
+
+It warns when the content no longer fits the page; open `resume/index.html` through any local server to see it on screen.

@@ -4,6 +4,16 @@
       "flat-type-hierarchy"
     ],
     "ignoreFiles": [],
-    "ignoreValues": []
+    "ignoreValues": [
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "resume/index.html"
+        ],
+        "createdAt": "2026-11-13T23:44:24.466Z",
+        "reason": "The .split grid's border-coloured background is only the 1px tmux divider between page 2's panes; pane titles sit on the pane's top edge by design, as on the site."
+      }
+    ]
   }
 }
