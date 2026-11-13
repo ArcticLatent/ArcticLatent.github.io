@@ -539,11 +539,7 @@
       },
       {
         "name": "tmux-split",
-        "value": "1100px"
-      },
-      {
-        "name": "wide",
-        "value": "1440px"
+        "value": "1000px (window width, container query)"
       }
     ],
     "focus": {

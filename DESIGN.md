@@ -191,11 +191,11 @@ A cool, low-chroma terminal ground with the eight ANSI colours, each assigned a 
 
 ## Layout
 
-A terminal window on a desk. On phones the window fills the screen edge to edge; from 640px the body gains `clamp(16px, 3vw, 40px)` of desk around it and the window floats, max-width 1560px, centred. A centred titlebar ("burce@arcticlatent: ~") sits on top.
+A terminal window on a desk. On phones the window fills the screen edge to edge; from 640px the body gains desk around it (`clamp(24px, 6vh, 80px)` above and below, `clamp(16px, 4vw, 64px)` at the sides) and the window floats, centred, no wider than a terminal you'd open: max-width 1100px. The window is a size container (`container: term`), so its panes follow the window's width, not the screen's. A centred titlebar ("burce@arcticlatent: ~") sits on top.
 
-Inside, the panes are a grid with a 1px column gap that shows the border colour between them. Below 1100px they stack in one column. From 1100px: About spans the top (fastfetch beside `cat about.txt`, in a two-column run grid with a 4ch gap, 6ch from 1440px); Film & VFX takes the left column across two rows; AI tools & teaching and Contact stack on the right.
+Inside, the panes are a grid with a 1px column gap that shows the border colour between them. In a window narrower than 1000px (screens below about 1060px) they stack in one column. In a window 1000px or wider: About spans the top (fastfetch beside `cat about.txt`, in a two-column run grid with a 4ch gap); Film & VFX takes the left column across two rows; AI tools & teaching and Contact stack on the right.
 
-Each pane has 2ch side padding and 1.5lh at the bottom. Within a pane: a blank line (1lh) between runs, half a line between a command and its output, 2ch between columns of `ls`-style rows. The fastfetch logo is 3lh tall on phones, 4lh at 640-1099px, 3lh at 1100-1439px (so the facts keep their lines on laptops), and 5lh from 1440px.
+Each pane has 2ch side padding and 1.5lh at the bottom. Within a pane: a blank line (1lh) between runs, half a line between a command and its output, 2ch between columns of `ls`-style rows. The fastfetch logo is 3lh tall on phones, 4lh in a 600-999px window, and 3lh in the split layout (so the facts, up to 46ch, keep to few lines beside the bio).
 
 The status bar is sticky to the bottom of the viewport; the document has a 48px bottom scroll-padding so jumps clear it.
 
