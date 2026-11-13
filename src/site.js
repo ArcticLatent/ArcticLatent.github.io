@@ -33,6 +33,7 @@ export const credits = [
   { title: "Final Destination: Bloodlines" },
   { title: "Borderlands", type: "Film", year: 2024, image: borderlandsPoster },
   { title: "Avatar: The Last Airbender", episodes: 8 },
+  { title: "House of the Dragon", episodes: 8 },
   { title: "Goliath", episodes: 10 },
   { title: "The Mandalorian", episodes: 4 },
   { title: "Star Trek: Discovery", episodes: 21 },
