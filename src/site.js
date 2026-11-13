@@ -1,5 +1,9 @@
 // The page's text, links and apps.
 
+// Borderlands isn't among my Metacritic credits, so its poster (from its
+// Metacritic page, resized) is kept here.
+import borderlandsPoster from "./assets/posters/borderlands.jpg";
+
 export const siteUrl = "https://burceboran.ca";
 export const resumeUrl = "/Burce_Boran_Resume_2026.pdf";
 export const imdbUrl = "https://www.imdb.com/name/nm9667865/";
@@ -23,10 +27,11 @@ export const reels = [
 
 // My credits, as on my résumé: these are the ones shown. Metacritic adds
 // each one's poster, year and kind; `year` and `type` here stand in when
-// Metacritic doesn't list it. `episodes`: the ones I worked on.
+// Metacritic doesn't list it, as `image` does for its poster. `episodes`:
+// the ones I worked on.
 export const credits = [
   { title: "Final Destination: Bloodlines" },
-  { title: "Borderlands", type: "Film", year: 2024 },
+  { title: "Borderlands", type: "Film", year: 2024, image: borderlandsPoster },
   { title: "Avatar: The Last Airbender", episodes: 8 },
   { title: "Goliath", episodes: 10 },
   { title: "The Mandalorian", episodes: 4 },

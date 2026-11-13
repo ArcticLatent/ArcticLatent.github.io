@@ -37,7 +37,9 @@ export const matchCredits = (credits, filmography) => {
   const byTitle = new Map(filmography.map((project) => [project.title, project]));
   const missing = credits.filter((credit) => !byTitle.has(credit.title)).map((credit) => credit.title);
   const extra = filmography.filter((project) => !credits.some((credit) => credit.title === project.title)).map((project) => project.title);
-  if (filmography.length && missing.length) console.warn(`Credits not on Metacritic (shown without a poster): ${missing.join(", ")}`);
+  if (filmography.length && missing.length) {
+    console.warn(`Credits not on Metacritic (year, kind and poster come from src/site.js, if given): ${missing.join(", ")}`);
+  }
   if (extra.length) console.warn(`On Metacritic but not in my credits (not shown): ${extra.join(", ")}`);
   return credits
     .map((credit) => ({ type: "", year: "", image: "", ...credit, ...(byTitle.get(credit.title) ?? {}), episodes: credit.episodes }))

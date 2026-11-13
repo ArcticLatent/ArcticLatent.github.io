@@ -235,7 +235,7 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
           </div>
         </div>
 
-        <div class="link is-mid" aria-hidden="true"><span class="h at-io"></span></div>
+        <div class="link is-mid-film" aria-hidden="true"><span class="h at-film"></span></div>
 
         <div class="node block" id="films">
           <div class="node-bar">
@@ -295,7 +295,18 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
           </div>
         </div>
 
-        <div class="link is-mid" aria-hidden="true"><span class="h at-io"></span></div>
+        <!-- Apps sits under Reels and Arctic Latent under Credits, so this wire
+             steps down between them. -->
+        <div class="link is-mid-ai" aria-hidden="true">
+          <span class="h at-ai to-mid"></span>
+          <span class="v at-ai down"></span>
+          <span class="joint at-ai"></span>
+        </div>
+        <div class="link is-mid-ai-end" aria-hidden="true">
+          <span class="v at-videos up"></span>
+          <span class="h at-videos from-mid"></span>
+          <span class="joint at-videos"></span>
+        </div>
 
         <div class="node block" id="videos">
           <div class="node-bar">
@@ -325,7 +336,7 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
       </section>
 
       <!-- Into Contact: the film wire runs straight across from Credits; the
-           tools wire runs across from Arctic Latent, up and across. -->
+           videos wire runs across from Arctic Latent, up and across. -->
       <div class="link is-in-film" aria-hidden="true">
         <span class="h is-film at-film"></span>
         <span class="v is-ai at-about-ai down"></span>
@@ -333,9 +344,9 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
         <span class="joint is-ai at-about-ai"></span>
       </div>
       <div class="link is-in-ai" aria-hidden="true">
-        <span class="h is-ai at-ai to-mid"></span>
-        <span class="v is-ai at-ai up"></span>
-        <span class="joint is-ai at-ai"></span>
+        <span class="h is-ai at-videos to-mid"></span>
+        <span class="v is-ai at-videos up"></span>
+        <span class="joint is-ai at-videos"></span>
       </div>
       <div class="wires is-ai" aria-hidden="true"></div>
 
