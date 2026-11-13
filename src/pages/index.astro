@@ -84,10 +84,8 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
           <!-- A small node graph wired into a wireframe sphere: pipeline into asset. -->
           <svg class="graph" viewBox="0 0 208 72" aria-hidden="true" focusable="false">
             <g class="graph-wires">
-              <path d="M44 36 C 58 36, 58 18, 72 18" />
-              <path d="M44 36 C 58 36, 58 54, 72 54" />
-              <path d="M116 18 C 136 18, 132 36, 148 36" />
-              <path d="M116 54 C 136 54, 132 36, 148 36" />
+              <path d="M44 36 H 58 V 18 H 72 M 58 36 V 54 H 72" />
+              <path d="M116 18 H 132 V 54 H 116 M 132 36 H 148" />
             </g>
             <g class="graph-nodes">
               <rect x="0.5" y="26.5" width="43" height="19" rx="4" />
@@ -101,6 +99,10 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
               <circle cx="116" cy="18" r="2" />
               <circle cx="116" cy="54" r="2" />
               <circle cx="148" cy="36" r="2" />
+            </g>
+            <g class="graph-joints">
+              <circle cx="58" cy="36" r="1.5" />
+              <circle cx="132" cy="36" r="1.5" />
             </g>
             <g class="graph-mesh">
               <circle cx="178" cy="36" r="29" />
@@ -152,11 +154,17 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
         </div>
       </header>
 
-      <svg class="wires" viewBox="0 0 100 64" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-        <path class="is-film is-branch" d="M38 0 C 38 34, 24 30, 24 64" />
-        <path class="is-ai is-branch" d="M62 0 C 62 34, 76 30, 76 64" />
-        <path class="is-film is-straight" d="M50 0 V 64" />
-      </svg>
+      <div class="wires" aria-hidden="true">
+        <svg viewBox="0 0 100 2" preserveAspectRatio="none" focusable="false">
+          <path class="is-film is-branch" d="M38 0 V 1 H 24 V 2" />
+          <path class="is-ai is-branch" d="M62 0 V 1 H 76 V 2" />
+          <path class="is-film is-straight" d="M50 0 V 2" />
+        </svg>
+        <span class="joint is-film" style="--x: 38%"></span>
+        <span class="joint is-film" style="--x: 24%"></span>
+        <span class="joint is-ai" style="--x: 62%"></span>
+        <span class="joint is-ai" style="--x: 76%"></span>
+      </div>
 
       <section class="lane is-film" aria-labelledby="film-title">
         <h2 id="film-title" class="lane-title">Film &amp; VFX</h2>
@@ -291,11 +299,17 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
         </div>
       </section>
 
-      <svg class="wires" viewBox="0 0 100 64" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-        <path class="is-film is-branch" d="M24 0 C 24 34, 38 30, 38 64" />
-        <path class="is-ai is-branch" d="M76 0 C 76 34, 62 30, 62 64" />
-        <path class="is-ai is-straight" d="M50 0 V 64" />
-      </svg>
+      <div class="wires" aria-hidden="true">
+        <svg viewBox="0 0 100 2" preserveAspectRatio="none" focusable="false">
+          <path class="is-film is-branch" d="M24 0 V 1 H 38 V 2" />
+          <path class="is-ai is-branch" d="M76 0 V 1 H 62 V 2" />
+          <path class="is-ai is-straight" d="M50 0 V 2" />
+        </svg>
+        <span class="joint is-film" style="--x: 24%"></span>
+        <span class="joint is-film" style="--x: 38%"></span>
+        <span class="joint is-ai" style="--x: 76%"></span>
+        <span class="joint is-ai" style="--x: 62%"></span>
+      </div>
     </main>
 
     <footer class="foot">

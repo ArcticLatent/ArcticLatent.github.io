@@ -485,7 +485,7 @@
   ],
   "narrative": {
     "northStar": "The Wired Page",
-    "overview": "The page is a small node graph, the way a ComfyUI workflow reads: an About node wires out into two lanes, Film & VFX (Reels, Credits) and AI tools & teaching (Apps, Arctic Latent), and both lanes wire into a Contact node. It stays in the modern minimal developer register: one type size, neutral greys, hairline frames, rows inside every node, on a ground with a faint dot grid. Wires, sockets and title-bar dots carry the only colour: a quiet blue for Film & VFX and a quiet pink for AI tools & teaching. Side by side from 960px, one wired column below.",
+    "overview": "The page is a small node graph, the way a ComfyUI workflow reads: an About node wires out into two lanes, Film & VFX (Reels, Credits) and AI tools & teaching (Apps, Arctic Latent), and both lanes wire into a Contact node. It stays in the modern minimal developer register: one type size, neutral greys, hairline frames, rows inside every node, on a ground with a faint dot grid. Wires, sockets and title-bar dots carry the only colour: a quiet blue for Film & VFX and a quiet pink for AI tools & teaching. Side by side from 960px, one wired column below. Wires run straight, with right-angle bends and a dot on each bend.",
     "keyCharacteristics": [
       "A node graph: About → two lanes → Contact. Side by side from 960px; one wired column below.",
       "One type size (15px), stepped by weight (400/500/600) and colour; 14px only for meta and small print.",

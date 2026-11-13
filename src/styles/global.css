@@ -164,8 +164,18 @@ a:hover {
   white-space: nowrap;
 }
 
+/* The wires between About, the lanes and Contact: straight runs with
+   right-angle bends, and a dot on every bend. */
 .wires {
+  position: relative;
   height: 40px;
+}
+
+.wires svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   overflow: visible;
   fill: none;
 }
@@ -173,11 +183,23 @@ a:hover {
 .wires path {
   stroke: var(--lane);
   stroke-width: 2;
+  stroke-linejoin: miter;
   vector-effect: non-scaling-stroke;
 }
 
-.wires .is-branch {
+.wires .is-branch,
+.joint {
   display: none;
+}
+
+.joint {
+  position: absolute;
+  top: calc(50% - 4px);
+  left: calc(var(--x) - 4px);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--lane);
 }
 
 /* Nodes: a title bar and a body, in a hairline frame. */
@@ -298,6 +320,10 @@ a:hover {
   stroke: var(--muted);
 }
 
+.graph-joints circle {
+  fill: var(--muted);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .graph-nodes rect,
   .graph-mesh > * {
@@ -314,7 +340,8 @@ a:hover {
   }
 
   .graph-wires path,
-  .graph-ports circle {
+  .graph-ports circle,
+  .graph-joints circle {
     animation: graph-in 500ms 160ms ease-out both;
   }
 }
@@ -613,6 +640,10 @@ a:hover {
 
   .wires .is-branch {
     display: inline;
+  }
+
+  .joint {
+    display: block;
   }
 
   .wires .is-straight {

@@ -177,7 +177,7 @@ Neutrals in two modes, swapped wholesale by `prefers-color-scheme`; every token 
 
 `main.canvas` and `footer.foot` share a 1080px max width, centred, with 24px side padding and `clamp(40px, 8vh, 96px)` above.
 
-- **From 960px:** a two-column grid, columns 48% wide with a 4% gap, so each lane's wire runs down its middle at 24% and 76% of the canvas. The header (name and drawing, then the About node) and the Contact node are 48% wide and centred; their sockets sit at 25% and 75% of their own width, which is 38% and 62% of the canvas. Two full-width SVG strips (72px tall, `preserveAspectRatio="none"`, `vector-effect: non-scaling-stroke`) carry the curved wires from About's sockets down to the lanes and from the lanes into Contact. The lanes stretch to the same height, so the shorter lane's wire simply runs on below its last node.
+- **From 960px:** a two-column grid, columns 48% wide with a 4% gap, so each lane's wire runs down its middle at 24% and 76% of the canvas. The header (name and drawing, then the About node) and the Contact node are 48% wide and centred; their sockets sit at 25% and 75% of their own width, which is 38% and 62% of the canvas. Two full-width strips (72px tall) carry the wires from About's sockets down to the lanes and from the lanes into Contact: an SVG (`preserveAspectRatio="none"`, `vector-effect: non-scaling-stroke`) draws each wire straight down, across at half height and down again, and HTML dots sit on the bends so they stay round at any width. The lanes stretch to the same height, so the shorter lane's wire simply runs on below its last node.
 - **Below 960px:** one column, 580px max. About, Reels, Credits, Apps, Arctic Latent and Contact stack, each wired to the next by a straight wire; the strips become 40px straight wires (Film into the first lane, AI into Contact), and About and Contact show one centred socket.
 - **Within a lane:** the lane name sits on the wire (18px above and below, starting 14px right of it); nodes are 56px apart on wide screens, 48px in one column.
 - **Inside a node:** a title bar (8px 16px) over a 16px body. Rows are a two-column grid (`1fr auto`, 16px gap, baseline-aligned, 10px vertical padding); rows with an image (credits, videos) become three columns (`auto 1fr auto`, centre-aligned). A list that opens a node body (or follows the reel) drops its first rule and top padding. Below 520px, video rows drop the meta under the title.
@@ -191,7 +191,7 @@ Flat. There are no drop shadows. Depth is a 1px line: the node's Edge border, th
 
 ## Shapes
 
-Radii scaled to the object: 3px on posters and the focus ring, 4px on video thumbs, 6px on the reel still and player (nested inside the node's 16px body), 10px on nodes (9px on the title bar's top corners, inside the 1px border), full circles for sockets and title-bar dots, a full pill on the Play control. Wires are 2px, with ComfyUI-like vertical-tangent curves where they branch and merge.
+Radii scaled to the object: 3px on posters and the focus ring, 4px on video thumbs, 6px on the reel still and player (nested inside the node's 16px body), 10px on nodes (9px on the title bar's top corners, inside the 1px border), full circles for sockets and title-bar dots, a full pill on the Play control. Wires are 2px and straight: vertical and horizontal runs with square, mitred bends, never curves.
 
 ## Components
 
@@ -199,7 +199,7 @@ Radii scaled to the object: 3px on posters and the focus ring, 4px on video thum
 A 1px Edge frame, 10px radius, Ground fill. The title bar: Bar fill, a Hairline below, an 8px dot (the lane's colour; Underline Grey for About and Contact), then the title in 500 Ink. The body: 16px padding; its last child has no bottom margin.
 
 ### Sockets and wires
-Sockets are 12px circles in the lane's colour with a 2px Ground ring, centred on a node's top edge (input) or bottom edge (output), half outside it. Lane nodes have one of each; About has two outputs (Film, AI) and Contact two inputs. A lane's own wire is a 2px line of its colour down the middle of the lane, drawn as the lane's background, so it shows only between nodes; the branch and merge wires are inline SVG paths in the same colours. All of it is `aria-hidden` or CSS-only; it needs no JavaScript.
+Sockets are 12px circles in the lane's colour with a 2px Ground ring, centred on a node's top edge (input) or bottom edge (output), half outside it. Lane nodes have one of each; About has two outputs (Film, AI) and Contact two inputs. A lane's own wire is a 2px line of its colour down the middle of the lane, drawn as the lane's background, so it shows only between nodes; the branch and merge wires are straight inline SVG paths in the same colours (down, across, down), with an 8px dot of the lane's colour on each of their two bends (joints, shown only when the lanes are side by side). All of it is `aria-hidden` or CSS-only; it needs no JavaScript.
 
 ### Lane names
 The h2 for each half (Film & VFX, AI tools & teaching) is set on its lane's wire, like a wire label: Headline style, starting 14px right of the wire, not wrapping.
@@ -225,7 +225,7 @@ Real images only: poster 28x42 (3px radius), thumb 64x36 (4px radius), both with
 - **Behaviour:** pressing the still or any row loads that reel's Vimeo player into the frame with autoplay, marks its row current, scrolls the frame into view if needed (instantly under reduced motion) and moves focus to it. Without JavaScript each links to Vimeo.
 
 ### The masthead drawing
-Above the About node, beside the name and role: an inline SVG (156px wide, 112px on phones), `aria-hidden`: three rounded node outlines in Underline Grey, dotted wires (2/3 dash) in Quiet Grey, ports as small Ground-filled circles with a Quiet Grey stroke, and a wireframe sphere (outline, one latitude and one longitude ellipse in Underline Grey, two faint Hairline bands). All 1px strokes, no fills, no lane colour. On load the nodes, wires and sphere fade in once (700ms, ease-out, staggered up to 260ms).
+Above the About node, beside the name and role: an inline SVG (156px wide, 112px on phones), `aria-hidden`: three rounded node outlines in Underline Grey, dotted right-angle wires (2/3 dash) in Quiet Grey with a small filled Quiet Grey dot where they split and join, ports as small Ground-filled circles with a Quiet Grey stroke, and a wireframe sphere (outline, one latitude and one longitude ellipse in Underline Grey, two faint Hairline bands). All 1px strokes, no fills, no lane colour. On load the nodes, wires and sphere fade in once (700ms, ease-out, staggered up to 260ms).
 
 ### Index
 At the end of the About body, a two-line index at 14px: each half's name in Quiet Grey (152px column), then links to its nodes (Reels, Credits; Apps, Videos). Nodes keep a 24px scroll margin.
