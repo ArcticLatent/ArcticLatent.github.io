@@ -1,43 +1,54 @@
-/* The page as a node graph on a dotted canvas, running left to right on
-   wide screens: About wires into two lanes, both lanes wire into Contact. Neutral greys, one quiet colour per lane,
-   light or dark with the system. Geist, served from public/fonts. */
-@font-face { font-family: "Geist"; font-weight: 400; font-style: normal; font-display: swap; src: url("/fonts/Geist-Regular.woff2") format("woff2"); }
-@font-face { font-family: "Geist"; font-weight: 500; font-style: normal; font-display: swap; src: url("/fonts/Geist-Medium.woff2") format("woff2"); }
-@font-face { font-family: "Geist"; font-weight: 600; font-style: normal; font-display: swap; src: url("/fonts/Geist-SemiBold.woff2") format("woff2"); }
+/* The page is a terminal running tmux, in an "Arctic" theme: light or dark
+   with the system. Everything sits on the monospace grid: widths in ch,
+   heights in whole lines (lh). Commit Mono, regular and bold, served from
+   public/fonts. */
+@font-face { font-family: "Commit Mono"; font-weight: 400; font-style: normal; font-display: swap; src: url("/fonts/CommitMono-Regular.woff2") format("woff2"); }
+@font-face { font-family: "Commit Mono"; font-weight: 700; font-style: normal; font-display: swap; src: url("/fonts/CommitMono-Bold.woff2") format("woff2"); }
 
 :root {
   color-scheme: light;
-  --bg: #ffffff;
-  --fg: #111111;
-  --text: #3b3b3b;
-  --muted: #6b6b6b;
-  --line: #ebebeb;
-  --underline: #a3a3a3;
-  --still: #f2f2f2;
-  --edge: #dedede;
-  --bar: #fafafa;
-  --grid: #d9d9d9;
-  --film: #4f8cc9;
-  --ai: #b565b2;
-  --measure: 580px;
-  --canvas: 1680px;
+  /* The desktop behind the window, the terminal, its bars and borders. */
+  --desk: #dde2e8;
+  --bg: #f8f9fb;
+  --bar: #eceff3;
+  --border: #cfd5de;
+  --still: #e6e9ee;
+  --shadow: rgb(28 35 48 / 0.16);
+  /* Text: ordinary and dim (comments, meta). */
+  --fg: #1c2330;
+  --dim: #5c6676;
+  /* The ANSI colours, each with one job. */
+  --red: #b4373b; /* errors */
+  --green: #2c7a41; /* the prompt, the status bar, the About and Contact panes */
+  --yellow: #86610a; /* keys */
+  --blue: #2b67ad; /* Film & VFX */
+  --magenta: #95398f; /* AI tools & teaching */
+  --cyan: #1b7880; /* the working directory, focus */
+  --swatch-black: #1c2330;
+  --swatch-white: #c7ced8;
+  --on-green: #f8f9fb;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-    --bg: #0a0a0a;
-    --fg: #ededed;
-    --text: #b8b8b8;
-    --muted: #8f8f8f;
-    --line: #1f1f1f;
-    --underline: #5e5e5e;
-    --still: #161616;
-    --edge: #2a2a2a;
-    --bar: #111111;
-    --grid: #262626;
-    --film: #6fa8dc;
-    --ai: #d08bcd;
+    --desk: #0b0e12;
+    --bg: #11151b;
+    --bar: #171c24;
+    --border: #2b323d;
+    --still: #1a2029;
+    --shadow: rgb(0 0 0 / 0.5);
+    --fg: #dbe2ea;
+    --dim: #8a95a5;
+    --red: #e5857f;
+    --green: #95cf9f;
+    --yellow: #e2c27a;
+    --blue: #7fb0e8;
+    --magenta: #d692d2;
+    --cyan: #79c9cf;
+    --swatch-black: #3a4250;
+    --swatch-white: #dbe2ea;
+    --on-green: #11151b;
   }
 }
 
@@ -47,25 +58,35 @@
   box-sizing: border-box;
 }
 
-/* The canvas: a faint dot grid, like a node editor's. */
 html {
-  background-color: var(--bg);
-  background-image: radial-gradient(circle, var(--grid) 1px, transparent 1.5px);
-  background-size: 22px 22px;
-  background-position: -11px -11px;
-  scrollbar-color: var(--underline) var(--bg);
+  background: var(--desk);
+  scrollbar-color: var(--border) var(--desk);
+  /* Room for the status bar when jumping to a section. */
+  scroll-padding: 8px 0 48px;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
-  padding: clamp(32px, 6vh, 80px) 24px 0;
-  font: 400 15px/1.7 "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-  color: var(--text);
+  font: 400 14px/1.6 "Commit Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-variant-ligatures: none;
+  color: var(--fg);
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
 }
 
+@media (min-width: 640px) {
+  body {
+    padding: clamp(16px, 3vw, 40px);
+  }
+}
+
+@media (min-width: 900px) {
+  body {
+    font-size: 15px;
+  }
+}
+
+/* Inverse video, as a terminal selects. */
 ::selection {
   background: var(--fg);
   color: var(--bg);
@@ -75,39 +96,40 @@ h1,
 h2,
 h3 {
   margin: 0;
-  color: var(--fg);
-  font-size: 15px;
-  line-height: 1.5;
-  text-wrap: balance;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: 700;
 }
 
-h1,
-h2 {
-  font-weight: 600;
+p,
+ul,
+dl,
+dd,
+figure {
+  margin: 0;
+  padding: 0;
 }
 
-h3 {
-  font-weight: 500;
-}
-
-p {
-  margin: 0 0 16px;
-  text-wrap: pretty;
+ul {
+  list-style: none;
 }
 
 em {
   font-style: normal;
-  font-weight: 500;
-  color: var(--fg);
+  font-weight: 700;
+}
+
+abbr[title] {
+  text-decoration: none;
 }
 
 a {
-  color: var(--fg);
+  color: inherit;
   text-decoration: underline;
-  text-decoration-color: var(--underline);
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
-  transition: text-decoration-color 150ms ease-out, color 150ms ease-out;
+  transition: text-decoration-color 120ms ease-out, background-color 120ms ease-out, color 120ms ease-out;
 }
 
 a:hover {
@@ -115,275 +137,8 @@ a:hover {
 }
 
 :focus-visible {
-  outline: 2px solid var(--fg);
-  outline-offset: 3px;
-  border-radius: 3px;
-}
-
-/* The graph's layout. Below 1280px (phones, tablets, narrow windows): one column, each node wired
-   to the next by a short straight wire. Wide windows (at the end): left to
-   right, like a node editor. */
-.canvas {
-  max-width: var(--canvas);
-  margin: 0 auto;
-  padding-bottom: 56px;
-}
-
-.head,
-.lane,
-.wires,
-.contact-node {
-  display: block;
-  width: 100%;
-  max-width: var(--measure);
-  margin-inline: auto;
-}
-
-.is-film {
-  --lane: var(--film);
-}
-
-.is-ai {
-  --lane: var(--ai);
-}
-
-/* In one column a lane's wire runs down its middle, behind its nodes, so it
-   shows between them. */
-.lane {
-  background: linear-gradient(var(--lane), var(--lane)) center top / 2px 100% no-repeat;
-}
-
-.lane > .node ~ .node {
-  margin-top: 48px;
-}
-
-/* A lane's name sits on its wire, like a label. */
-.lane-title {
-  padding: 18px 0 18px calc(50% + 14px);
-  white-space: nowrap;
-}
-
-.wires {
-  height: 40px;
-  background: linear-gradient(var(--lane), var(--lane)) center / 2px 100% no-repeat;
-}
-
-/* The side sockets and the left-to-right wires only show when there's room
-   for the graph to run across. */
-.node-io,
-.link {
-  display: none;
-}
-
-/* Nodes: a title bar and a body, in a hairline frame. */
-.node {
-  position: relative;
-  background: var(--bg);
-  border: 1px solid var(--edge);
-  border-radius: 10px;
-}
-
-.node-bar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  height: 40px;
-  padding: 0 16px;
-  border-bottom: 1px solid var(--line);
-  border-radius: 9px 9px 0 0;
-  background: var(--bar);
-}
-
-.node-bar::before {
-  content: "";
-  flex: none;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--lane, var(--underline));
-}
-
-.node-title {
-  font-weight: 500;
-}
-
-.node-body {
-  padding: 16px;
-}
-
-.node-body > :last-child {
-  margin-bottom: 0;
-}
-
-.block {
-  scroll-margin-top: 24px;
-}
-
-/* Sockets in one column: where a wire plugs in (top) or out (bottom). */
-.lane .node::before,
-.lane .node::after,
-.socket {
-  content: "";
-  position: absolute;
-  left: calc(50% - 6px);
-  width: 12px;
-  height: 12px;
-  border: 2px solid var(--bg);
-  border-radius: 50%;
-  background: var(--lane);
-}
-
-.lane .node::before,
-.socket.is-in {
-  top: -7px;
-}
-
-.lane .node::after,
-.socket.is-out {
-  bottom: -7px;
-}
-
-/* In one column, About sends only Film & VFX down, and Contact takes only
-   what comes out of AI tools & teaching. */
-.socket.is-ai.is-out,
-.socket.is-film.is-in {
-  display: none;
-}
-
-/* My name, in the first node's title bar, and my role under it. */
-.node-bar h1 {
-  font-weight: 600;
-}
-
-.role {
-  margin: 0 0 12px;
-  color: var(--muted);
-}
-
-/* Both halves of the page, from the top. */
-.index {
-  display: grid;
-  gap: 2px;
-  font-size: 14px;
-}
-
-.index div {
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: 16px;
-}
-
-.index span {
-  min-width: 152px;
-  color: var(--muted);
-}
-
-.meta {
-  color: var(--muted);
-  font-size: 14px;
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-
-/* The reel: a still until it's played. */
-.reel {
-  margin: 0 0 12px;
-}
-
-.reel-still,
-.reel-player {
-  position: relative;
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border: 0;
-  border-radius: 6px;
-  overflow: hidden;
-  background: var(--still);
-}
-
-/* A hairline edge, so dark frames keep their shape on the dark ground. */
-.reel-still::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  box-shadow: inset 0 0 0 1px var(--line);
-  transition: box-shadow 200ms ease-out;
-  pointer-events: none;
-}
-
-.reel-still:hover::after {
-  box-shadow: inset 0 0 0 1px var(--underline);
-}
-
-.reel-still img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.play {
-  position: absolute;
-  left: 12px;
-  bottom: 12px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 14px 6px 10px;
-  border-radius: 999px;
-  background: #ffffff;
-  color: #111111;
-  font-size: 14px;
-  font-weight: 500;
-  box-shadow: 0 1px 2px rgb(0 0 0 / 0.3);
-  transition: box-shadow 200ms ease-out;
-}
-
-.play svg {
-  width: 16px;
-  height: 16px;
-  fill: currentColor;
-}
-
-.play .length {
-  color: rgb(17 17 17 / 0.6);
-  font-variant-numeric: tabular-nums;
-}
-
-.reel-still:hover .play {
-  box-shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 0 0 4px rgb(255 255 255 / 0.3);
-}
-
-/* No still (see reels in src/site.js): a slim bar until it's played. */
-.reel-still.is-blank {
-  display: inline-block;
-  width: auto;
-  aspect-ratio: auto;
-  background: none;
-  border-radius: 999px;
-  overflow: visible;
-}
-
-.reel-still.is-blank::after {
-  content: none;
-}
-
-.is-blank .play {
-  position: static;
-  background: var(--fg);
-  color: var(--bg);
-  box-shadow: none;
-}
-
-.is-blank .play .length {
-  color: inherit;
-  opacity: 0.7;
-}
-
-.reel-still.is-blank:hover .play {
-  box-shadow: 0 0 0 4px var(--line);
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
 }
 
 .visually-hidden {
@@ -395,66 +150,388 @@ a:hover {
   white-space: nowrap;
 }
 
-/* The reel in the frame. */
-.reel-list a[aria-current] {
-  font-weight: 500;
-  text-decoration: none;
+/* The window. On a phone it fills the screen; wider, it floats on the desk. */
+.term {
+  max-width: 1560px;
+  margin: 0 auto;
+  background: var(--bg);
 }
 
-/* Rows: a title, its details on the right, a hairline between. */
-.rows {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+@media (min-width: 640px) {
+  .term {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: clip;
+    box-shadow: 0 20px 48px -16px var(--shadow);
+  }
 }
 
-.rows li {
+.titlebar {
+  padding: 0.35lh 2ch;
+  background: var(--bar);
+  border-bottom: 1px solid var(--border);
+  color: var(--dim);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* tmux's panes: a 1px border between side-by-side panes, and a title row
+   along each pane's top, "── 1 Film & VFX ──────". */
+.panes {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: baseline;
-  column-gap: 16px;
-  padding: 10px 0;
-  border-top: 1px solid var(--line);
+  column-gap: 1px;
+  background: var(--border);
 }
 
-.rows a {
-  justify-self: start;
+.pane {
+  --accent: var(--green);
+  min-width: 0;
+  padding: 0 2ch 1.5lh;
+  background: var(--bg);
 }
 
-.rows li:last-child {
-  border-bottom: 1px solid var(--line);
+.pane.is-film {
+  --accent: var(--blue);
 }
 
-/* Inside a node the first row needs no rule of its own. */
-.node-body > .rows:first-child li:first-child,
-.reel + .rows li:first-child {
-  border-top: 0;
-  padding-top: 0;
+.pane.is-ai {
+  --accent: var(--magenta);
 }
 
-.credits li,
-.videos li {
-  grid-template-columns: auto minmax(0, 1fr) auto;
+.pane-title {
+  display: flex;
   align-items: center;
+  gap: 1ch;
+  margin: 0 -2ch 0.5lh;
+  color: var(--fg);
+  font-weight: 700;
+  white-space: nowrap;
 }
 
-.node-body > .credits:first-child li:first-child {
-  padding-top: 0;
+.pane-title::before,
+.pane-title::after {
+  content: "";
+  height: 1px;
+  background: var(--border);
+  transition: background-color 160ms ease-out;
 }
 
-.credits .title {
+.pane-title::before {
+  flex: 0 0 2ch;
+}
+
+.pane-title::after {
+  flex: 1;
+}
+
+.pane-title > span {
+  color: var(--accent);
+}
+
+/* The active pane (in view, or clicked into) draws its border in its colour. */
+.pane.is-active .pane-title::before,
+.pane.is-active .pane-title::after {
+  background: var(--accent);
+}
+
+/* Commands and their output. A blank line between runs. */
+.run + .run,
+.run > .cmd:not(:first-child) {
+  margin-top: 1lh;
+}
+
+.cmd {
+  font-weight: 400;
+  overflow-wrap: anywhere;
+}
+
+.cmd .cwd {
+  color: var(--cyan);
+  font-weight: 700;
+}
+
+.cmd .ps {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.comment {
+  margin-top: 0.5lh;
+  color: var(--dim);
+}
+
+.comment a {
   color: var(--fg);
 }
 
+.cmd + .comment {
+  margin: 0 0 0.5lh;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.meta {
+  color: var(--dim);
+  white-space: nowrap;
+}
+
+.error .tag {
+  color: var(--red);
+  font-weight: 700;
+}
+
+.prose p {
+  max-width: 72ch;
+  text-wrap: pretty;
+}
+
+.prose p + p {
+  margin-top: 1lh;
+}
+
+/* fastfetch: the logo, then key: value facts and the colour swatches. */
+.fastfetch {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1lh 4ch;
+  margin-top: 0.5lh;
+}
+
+.logo {
+  display: block;
+  flex: none;
+  height: 3lh;
+  width: auto;
+  aspect-ratio: 13 / 7;
+}
+
+.logo .is-film {
+  fill: var(--blue);
+}
+
+.logo .is-ai {
+  fill: var(--magenta);
+}
+
+.facts {
+  flex: 1 1 36ch;
+  min-width: 0;
+}
+
+.facts h1 {
+  color: var(--green);
+}
+
+.facts .underline {
+  color: var(--dim);
+}
+
+.facts dl > div {
+  padding-left: 2ch;
+  text-indent: -2ch;
+}
+
+.facts dt,
+.facts dd {
+  display: inline;
+}
+
+.facts dt {
+  color: var(--yellow);
+  font-weight: 700;
+}
+
+.facts dt::after {
+  content: ":";
+}
+
+.facts dd {
+  margin-left: 1ch;
+}
+
+.swatches {
+  display: flex;
+  margin-top: 0.5lh;
+}
+
+.swatches span {
+  width: 3ch;
+  height: 1lh;
+}
+
+.swatches .c0 { background: var(--swatch-black); }
+.swatches .c1 { background: var(--red); }
+.swatches .c2 { background: var(--green); }
+.swatches .c3 { background: var(--yellow); }
+.swatches .c4 { background: var(--blue); }
+.swatches .c5 { background: var(--magenta); }
+.swatches .c6 { background: var(--cyan); }
+.swatches .c7 { background: var(--swatch-white); }
+
+/* Images print inline, square, as kitty and WezTerm show them. */
+.reel {
+  margin-top: 0.5lh;
+}
+
+.reel-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--still);
+}
+
+.reel-still {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: var(--fg);
+}
+
+.reel-still img,
+.reel-player {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: cover;
+}
+
+/* Play sits top left, where mpv puts its on-screen display, so it shows as
+   soon as any of the frame does. */
+.play {
+  position: absolute;
+  left: 2ch;
+  top: 1lh;
+  display: inline-flex;
+  align-items: center;
+  gap: 1ch;
+  padding: 0 1ch;
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  font-weight: 700;
+  transition: background-color 120ms ease-out, color 120ms ease-out;
+}
+
+.play svg {
+  width: 1.5ch;
+  height: 1.5ch;
+  fill: var(--green);
+}
+
+.play .length {
+  color: var(--dim);
+  font-weight: 400;
+}
+
+/* Hovering play inverts it, the way a terminal shows a selection. */
+.reel-still:hover .play,
+.reel-still:focus-visible .play {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.reel-still:hover .play svg,
+.reel-still:focus-visible .play svg {
+  fill: var(--bg);
+}
+
+.reel-still.is-blank {
+  height: auto;
+}
+
+.reel-frame:has(.is-blank) {
+  aspect-ratio: auto;
+  background: none;
+}
+
+.reel-still.is-blank .play {
+  position: static;
+}
+
+/* ls: name, then columns of meta. */
+.reel-list li {
+  display: grid;
+  grid-template-columns: 1ch minmax(0, 1fr) auto 5ch;
+  column-gap: 2ch;
+}
+
+.reel-list li > .meta:last-child {
+  text-align: right;
+}
+
+.reel-list li::before {
+  content: "";
+  align-self: center;
+  width: 1ch;
+  height: 1ch;
+}
+
+/* The reel in the frame: bold, with a play mark. */
+.reel-list li:has([aria-current])::before {
+  background: var(--green);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+.reel-list a[aria-current] {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* ls credits: a table with a dim header, like eza --header. */
+.credits {
+  width: 100%;
+  margin-top: 0.5lh;
+  border-collapse: collapse;
+}
+
+.credits th {
+  padding: 0 2ch 0.25lh 0;
+  color: var(--dim);
+  font-weight: 700;
+  text-align: left;
+}
+
+.credits td {
+  padding: 0.2lh 2ch 0.2lh 0;
+  vertical-align: middle;
+}
+
+.credits :is(th, td):last-child {
+  padding-right: 0;
+}
+
+.credits .num {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.credits td.num,
+.credits td.kind {
+  color: var(--dim);
+}
+
+.credits .title {
+  width: 100%;
+}
+
+.poster-cell {
+  width: 1px;
+}
+
 .poster {
-  outline: 1px solid var(--line);
-  outline-offset: -1px;
   display: block;
   width: 28px;
   height: 42px;
-  border-radius: 3px;
   object-fit: cover;
   background: var(--still);
+  outline: 1px solid color-mix(in srgb, var(--fg) 14%, transparent);
+  outline-offset: -1px;
 }
 
 .poster.is-empty {
@@ -462,369 +539,373 @@ a:hover {
   outline: 0;
 }
 
-.thumb {
-  outline: 1px solid var(--line);
-  outline-offset: -1px;
-  display: block;
-  width: 64px;
-  height: 36px;
-  border-radius: 4px;
-  object-fit: cover;
-  background: var(--still);
+@media (max-width: 520px) {
+  .credits .kind {
+    display: none;
+  }
 }
 
-/* An app's platforms sit right of its name, and drop to their own line when
-   the node is too narrow for both (a long list like Bootcraft's on a phone). */
+/* ls apps: name and platforms, the description indented under them. */
 .apps li {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-  column-gap: 16px;
+  column-gap: 2ch;
 }
 
-.apps {
-  container-type: inline-size;
+.apps li + li {
+  margin-top: 0.75lh;
 }
 
-.apps .meta {
-  margin-left: auto;
-}
-
-/* On a phone every app's platforms go under its name, so the list stays
-   even rather than only the longest one breaking. */
-@container (max-width: 312px) {
-  .apps .meta {
-    flex-basis: 100%;
-    margin-left: 0;
-  }
+.apps .name {
+  color: var(--magenta);
+  font-weight: 700;
 }
 
 .apps p {
   flex-basis: 100%;
-  margin: 2px 0 0;
-  max-width: 60ch;
+  max-width: 72ch;
+  padding-left: 2ch;
+  text-wrap: pretty;
 }
 
-.intro {
-  margin-bottom: 12px;
+/* yt-dlp: thumbnail, title, date. */
+.videos {
+  margin-top: 0.5lh;
 }
 
-.more {
-  margin: 12px 0 0;
-  font-size: 14px;
+.videos li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 2ch;
+  padding: 0.2lh 0;
 }
 
-.fallback {
-  color: var(--muted);
-}
-
-.contact-node {
-  font-size: 14px;
-}
-
-.contact {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 14px;
-}
-
-.contact a {
-  display: inline-block;
-  padding: 6px 0;
-}
-
-.contact-node .node-body {
-  padding-block: 10px;
-}
-
-/* Wide windows: the graph runs left to right. About on the left; Contact on
-   the right; between them two node columns, Reels then Apps, and Credits
-   then Arctic Latent, each stacking on its own (Credits spans two rows and
-   Apps spans the next two, so neither waits for the other). Wires run in
-   their own 48px columns. Every node's sockets sit at the same heights
-   (--s1, --s2) and each node starts at a fixed offset into its row (--top,
-   --ai-pad, --videos-pad), so the wires can be placed without measuring. */
-@media (min-width: 1280px) {
-  .canvas {
-    --top: 40px;
-    --ai-pad: 72px;
-    --videos-pad: 56px;
-    --contact-pad: calc(var(--videos-pad) + var(--s1) - var(--s2));
-    --s1: 61px;
-    --s2: 85px;
-    position: relative;
-    display: grid;
-    /* About and Contact narrow with the window, so a 1280 laptop still gets
-       lanes about 320px wide. */
-    grid-template-columns:
-      clamp(272px, 21vw, 320px) 44px minmax(0, 1fr) 44px minmax(0, 1fr) 44px
-      clamp(184px, 15vw, 220px);
-    /* The middle row is flexible: anything spanning it (Credits, Apps, About,
-       Contact) is left out when the first and last rows are sized, so the
-       first row fits Reels exactly and the last fits Arctic Latent. */
-    grid-template-rows: auto 1fr auto;
-    align-items: start;
-  }
-
-  body {
-    padding-inline: clamp(24px, 10vw - 104px, 64px);
-  }
-
-  .head {
-    grid-column: 1;
-    grid-row: 1 / 4;
-    max-width: none;
-    margin-top: var(--top);
-  }
-
-  /* The graph shows every node at once, so the index isn't needed. */
-  .index {
-    display: none;
-  }
-
-  .head .node-body > p:last-of-type {
-    margin-bottom: 0;
-  }
-
-  /* The About column is too narrow for both roles on one line: one to a line. */
-  .role span {
-    display: block;
-  }
-
-  .role .sep {
-    display: none;
-  }
-
-  /* Contact's links, one to a line, like a node's list of outputs. */
-  .contact {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .contact a {
-    padding: 3px 0;
-  }
-
-  .wires,
-  .socket,
-  .lane .node::before,
-  .lane .node::after {
-    display: none;
-  }
-
-  /* The lanes' nodes are placed on the canvas grid directly. */
-  .lane {
-    display: contents;
-  }
-
-  #reels {
-    grid-column: 3;
-    grid-row: 1;
-    margin-top: var(--top);
-  }
-
-  #films {
-    grid-column: 5;
-    grid-row: 1 / 3;
-    margin-top: var(--top);
-  }
-
-  #apps {
-    grid-column: 3;
-    grid-row: 2 / 4;
-    margin-top: var(--ai-pad);
-  }
-
-  #videos {
-    grid-column: 5;
-    grid-row: 3;
-    margin-top: var(--videos-pad);
-  }
-
-  /* A lane's name, above its first node, like a group's title. */
-  .lane-title {
-    position: absolute;
-    grid-column: 3;
-    grid-row: 1;
-    top: calc(var(--top) - 36px);
-    left: 0;
-    padding: 0;
-  }
-
-  .lane.is-ai .lane-title {
-    grid-row: 2;
-    top: calc(var(--ai-pad) - 36px);
-  }
-
-  /* Contact ends the graph: it sits in the last row, placed so its videos
-     input is level with Arctic Latent's output. */
-  .contact-node {
-    grid-column: 7;
-    grid-row: 3;
-    max-width: none;
-    margin-top: var(--contact-pad);
-  }
-
-  /* Side sockets, labelled with what flows through them. */
-  .node-io {
-    display: block;
-    padding-top: 8px;
-    color: var(--muted);
-    font-size: 14px;
-    line-height: 24px;
-  }
-
-  .io {
-    position: relative;
-    display: flex;
-    padding: 0 16px;
-  }
-
-  .io .out {
-    margin-left: auto;
-  }
-
-  .io .in::before,
-  .io .out::after {
-    content: "";
-    position: absolute;
-    top: calc(50% - 6px);
-    width: 12px;
-    height: 12px;
-    border: 2px solid var(--bg);
-    border-radius: 50%;
-    background: var(--lane);
-  }
-
-  .io .in::before {
-    left: -7px;
-  }
-
-  .io .out::after {
-    right: -7px;
-  }
-
-  /* Wires: straight runs, right-angle bends, a dot on every bend. Each piece
-     sits in a wire column and spans the rows it crosses. */
-  .link {
-    display: block;
-    position: relative;
-    align-self: stretch;
-  }
-
-  .link.is-out-film {
-    grid-area: 1 / 2;
-  }
-
-  .link.is-out-ai {
-    grid-area: 2 / 2;
-  }
-
-  .link.is-mid-film {
-    grid-area: 1 / 4;
-  }
-
-  .link.is-mid-ai {
-    grid-area: 2 / 4;
-  }
-
-  .link.is-mid-ai-end {
-    grid-area: 3 / 4;
-  }
-
-  .link.is-in-run {
-    grid-area: 1 / 6 / 3 / 7;
-  }
-
-  .link.is-in-end {
-    grid-area: 3 / 6;
-  }
-
-  .link span {
-    position: absolute;
-    background: var(--lane);
-  }
-
-  .at-film {
-    --y: calc(var(--top) + var(--s1));
-  }
-
-  .at-about-ai {
-    --y: calc(var(--top) + var(--s2));
-  }
-
-  .at-ai {
-    --y: calc(var(--ai-pad) + var(--s1));
-  }
-
-  .at-videos {
-    --y: calc(var(--videos-pad) + var(--s1));
-  }
-
-  .at-contact-film {
-    --y: calc(var(--contact-pad) + var(--s1));
-  }
-
-  .link .h {
-    left: 0;
-    right: 0;
-    top: calc(var(--y) - 1px);
-    height: 2px;
-  }
-
-  .link .to-mid {
-    right: calc(50% - 1px);
-  }
-
-  .link .from-mid {
-    left: calc(50% - 1px);
-  }
-
-  .link .v {
-    left: calc(50% - 1px);
-    width: 2px;
-  }
-
-  .link .down {
-    top: var(--y);
-    bottom: 0;
-  }
-
-  .link .up {
-    top: 0;
-    height: var(--y);
-  }
-
-  .link .joint {
-    left: calc(50% - 4px);
-    top: calc(var(--y) - 4px);
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-  }
-}
-
-/* Until the lanes are wide enough, a video's date goes under its title. */
-@media (min-width: 1280px) and (max-width: 1799px) {
-  .videos li {
-    grid-template-columns: auto minmax(0, 1fr);
-  }
-
-  .videos .meta {
-    grid-column: 2;
-  }
+.thumb {
+  display: block;
+  width: 64px;
+  height: 36px;
+  object-fit: cover;
+  background: var(--still);
+  outline: 1px solid color-mix(in srgb, var(--fg) 14%, transparent);
+  outline-offset: -1px;
 }
 
 @media (max-width: 520px) {
   .videos li {
     grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
   }
 
   .videos .meta {
     grid-column: 2;
+  }
+}
+
+/* cat contact: key, value. */
+.contact {
+  margin-top: 0.5lh;
+}
+
+.contact > div {
+  display: flex;
+  column-gap: 2ch;
+}
+
+.contact dt {
+  flex: 0 0 9ch;
+  color: var(--yellow);
+  font-weight: 700;
+}
+
+.contact dd {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* The prompt. Its cursor is a block one character wide: solid and blinking
+   while the prompt has focus, hollow when it doesn't. */
+.shell {
+  margin-top: 1lh;
+}
+
+.log .out {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.log .out.is-dim {
+  color: var(--dim);
+}
+
+.log .dirs {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 2ch;
+}
+
+.log .dirs a {
+  color: var(--blue);
+  font-weight: 700;
+}
+
+.log .table > div {
+  display: flex;
+  column-gap: 2ch;
+}
+
+.log .table .key {
+  flex: 0 0 14ch;
+  font-weight: 700;
+}
+
+.prompt {
+  display: flex;
+  column-gap: 1ch;
+}
+
+.prompt[hidden] {
+  display: none;
+}
+
+.prompt label {
+  flex: none;
+  white-space: nowrap;
+}
+
+.field {
+  position: relative;
+  display: block;
+  flex: 1;
+  min-width: 0;
+}
+
+.field input {
+  display: block;
+  width: 100%;
+  height: 1lh;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--fg);
+  font: inherit;
+  letter-spacing: 0;
+  caret-color: transparent;
+  outline: none;
+}
+
+.cursor {
+  display: inline-block;
+  width: 1ch;
+  height: 1lh;
+  vertical-align: top;
+  background: var(--fg);
+}
+
+.field .cursor {
+  position: absolute;
+  top: 0;
+  left: calc(var(--at, 0) * 1ch);
+  pointer-events: none;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--fg);
+}
+
+.field.is-focused .cursor {
+  background: var(--fg);
+  animation: blink 1.1s steps(1) infinite;
+}
+
+.field .hint {
+  position: absolute;
+  top: 0;
+  left: 2ch;
+  color: var(--dim);
+  pointer-events: none;
+}
+
+.field.is-focused .hint,
+.field.has-text .hint {
+  display: none;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* tmux's status bar, pinned to the bottom of the screen: the page's
+   navigation. The pane in view is marked with *. */
+.status {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  column-gap: 2ch;
+  padding: 0.15lh 1ch;
+  background: var(--green);
+  color: var(--on-green);
+  white-space: nowrap;
+}
+
+.status ul {
+  display: flex;
+  column-gap: 1ch;
+  min-width: 0;
+}
+
+.status a {
+  display: block;
+  padding: 0 1ch;
+  text-decoration: none;
+}
+
+.status a:hover {
+  text-decoration: underline;
+}
+
+.status a[aria-current] {
+  background: var(--on-green);
+  color: var(--green);
+  font-weight: 700;
+}
+
+.status a[aria-current]::after {
+  content: "*";
+}
+
+.status a:focus-visible {
+  outline-color: var(--on-green);
+  outline-offset: 0;
+}
+
+.status .session {
+  font-weight: 700;
+}
+
+.status .host {
+  margin-left: auto;
+}
+
+@media (max-width: 560px) {
+  .status .host {
+    display: none;
+  }
+
+  .status ul {
+    column-gap: 0;
+  }
+}
+
+/* On a phone the session name goes; the four panes still fit. */
+@media (max-width: 420px) {
+  .status .session {
+    display: none;
+  }
+
+  .status {
+    justify-content: space-between;
+  }
+
+  .status ul {
+    flex: 1;
+    justify-content: space-between;
+  }
+}
+
+/* Wide: About across the top (fastfetch beside the bio), then Film & VFX on
+   the left the full height, AI tools & teaching and Contact stacked on the
+   right. */
+@media (min-width: 1100px) {
+  .panes {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr;
+  }
+
+  .pane.is-about {
+    grid-column: 1 / -1;
+  }
+
+  .pane.is-film {
+    grid-column: 1;
+    grid-row: 2 / 4;
+  }
+
+  .pane.is-ai {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .pane.is-contact {
+    grid-column: 2;
+    grid-row: 3;
+  }
+
+  .runs {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 4ch;
+    align-items: start;
+  }
+
+  .runs > .run + .run {
+    margin-top: 0;
+  }
+
+  .fastfetch {
+    flex-wrap: nowrap;
+    column-gap: 3ch;
+  }
+
+  .facts {
+    flex: 0 1 40ch;
+  }
+
+  .pane.is-about {
+    padding-bottom: 1lh;
+  }
+}
+
+/* Wider still, the logo and facts take more room. */
+@media (min-width: 1440px) {
+  .runs {
+    column-gap: 6ch;
+  }
+
+  .fastfetch {
+    column-gap: 4ch;
+  }
+
+  .facts {
+    flex-basis: 48ch;
+  }
+
+  .logo {
+    height: 5lh;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1099px) {
+  .logo {
+    height: 4lh;
+  }
+}
+
+/* Laptops: a smaller logo leaves the facts room to stay on fewer lines. */
+@media (min-width: 1100px) and (max-width: 1439px) {
+  .logo {
+    height: 3lh;
+  }
+
+  .facts {
+    flex-basis: 46ch;
+  }
+
+  .runs {
+    grid-template-columns: auto minmax(0, 1fr);
   }
 }
 
@@ -833,5 +914,6 @@ a:hover {
   *::before,
   *::after {
     transition: none !important;
+    animation: none !important;
   }
 }

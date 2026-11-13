@@ -11,30 +11,24 @@ Mode: Experience/Persuade hybrid; a personal page whose visitors decide whether 
 
 ## Direction contract
 
-THESIS: A plain, single-column personal page in the modern minimal developer register (craft bar: leerob.com). Name, a few first-person sentences with the proof inside them, then everything as quiet lists. It refuses the portfolio-kit default this site had: glass cards, aurora, WebGL, gradient text, six-card menus and hidden sections.
+THESIS: The page is a terminal session that has already run: tmux in a terminal emulator, each section a real-looking command and its output. Visitors read and click; typing is optional. It refuses both the earlier node graph and the costume terminal (green-on-black, CRT scanlines, glow, typewriter intros that hide content).
 
-OWN-WORLD: Neutral only, light and dark by system setting. Light #ffffff ground, #111 text, #6b6b6b secondary, #e8e8e8 hairlines; dark #0a0a0a, #ededed, #a0a0a0, #222. No accent colour: links are text-coloured with a thin underline in the secondary tone that darkens on hover. Geist (self-hosted) at 15-16px, headings the same size in a heavier weight; dates in tabular numerals. Rows: title left, meta right, hairline rhythm; small real thumbnails only where the work is visual (posters, video stills, reel still).
+OWN-WORLD: An "Arctic" terminal theme, light and dark by system: blue-black ground (light: cool paper-white), ANSI roles used for meaning only (blue = Film & VFX, magenta = AI tools & teaching, green = prompt and the active pane, yellow = keys/meta, red = errors, bright black = comments). Commit Mono, regular and bold only, everything set in the mono grid; vertical spacing in whole lines (lh). tmux grammar: 1px pane borders with titles on the border, the active pane's border in its colour, a sticky status bar as navigation. Images inline, square-cornered, as kitty/WezTerm show them.
 
-STORY: In five seconds a visitor knows who this is (Asset Supervisor, 15+ years of film and TV VFX, named shows) and that the same person builds open-source apps and teaches ComfyUI. Both careers are listed with equal weight. Every path ends at email, LinkedIn or the résumé.
+STORY: In one screen a visitor sees who this is (fastfetch card: name, both roles, 15+ years, named shows, apps, channel) and the reel. Two panes give both careers equal weight. Every path ends at the contact pane: email, LinkedIn, résumé, then a live prompt.
 
-FIRST VIEWPORT: Narrow column (~620px) left-aligned in a centred measure, generous top space. Line 1: "Burce Boran" (semibold, body size, not a giant headline). Then a two-sentence bio naming the role and three shows, then apps and channel as inline links. Then a contact line: Email · LinkedIn · Résumé. Then the first section heading, Film & VFX, with the reel still and its title visible above the fold on desktop.
+FIRST VIEWPORT: A terminal window, nearly full width, title "burce@arcticlatent: ~". Top pane: `fastfetch` (a pixel "BB" logo in the lane colours left, key: value facts right, the ANSI colour swatches under them) beside `cat about.txt` (the bio). Below, split panes: 1 film (mpv reel still, its Play control at the top left like mpv's on-screen display, so it is in the first screen on 1280x800 and 1440x900 laptops; `ls reels` under it) | 2 tools (`ls apps`). The tmux status bar is pinned to the bottom of the viewport: session, 0:about 1:film 2:tools 3:contact, built date.
 
-FORM: The category standard (canon), chosen by the user after three hands, executed at full fidelity. seed:479ed01b93fcafb7
+FORM: The user's own idea (terminal emulator), refined with them: printed session + optional prompt, tmux split panes, fastfetch card with initials logo, system light/dark. Pinned by the user; a roll was run only to record its reference, and the pinned direction stands over it. seed:2e532c3b4dc32569
 
-Signature interaction: none theatrical. The reel shows a still with a play control and loads the Vimeo player only when pressed; links and rows respond with a quiet colour change. Motion is restricted to colour transitions and respects reduced motion.
+Signature interaction: the live prompt in the contact pane (help, ls, cd, reel N, credits, apps, videos, contact, open X, clear; Tab completes, arrows recall history; unknown commands answer as zsh does). Commands jump to their pane and print their output. Reels play inline from the still or any row. The status bar marks the pane in view. Motion: the prompt cursor blinks (static under reduced motion), pane borders take their colour when active; nothing else moves.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 
 ## Content and states
-- Film & VFX: reel (featured + other reels as rows with years from Vimeo), credits as rows (poster thumb, title, kind · year), link to IMDb.
-- AI tools & teaching: apps as rows (name, one line, platforms), latest Arctic Latent videos as rows (thumb, title, date), links to GitHub and the channel.
-- Footer: the contact links again and the date the site was last rebuilt.
-- A section whose fetch failed shows one line with a link to the source.
-- No JavaScript is required for anything except loading the reel player.
-
-## Amendment (2026-11-13): node layout
-The user asked for a ComfyUI-like node layout. They chose two lanes merging, at the "in between" fidelity. This supersedes the single-column thesis and the no-accent rule. Everything else above still holds: the register, one type size, rows, the reel, and no JavaScript beyond the player.
-- About (with the name, role and drawing above it) wires into two lanes, Film & VFX (Reels → Credits) and AI tools & teaching (Apps → Arctic Latent), and both wire into a Contact node, which replaces the footer.
-- Nodes have a title bar, a body and sockets. The canvas is a faint dot grid. Wires use one quiet colour per lane (ComfyUI's IMAGE blue and LATENT pink), and only on wires, sockets and title-bar dots.
-- Side by side from 960px; one wired column below. DESIGN.md records the system ("The Wired Page").
-- Revised the same day: the user asked for straight wires with dots on the bends, then for the graph to run left to right like ComfyUI. From 1400px the layout is About | lanes as rows | Contact, with labelled side sockets. Below that, one wired column.
+- About: fastfetch card + bio (same copy as before), contact sentence.
+- Film & VFX: the reel (still → Vimeo player in place), reels as rows (year, length), credits as an ls-style table (poster, title, kind, episodes, year), IMDb link.
+- AI tools & teaching: apps (name, platforms, one line), the channel intro (teaching history), latest four videos (thumb, title, date), channel link.
+- Contact: email, LinkedIn, résumé, GitHub, YouTube, IMDb; then the prompt (shown only with JavaScript).
+- A failed fetch prints one terminal error line with a link to the source; the pane stays.
+- Addresses #about, #reels, #films, #apps, #videos, #contact keep working; everything reads without JavaScript.

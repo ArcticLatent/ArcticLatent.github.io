@@ -39,6 +39,29 @@ const canonicalUrl = `${siteUrl}/`;
 const ogImageUrl = `${siteUrl}/og-image.png`;
 const reelTitle = (reel) => `${reel.label}, ${reel.video.year}`;
 const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredReel.still ?? featuredReel.video.still);
+
+// The three shows the bio names; the rest are counted.
+const namedShows = ["The Mandalorian", "House of the Dragon", "Avatar: The Last Airbender"];
+const otherShows = shownCredits.length - namedShows.length;
+
+// When the site was built (daily), as tmux shows the date: 13-Nov-26.
+const built = new Date();
+const builtDate = `${String(built.getUTCDate()).padStart(2, "0")}-${built.toLocaleString("en", { month: "short", timeZone: "UTC" })}-${String(built.getUTCFullYear()).slice(2)}`;
+
+// fastfetch's logo: my initials, BB, in pixels (one in each lane's colour).
+const letterB = ["#####.", "##..##", "##..##", "#####.", "##..##", "##..##", "#####."];
+const logoPixels = [0, 7].flatMap((offset, letter) =>
+  letterB.flatMap((row, y) => [...row].flatMap((cell, x) => (cell === "#" ? [{ x: x + offset, y, letter }] : [])))
+);
+
+const contactLinks = [
+  { key: "email", href: `mailto:${email}`, text: email },
+  { key: "linkedin", href: linkedinUrl, text: "linkedin.com/in/burceboran" },
+  { key: "résumé", href: resumeUrl, text: "Burce_Boran_Resume_2026.pdf" },
+  { key: "github", href: githubUrl, text: "github.com/ArcticLatent" },
+  { key: "youtube", href: youtubeUrl, text: "youtube.com/@ArcticLatent" },
+  { key: "imdb", href: imdbUrl, text: "imdb.com/name/nm9667865" }
+];
 ---
 
 <!doctype html>
@@ -52,7 +75,7 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
     <meta name="author" content="Burce Boran" />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="preload" href="/fonts/Geist-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/CommitMono-Regular.woff2" as="font" type="font/woff2" crossorigin />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Burce Boran" />
     <meta property="og:title" content={pageTitle} />
@@ -66,87 +89,82 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={pageDescription} />
     <meta name="twitter:image" content={ogImageUrl} />
-    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b0e12" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#dde2e8" media="(prefers-color-scheme: light)" />
     {structuredData.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data)} />)}
   </head>
   <body>
-    <!-- The page is a node graph that runs left to right, like a ComfyUI
-         workflow: About wires into two lanes (Film & VFX: Reels, Credits; AI
-         tools & teaching: Apps, Arctic Latent), and both lanes wire into
-         Contact. Narrower screens get one column, each node wired to the next. -->
-    <main class="canvas">
-      <!-- The first node is me: my name in its title bar, my role first. -->
-      <header id="about" class="head">
-        <div class="node">
-          <div class="node-bar">
-            <h1 class="node-title">Burce Boran</h1>
-          </div>
-          <div class="node-io" aria-hidden="true">
-            <div class="io"><span class="out is-film">film</span></div>
-            <div class="io"><span class="out is-ai">tools</span></div>
-          </div>
-          <div class="node-body">
-            <p class="role"><span>GenAI Pipeline TD</span><span class="sep"> · </span><span>Asset Supervisor</span></p>
-            <p>
-              I work in the VFX industry as a GenAI pipeline TD, bringing generative AI tools and workflows into how
-              shows get made. Before that I spent over 15 years in visual effects, many of them as an asset supervisor,
-              building and leading the models, textures and look development for films and series, including
-              <em>The Mandalorian</em>, <em>House of the Dragon</em> and <em>Avatar: The Last Airbender</em>.
-            </p>
-            <p>
-              Outside the studio I make <a href="#apps">free, open-source apps</a> and teach artists ComfyUI and AI
-              workflows on my YouTube channel, <a href="#videos">Arctic Latent</a>.
-            </p>
-            <p>
-              Get in touch at <a href={`mailto:${email}`}>{email}</a> or on <a href={linkedinUrl}>LinkedIn</a>, or read
-              my <a href={resumeUrl}>résumé</a> (PDF).
-            </p>
-            <nav class="index" aria-label="On this page">
-              <div>
-                <span>Film &amp; VFX</span>
-                <a href="#reels">Reels</a>
-                <a href="#films">Credits</a>
+    <!-- The page is a terminal running tmux: each part is a command and what it
+         printed. About runs across the top, Film & VFX and AI tools & teaching
+         sit side by side in two panes, Contact ends it with a prompt, and the
+         status bar along the bottom is the page's navigation. -->
+    <div class="term">
+      <div class="titlebar" aria-hidden="true">burce@arcticlatent: ~</div>
+
+      <main class="panes">
+        <header class="pane is-about" id="about" data-pane="about">
+          <p class="pane-title" aria-hidden="true"><span>0</span> About</p>
+
+          <div class="runs">
+            <div class="run">
+              <p class="cmd" aria-hidden="true"><span class="cwd">~</span> <span class="ps">$</span> fastfetch</p>
+              <div class="fastfetch">
+                <svg class="logo" viewBox="0 0 13 7" aria-hidden="true" focusable="false" shape-rendering="crispEdges">
+                  {logoPixels.map(({ x, y, letter }) => (
+                    <rect x={x} y={y} width="1" height="1" class={letter ? "is-ai" : "is-film"} />
+                  ))}
+                </svg>
+                <div class="facts">
+                  <h1>Burce Boran</h1>
+                  <p class="underline" aria-hidden="true">-----------</p>
+                  <dl>
+                    <div><dt>Role</dt><dd><span class="nowrap">GenAI Pipeline TD</span> · <span class="nowrap">Asset Supervisor</span></dd></div>
+                    <div><dt>Uptime</dt><dd>15+ years in visual effects</dd></div>
+                    <div><dt>Shows</dt><dd>{namedShows.join(", ")}{otherShows > 0 && <> <a class="nowrap" href="#films">+{otherShows} more</a></>}</dd></div>
+                    <div><dt>Apps</dt><dd><a href="#apps">{apps.map((app) => app.name).join(", ")}</a></dd></div>
+                    <div><dt>Channel</dt><dd><a href="#videos">Arctic Latent</a>, ComfyUI and AI workflows</dd></div>
+                    <div><dt>Contact</dt><dd><a href={`mailto:${email}`}>{email}</a></dd></div>
+                  </dl>
+                  <p class="swatches" aria-hidden="true">
+                    <span class="c0"></span><span class="c1"></span><span class="c2"></span><span class="c3"></span><span
+                      class="c4"
+                    ></span><span class="c5"></span><span class="c6"></span><span class="c7"></span>
+                  </p>
+                </div>
               </div>
-              <div>
-                <span>AI tools &amp; teaching</span>
-                <a href="#apps">Apps</a>
-                <a href="#videos">Arctic Latent</a>
+            </div>
+
+            <div class="run">
+              <p class="cmd" aria-hidden="true"><span class="cwd">~</span> <span class="ps">$</span> cat about.txt</p>
+              <div class="prose">
+                <p>
+                  I work in the VFX industry as a GenAI pipeline TD, bringing generative AI tools and workflows into how
+                  shows get made. Before that I spent over 15 years in visual effects, many of them as an asset
+                  supervisor, building and leading the models, textures and look development for films and series,
+                  including <em>The Mandalorian</em>, <em>House of the Dragon</em> and
+                  <em>Avatar: The Last Airbender</em>.
+                </p>
+                <p>
+                  Outside the studio I make <a href="#apps">free, open-source apps</a> and teach artists ComfyUI and AI
+                  workflows on my YouTube channel, <a href="#videos">Arctic Latent</a>.
+                </p>
+                <p>
+                  Get in touch at <a href={`mailto:${email}`}>{email}</a> or on <a href={linkedinUrl}>LinkedIn</a>, or
+                  read my <a href={resumeUrl}>résumé</a> (PDF).
+                </p>
               </div>
-            </nav>
+            </div>
           </div>
-          <span class="socket is-film is-out" aria-hidden="true"></span>
-          <span class="socket is-ai is-out" aria-hidden="true"></span>
-        </div>
-      </header>
+        </header>
 
-      <!-- Wires. In one column: a short straight wire. Left to right: About's
-           film wire runs straight across into Reels; its tools wire runs
-           across, down past the film lane and across into Apps. -->
-      <div class="wires is-film" aria-hidden="true"></div>
-      <div class="link is-out-film" aria-hidden="true">
-        <span class="h is-film at-film"></span>
-        <span class="h is-ai at-about-ai to-mid"></span>
-        <span class="v is-ai at-about-ai down"></span>
-        <span class="joint is-ai at-about-ai"></span>
-      </div>
-      <div class="link is-out-ai" aria-hidden="true">
-        <span class="v is-ai at-ai up"></span>
-        <span class="h is-ai at-ai from-mid"></span>
-        <span class="joint is-ai at-ai"></span>
-      </div>
+        <section class="pane is-film" id="film" data-pane="film" aria-labelledby="film-title">
+          <h2 class="pane-title" id="film-title"><span aria-hidden="true">1</span> Film &amp; VFX</h2>
 
-      <section class="lane is-film" aria-labelledby="film-title">
-        <h2 id="film-title" class="lane-title">Film &amp; VFX</h2>
-
-        <div class="node block" id="reels">
-          <div class="node-bar">
-            <h3 class="node-title">Reels</h3>
-          </div>
-          <div class="node-io" aria-hidden="true">
-            <div class="io"><span class="in">film</span><span class="out">reels</span></div>
-          </div>
-          <div class="node-body">
+          <div class="run" id="reels">
+            <h3 class="cmd">
+              <span aria-hidden="true"><span class="cwd">~/film</span> <span class="ps">$</span> mpv reels/latest.mp4</span>
+              <span class="visually-hidden">Reels</span>
+            </h3>
             {featuredReel ? (
               <>
                 <figure class="reel">
@@ -165,14 +183,15 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
                           <Image src={reelStill} width={1280} height={720} alt="" loading="eager" />
                         ))}
                       <span class="play" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" focusable="false"><path d="M8 5.5v13l10.5-6.5z" /></svg>
-                        Play{!reelStill && ` ${reelTitle(featuredReel)}`}
+                        <svg viewBox="0 0 24 24" focusable="false"><path d="M7 4.5v15L19.5 12z" /></svg>
+                        play{!reelStill && ` ${reelTitle(featuredReel)}`}
                         {featuredReel.video.length && <span class="length">{featuredReel.video.length}</span>}
                       </span>
                     </a>
                   </div>
                 </figure>
-                <ul class="rows reel-list">
+                <p class="cmd" aria-hidden="true"><span class="cwd">~/film</span> <span class="ps">$</span> ls reels</p>
+                <ul class="ls reel-list">
                   {shownReels.map((reel, index) => (
                     <li>
                       <a
@@ -184,164 +203,178 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
                         {reel.label}
                       </a>
                       <span class="meta">{reel.video.year}</span>
+                      <span class="meta">{reel.video.length}</span>
                     </li>
                   ))}
                 </ul>
               </>
             ) : (
-              <p class="fallback">
-                The reels can't be shown here right now. Watch them <a href={reels[0].url}>on Vimeo</a>.
+              <p class="error">
+                <span class="tag">error:</span> the reels can't be shown here right now. Watch them
+                <a href={reels[0].url}>on Vimeo</a>.
               </p>
             )}
           </div>
-        </div>
 
-        <div class="link is-mid-film" aria-hidden="true"><span class="h at-film"></span></div>
+          <div class="run" id="films">
+            <h3 class="cmd">
+              <span aria-hidden="true"><span class="cwd">~/film</span> <span class="ps">$</span> ls credits</span>
+              <span class="visually-hidden">Credits</span>
+            </h3>
+            <table class="credits">
+              <thead>
+                <tr>
+                  <th scope="col"><span class="visually-hidden">Poster</span></th>
+                  <th scope="col">Title</th>
+                  <th scope="col" class="kind">Kind</th>
+                  <th scope="col" class="num"><abbr title="Episodes">Ep</abbr></th>
+                  <th scope="col" class="num">Year</th>
+                </tr>
+              </thead>
+              <tbody>
+                {shownCredits.map((project) => (
+                  <tr>
+                    <td class="poster-cell">
+                      {project.image ? (
+                        <Image class="poster" src={project.image} width={60} height={90} alt="" loading="lazy" />
+                      ) : (
+                        <span class="poster is-empty" />
+                      )}
+                    </td>
+                    <td class="title">{project.title}</td>
+                    <td class="kind">{project.type}</td>
+                    <td class="num">
+                      {project.episodes ?? (
+                        <>
+                          <span aria-hidden="true">-</span><span class="visually-hidden">none</span>
+                        </>
+                      )}
+                    </td>
+                    <td class="num">{project.year}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p class="comment"># full filmography: <a href={imdbUrl}>IMDb</a></p>
+          </div>
+        </section>
 
-        <div class="node block" id="films">
-          <div class="node-bar">
-            <h3 class="node-title">Credits</h3>
-          </div>
-          <div class="node-io" aria-hidden="true">
-            <div class="io"><span class="in">reels</span><span class="out">credits</span></div>
-          </div>
-          <div class="node-body">
-            <ul class="rows credits">
-              {shownCredits.map((project) => (
-                <li>
-                  {project.image ? (
-                    <Image class="poster" src={project.image} width={80} height={120} alt="" loading="lazy" />
-                  ) : (
-                    <span class="poster is-empty" />
-                  )}
-                  <span class="title">{project.title}</span>
-                  <span class="meta">
-                    {project.episodes && (
-                      <>
-                        <span aria-hidden="true">{project.episodes} ep · </span>
-                        <span class="visually-hidden">{project.episodes} episodes, </span>
-                      </>
-                    )}
-                    {project.year}
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <p class="more"><a href={imdbUrl}>Full filmography on IMDb</a></p>
-          </div>
-        </div>
-      </section>
+        <section class="pane is-ai" id="tools" data-pane="tools" aria-labelledby="tools-title">
+          <h2 class="pane-title" id="tools-title"><span aria-hidden="true">2</span> AI tools &amp; teaching</h2>
 
-      <section class="lane is-ai" aria-labelledby="tools-title">
-        <h2 id="tools-title" class="lane-title">AI tools &amp; teaching</h2>
-
-        <div class="node block" id="apps">
-          <div class="node-bar">
-            <h3 class="node-title">Apps</h3>
-          </div>
-          <div class="node-io" aria-hidden="true">
-            <div class="io"><span class="in">tools</span><span class="out">apps</span></div>
-          </div>
-          <div class="node-body">
-            <p class="intro">Free and open source, made outside the studio.</p>
-            <ul class="rows apps">
+          <div class="run" id="apps">
+            <h3 class="cmd">
+              <span aria-hidden="true"><span class="cwd">~/tools</span> <span class="ps">$</span> ls apps</span>
+              <span class="visually-hidden">Apps</span>
+            </h3>
+            <p class="comment"># free and open source, made outside the studio</p>
+            <ul class="apps">
               {apps.map((app) => (
                 <li>
-                  <a href={app.href}>{app.name}</a>
+                  <a class="name" href={app.href}>{app.name}</a>
                   {app.platforms && <span class="meta">{app.platforms}</span>}
                   <p>{app.description}</p>
                 </li>
               ))}
             </ul>
-            <p class="more"><a href={githubUrl}>All my code on GitHub</a></p>
+            <p class="comment"># all my code: <a href={githubUrl}>github.com/ArcticLatent</a></p>
           </div>
-        </div>
 
-        <!-- Apps sits under Reels and Arctic Latent under Credits, so this wire
-             steps down between them. -->
-        <div class="link is-mid-ai" aria-hidden="true">
-          <span class="h at-ai to-mid"></span>
-          <span class="v at-ai down"></span>
-          <span class="joint at-ai"></span>
-        </div>
-        <div class="link is-mid-ai-end" aria-hidden="true">
-          <span class="v at-videos up"></span>
-          <span class="h at-videos from-mid"></span>
-          <span class="joint at-videos"></span>
-        </div>
-
-        <div class="node block" id="videos">
-          <div class="node-bar">
-            <h3 class="node-title">Arctic Latent</h3>
-          </div>
-          <div class="node-io" aria-hidden="true">
-            <div class="io"><span class="in">apps</span><span class="out">videos</span></div>
-          </div>
-          <div class="node-body">
-            <p class="intro">
-              My YouTube channel: ComfyUI and AI workflow tutorials for artists, on Windows and Linux. Before it I
-              taught 3D surfacing at Seneca Polytechnic for four years, and I've spoken about careers in VFX and 3D at
-              TIFF Next Wave and Anadolu University.
+          <div class="run" id="videos">
+            <h3 class="cmd">
+              <span aria-hidden="true"><span class="cwd">~/tools</span> <span class="ps">$</span> cat arctic-latent/README</span>
+              <span class="visually-hidden">Arctic Latent</span>
+            </h3>
+            <div class="prose">
+              <p>
+                My YouTube channel: ComfyUI and AI workflow tutorials for artists, on Windows and Linux. Before it I
+                taught 3D surfacing at Seneca Polytechnic for four years, and I've spoken about careers in VFX and 3D at
+                TIFF Next Wave and Anadolu University.
+              </p>
+            </div>
+            <p class="cmd" aria-hidden="true">
+              <span class="cwd">~/tools</span> <span class="ps">$</span> yt-dlp --flat-playlist -I 1:4 @ArcticLatent
             </p>
             {videos.length ? (
-              <ul class="rows videos">
+              <ul class="videos">
                 {videos.map((video) => (
                   <li>
                     <Image class="thumb" src={video.thumbnail} width={160} height={90} alt="" loading="lazy" />
                     <a href={video.href}>{video.title}</a>
-                    <span class="meta">{video.publishedAt}</span>
+                    {video.publishedAt && <span class="meta">{video.publishedAt}</span>}
                   </li>
                 ))}
               </ul>
             ) : (
-              <p class="fallback">The latest videos can't be shown here right now.</p>
+              <p class="error"><span class="tag">error:</span> the latest videos can't be shown here right now.</p>
             )}
-            <p class="more"><a href={youtubeUrl}>Open the channel</a></p>
+            <p class="comment"># the channel: <a href={youtubeUrl}>youtube.com/@ArcticLatent</a></p>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Into Contact, which sits level with Arctic Latent so the graph ends
-           on it: the videos wire runs straight across; the film wire runs
-           across from Credits, down past it and across into Contact. -->
-      <div class="link is-in-run" aria-hidden="true">
-        <span class="h is-film at-film to-mid"></span>
-        <span class="v is-film at-film down"></span>
-        <span class="joint is-film at-film"></span>
-      </div>
-      <div class="link is-in-end" aria-hidden="true">
-        <span class="v is-film at-contact-film up"></span>
-        <span class="h is-film at-contact-film from-mid"></span>
-        <span class="joint is-film at-contact-film"></span>
-        <span class="h is-ai at-videos"></span>
-      </div>
-      <div class="wires is-ai" aria-hidden="true"></div>
+        <section class="pane is-contact" id="contact" data-pane="contact" aria-labelledby="contact-title">
+          <h2 class="pane-title" id="contact-title"><span aria-hidden="true">3</span> Contact</h2>
 
-      <section class="node contact-node" id="contact" aria-labelledby="contact-title">
-        <span class="socket is-film is-in" aria-hidden="true"></span>
-        <span class="socket is-ai is-in" aria-hidden="true"></span>
-        <div class="node-bar">
-          <h2 class="node-title" id="contact-title">Contact</h2>
-        </div>
-        <div class="node-io" aria-hidden="true">
-          <div class="io"><span class="in is-film">credits</span></div>
-          <div class="io"><span class="in is-ai">videos</span></div>
-        </div>
-        <div class="node-body">
-          <ul class="contact">
-            <li><a href={`mailto:${email}`}>{email}</a></li>
-            <li><a href={linkedinUrl}>LinkedIn</a></li>
-            <li><a href={resumeUrl}>Résumé</a></li>
-            <li><a href={githubUrl}>GitHub</a></li>
-            <li><a href={youtubeUrl}>YouTube</a></li>
-            <li><a href={imdbUrl}>IMDb</a></li>
-          </ul>
-        </div>
-      </section>
-    </main>
+          <div class="run">
+            <p class="cmd" aria-hidden="true"><span class="cwd">~</span> <span class="ps">$</span> cat contact</p>
+            <dl class="contact">
+              {contactLinks.map((link) => (
+                <div>
+                  <dt>{link.key}</dt>
+                  <dd><a href={link.href}>{link.text}</a></dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+
+          <!-- Without JavaScript the session ends on an idle prompt; with it,
+               the prompt takes commands (src/scripts/shell.js). -->
+          <div class="shell" data-shell>
+            <div class="log" data-log aria-live="polite"></div>
+            <p class="cmd idle" aria-hidden="true" data-idle>
+              <span class="cwd">~</span> <span class="ps">$</span> <span class="cursor"></span>
+            </p>
+            <form class="prompt" data-prompt hidden>
+              <label for="command"
+                ><span class="cwd" data-cwd>~</span> <span class="ps">$</span><span class="visually-hidden">
+                  Type a command (help lists them)</span
+                ></label
+              >
+              <span class="field">
+                <input
+                  id="command"
+                  name="command"
+                  type="text"
+                  autocomplete="off"
+                  autocapitalize="off"
+                  spellcheck="false"
+                  enterkeyhint="go"
+                  data-input
+                />
+                <span class="cursor" data-cursor aria-hidden="true"></span>
+                <span class="hint" data-hint aria-hidden="true">type help</span>
+              </span>
+            </form>
+          </div>
+        </section>
+      </main>
+
+      <nav class="status" aria-label="Sections">
+        <span class="session" aria-hidden="true">[burce]</span>
+        <ul>
+          <li><a href="#about" data-goto="about"><span aria-hidden="true">0:</span>about</a></li>
+          <li><a href="#film" data-goto="film"><span aria-hidden="true">1:</span>film</a></li>
+          <li><a href="#tools" data-goto="tools"><span aria-hidden="true">2:</span>tools</a></li>
+          <li><a href="#contact" data-goto="contact"><span aria-hidden="true">3:</span>contact</a></li>
+        </ul>
+        <span class="host" aria-hidden="true">"arcticlatent" {builtDate}</span>
+      </nav>
+    </div>
 
     <script>
       import "../scripts/reel.js";
+      import "../scripts/shell.js";
+      import "../scripts/status.js";
     </script>
   </body>
 </html>

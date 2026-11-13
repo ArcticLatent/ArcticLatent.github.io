@@ -4,16 +4,10 @@
     "ignoreFiles": [],
     "ignoreValues": [
       {
-        "rule": "overused-font",
-        "value": "geist",
-        "createdAt": "2026-11-13T08:30:52.231Z",
-        "reason": "Canon direction the user chose (modern minimal developer site, leerob.com as bar); Geist is that register's face and the site's incumbent font"
-      },
-      {
         "rule": "flat-type-hierarchy",
         "value": "*",
         "createdAt": "2026-11-13T08:30:52.238Z",
-        "reason": "Direction contract: one type size with weight/colour steps, as in the leerob.com register the user chose; applies to the rendered page too (URL scans report the page, not global.css)"
+        "reason": "Terminal direction (user-pinned 2026-11-13): one Commit Mono cell size, as in a terminal; hierarchy is weight and ANSI colour. Applies to the rendered page too (URL scans report the page, not global.css)"
       }
     ]
   }

@@ -44,7 +44,7 @@ export const fetchLatestVideos = async (count = 4) => {
 };
 
 // The same latest videos from the channel's own page (its embedded data).
-// It gives dates as "8mo ago", not exact ones.
+// It gives only ages ("8mo ago"), not dates, so these come without one.
 const fetchChannelVideos = async (count) => {
   try {
     const response = await fetchWithRetry(
@@ -69,12 +69,13 @@ const fetchChannelVideos = async (count) => {
     return lockups.slice(0, count).map((video) => {
       const meta = video.metadata.lockupMetadataViewModel;
       const parts = meta.metadata?.contentMetadataViewModel?.metadataRows?.[0]?.metadataParts ?? [];
-      const age = parts.map((part) => part.text?.content ?? "").find((text) => text.endsWith("ago")) ?? "";
       return {
         id: video.contentId,
         title: shortTitle(meta.title.content),
         href: `https://www.youtube.com/watch?v=${video.contentId}`,
-        publishedAt: age.replace(/(\d+)mo\b/, "$1 months").replace(/(\d+)y\b/, "$1 years"),
+        // The page only says how long ago ("8 months ago"), which goes stale
+        // on a built page, so these have no date.
+        publishedAt: "",
         thumbnail: thumbnail(video.contentId)
       };
     });

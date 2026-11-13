@@ -1,257 +1,285 @@
 ---
 name: Burce Boran
-description: A personal page laid out as a left-to-right node graph on a dotted canvas; neutral greys with one quiet colour per lane, light or dark with the system, one type size.
+description: A personal page set as a tmux session that has already run, in an "Arctic" terminal theme, light or dark with the system; one monospace cell size, ANSI colours used for meaning only.
 colors:
-  ground: "#ffffff"
-  ink: "#111111"
-  text: "#3b3b3b"
-  muted: "#6b6b6b"
-  hairline: "#ebebeb"
-  underline: "#a3a3a3"
-  still: "#f2f2f2"
-  edge: "#dedede"
-  bar: "#fafafa"
-  grid: "#d9d9d9"
-  film: "#4f8cc9"
-  ai: "#b565b2"
-  ground-dark: "#0a0a0a"
-  ink-dark: "#ededed"
-  text-dark: "#b8b8b8"
-  muted-dark: "#8f8f8f"
-  hairline-dark: "#1f1f1f"
-  underline-dark: "#5e5e5e"
-  still-dark: "#161616"
-  edge-dark: "#2a2a2a"
-  bar-dark: "#111111"
-  grid-dark: "#262626"
-  film-dark: "#6fa8dc"
-  ai-dark: "#d08bcd"
-  pill: "#ffffff"
-  pill-ink: "#111111"
-  pill-shadow: "rgb(0 0 0 / 0.3)"
-  pill-halo: "rgb(255 255 255 / 0.3)"
+  desk: "#dde2e8"
+  bg: "#f8f9fb"
+  bar: "#eceff3"
+  border: "#cfd5de"
+  still: "#e6e9ee"
+  shadow: "rgb(28 35 48 / 0.16)"
+  fg: "#1c2330"
+  dim: "#5c6676"
+  red: "#b4373b"
+  green: "#2c7a41"
+  yellow: "#86610a"
+  blue: "#2b67ad"
+  magenta: "#95398f"
+  cyan: "#1b7880"
+  swatch-black: "#1c2330"
+  swatch-white: "#c7ced8"
+  on-green: "#f8f9fb"
+  desk-dark: "#0b0e12"
+  bg-dark: "#11151b"
+  bar-dark: "#171c24"
+  border-dark: "#2b323d"
+  still-dark: "#1a2029"
+  shadow-dark: "rgb(0 0 0 / 0.5)"
+  fg-dark: "#dbe2ea"
+  dim-dark: "#8a95a5"
+  red-dark: "#e5857f"
+  green-dark: "#95cf9f"
+  yellow-dark: "#e2c27a"
+  blue-dark: "#7fb0e8"
+  magenta-dark: "#d692d2"
+  cyan-dark: "#79c9cf"
+  swatch-black-dark: "#3a4250"
+  swatch-white-dark: "#dbe2ea"
+  on-green-dark: "#11151b"
 typography:
-  headline:
-    fontFamily: "Geist, -apple-system, BlinkMacSystemFont, Segoe UI, system-ui, sans-serif"
-    fontSize: "15px"
-    fontWeight: 600
-    lineHeight: 1.5
-  title:
-    fontFamily: "Geist, -apple-system, BlinkMacSystemFont, Segoe UI, system-ui, sans-serif"
-    fontSize: "15px"
-    fontWeight: 500
-    lineHeight: 1.5
   body:
-    fontFamily: "Geist, -apple-system, BlinkMacSystemFont, Segoe UI, system-ui, sans-serif"
-    fontSize: "15px"
-    fontWeight: 400
-    lineHeight: 1.7
-  label:
-    fontFamily: "Geist, -apple-system, BlinkMacSystemFont, Segoe UI, system-ui, sans-serif"
+    fontFamily: "Commit Mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
     fontSize: "14px"
     fontWeight: 400
-    fontFeature: "tnum"
+    lineHeight: 1.6
+    letterSpacing: "0"
+    fontFeature: "font-variant-ligatures: none"
+  body-wide:
+    fontFamily: "Commit Mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
+    fontSize: "15px"
+    fontWeight: 400
+    lineHeight: 1.6
+    letterSpacing: "0"
+    fontFeature: "font-variant-ligatures: none"
+  bold:
+    fontFamily: "Commit Mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
+    fontSize: "inherit"
+    fontWeight: 700
+    lineHeight: 1.6
 rounded:
-  xs: "3px"
-  sm: "4px"
-  md: "6px"
-  node-bar: "9px"
-  node: "10px"
-  pill: "999px"
+  none: "0"
+  window: "10px"
 spacing:
-  xs: "12px"
-  sm: "16px"
-  md: "24px"
-  lg: "48px"
-  xl: "56px"
-  measure: "580px"
-  canvas: "1680px"
-  wire-column: "44px"
-  about-column: "clamp(272px, 21vw, 320px)"
-  contact-column: "clamp(184px, 15vw, 220px)"
+  ch: "1ch"
+  gutter: "2ch"
+  column: "4ch"
+  half-line: "0.5lh"
+  line: "1lh"
+  pane-bottom: "1.5lh"
 components:
-  link:
-    textColor: "{colors.ink}"
-  node:
-    backgroundColor: "{colors.ground}"
-    rounded: "{rounded.node}"
-  node-bar:
+  window:
+    backgroundColor: "{colors.bg}"
+    rounded: "{rounded.window}"
+  titlebar:
     backgroundColor: "{colors.bar}"
-    textColor: "{colors.ink}"
-    typography: "{typography.title}"
-    rounded: "{rounded.node-bar}"
-    padding: "8px 16px"
-  node-body:
-    padding: "16px"
-  socket:
-    backgroundColor: "{colors.film}"
-    rounded: "{rounded.pill}"
-    width: "12px"
-    height: "12px"
-  row:
-    padding: "10px 0"
-  reel-still:
+    textColor: "{colors.dim}"
+    padding: "0.35lh 2ch"
+  pane:
+    backgroundColor: "{colors.bg}"
+    textColor: "{colors.fg}"
+    padding: "0 2ch 1.5lh"
+  status-bar:
+    backgroundColor: "{colors.green}"
+    textColor: "{colors.on-green}"
+    padding: "0.15lh 1ch"
+  status-tab:
+    textColor: "{colors.on-green}"
+    padding: "0 1ch"
+  status-tab-current:
+    backgroundColor: "{colors.on-green}"
+    textColor: "{colors.green}"
+    typography: "{typography.bold}"
+    padding: "0 1ch"
+  play:
+    backgroundColor: "{colors.bg}"
+    textColor: "{colors.fg}"
+    typography: "{typography.bold}"
+    rounded: "{rounded.none}"
+    padding: "0 1ch"
+  play-hover:
+    backgroundColor: "{colors.fg}"
+    textColor: "{colors.bg}"
+  reel-frame:
     backgroundColor: "{colors.still}"
-    rounded: "{rounded.md}"
-  play-pill:
-    backgroundColor: "{colors.pill}"
-    textColor: "{colors.pill-ink}"
-    typography: "{typography.label}"
-    rounded: "{rounded.pill}"
-    padding: "6px 14px 6px 10px"
-  play-pill-blank:
-    backgroundColor: "{colors.ink}"
-    textColor: "{colors.ground}"
-    typography: "{typography.label}"
-    rounded: "{rounded.pill}"
-    padding: "6px 14px 6px 10px"
+    rounded: "{rounded.none}"
   poster:
     backgroundColor: "{colors.still}"
-    rounded: "{rounded.xs}"
+    rounded: "{rounded.none}"
     width: "28px"
     height: "42px"
   thumb:
     backgroundColor: "{colors.still}"
-    rounded: "{rounded.sm}"
+    rounded: "{rounded.none}"
     width: "64px"
     height: "36px"
+  cursor:
+    backgroundColor: "{colors.fg}"
+    width: "1ch"
+    height: "1lh"
+  swatch:
+    width: "3ch"
+    height: "1lh"
 ---
 
 # Design System: Burce Boran
 
 ## Overview
 
-**Creative North Star: "The Wired Page"**
+**Creative North Star: "The Session"**
 
-The page is a small node graph that runs left to right, the way a ComfyUI workflow reads: an About node on the left (the name in its title bar) wires out into two lanes laid out as rows, Film & VFX (Reels → Credits) and AI tools & teaching (Apps → Arctic Latent), and both lanes wire into a Contact node on the right. Every node has labelled sockets on its sides (inputs left, outputs right) naming what flows: film, tools, reels, credits, apps, videos. It stays in the modern minimal developer register (leerob.com is still the craft bar): one type size, neutral greys, hairline frames, rows inside every node. The graph is the structure, not decoration; it says what the page is about (pipelines, two careers feeding one person) without a single extra word.
+The page is a terminal session that has already run: tmux inside a terminal emulator, each section a real-looking command and the output it printed. Visitors read and click; typing at the prompt is optional and everything is already on screen. The theme is "Arctic": a cool paper-white terminal in light mode and a blue-black one in dark, following `prefers-color-scheme`, with the window floating on a slightly darker desk.
 
-The canvas is the system ground with a faint dot grid. Nodes are opaque ground-coloured frames with a 1px Edge border, a title bar and a body. Wires and sockets carry the only colour on the page: a quiet blue for Film & VFX and a quiet pink for AI tools & teaching, after ComfyUI's IMAGE and LATENT wire colours. Everything else is grey. Motion is limited to short colour transitions; none of it runs under reduced motion. The only behaviour is the reel: a still that becomes the Vimeo player when pressed.
+Everything sits on the monospace grid. There is one font (Commit Mono), two weights and one cell size; widths are counted in characters (`ch`) and heights in whole lines (`lh`). Hierarchy comes from weight and from the eight ANSI colours, each of which has exactly one job. tmux supplies the structure: panes separated by 1px borders with their titles drawn on the border, the active pane's border in its colour, and a status bar pinned to the bottom of the viewport as the page's navigation.
+
+It is a working terminal, not a costume: no green-on-black, no CRT scanlines, no glow, no typewriter intro that hides content. The earlier node-graph page is gone and nothing of it carries over.
 
 **Key Characteristics:**
-- A node graph: About → two lanes → Contact, left to right from 1280px; one wired column, top to bottom, below.
-- One type size (15px), stepped by weight (400/500/600) and colour; 14px only for meta and small print.
-- Neutral palette, light and dark by `prefers-color-scheme`; colour only on wires, sockets and title-bar dots, one hue per lane.
-- Rows with 1px hairlines as the universal list form, inside nodes.
-- Flat: no shadows, no gradients. Nodes are the one framed container, and they are never nested.
+- A terminal window of tmux panes; every block is a command line followed by its output, with a blank line between runs.
+- Commit Mono 400 and 700 only, one size (14px, 15px from 900px), line-height 1.6, ligatures off.
+- Spacing in `ch` and `lh` only; vertical rhythm in whole and half lines.
+- ANSI colours carry meaning, one job each; all text colours pass 4.5:1 on the terminal ground and on the bars in both themes.
+- Images print inline and square-cornered, as kitty and WezTerm show them.
+- Motion is limited to short colour transitions and the prompt's blinking cursor, all removed under reduced motion.
 
 ## Colors
 
-Neutrals in two modes, swapped wholesale by `prefers-color-scheme`; every token has a light and a dark value and the roles never change.
+A cool, low-chroma terminal ground with the eight ANSI colours, each assigned a single meaning; every colour exists as a light/dark pair under the same role name.
+
+### Primary
+- **Prompt Green** (`green` / `green-dark`): the `$` prompt (bold), the tmux status bar background, the About and Contact pane accent (pane number, active border), the play triangle on the current reel and on the Play control, and the name in the fastfetch card.
+
+### Secondary
+- **Film Blue** (`blue` / `blue-dark`): the Film & VFX pane accent, the first B of the pixel logo, and directory names in the prompt's `ls` output.
+- **Tools Magenta** (`magenta` / `magenta-dark`): the AI tools & teaching pane accent, the second B of the logo, and app names in `ls apps`.
+
+### Tertiary
+- **Path Cyan** (`cyan` / `cyan-dark`): the working directory before every prompt (bold) and the focus ring.
+- **Key Yellow** (`yellow` / `yellow-dark`): bold keys in key: value output (fastfetch facts, `cat contact`).
+- **Error Red** (`red` / `red-dark`): only the bold `error:` tag on a failed-fetch line.
 
 ### Neutral
-- **Ground** (`ground` / `ground-dark`): the canvas and every node's fill; the knockout ring around sockets; the text colour inside the filled Play pill.
-- **Ink** (`ink` / `ink-dark`): the name, lane names, node titles, links, emphasised show names, credit titles, the focus ring, the selection background.
-- **Body Grey** (`text` / `text-dark`): running prose.
-- **Quiet Grey** (`muted` / `muted-dark`): the role line, meta, the index's half names, fallback lines.
-- **Hairline** (`hairline` / `hairline-dark`): row dividers, the line under a node's title bar, the 1px ring on posters, thumbs and the reel still.
-- **Edge** (`edge` / `edge-dark`): a node's 1px border.
-- **Bar** (`bar` / `bar-dark`): a node's title bar, barely off the ground.
-- **Grid** (`grid` / `grid-dark`): the canvas dots (1px, every 22px).
-- **Underline Grey** (`underline` / `underline-dark`): link underlines at rest, the reel ring on hover, the title-bar dot of the neutral nodes (About, Contact), the scrollbar thumb.
-- **Still** (`still` / `still-dark`): the placeholder fill behind every image before it loads or when it is missing.
-
-### Lanes
-- **Film** (`film` / `film-dark`): the Film & VFX lane's wires, sockets and title-bar dots.
-- **AI** (`ai` / `ai-dark`): the AI tools & teaching lane's wires, sockets and title-bar dots.
+- **Desk** (`desk` / `desk-dark`): the desktop behind the window, and the scrollbar track.
+- **Terminal Ground** (`bg` / `bg-dark`): the window and every pane.
+- **Bar** (`bar` / `bar-dark`): the window's titlebar.
+- **Pane Border** (`border` / `border-dark`): the 1px window border, the 1px gap between panes, inactive pane-title rules, the Play control's frame, the scrollbar thumb.
+- **Still** (`still` / `still-dark`): the fill behind any image before it loads (reel frame, posters, thumbnails).
+- **Foreground** (`fg` / `fg-dark`): ordinary text, the block cursor, and inverse video (selection, Play hover).
+- **Dim** (`dim` / `dim-dark`): `#` comment lines, meta columns (years, lengths, dates, platforms), table headers, the titlebar, the fastfetch underline, the "type help" hint.
+- **On Green** (`on-green` / `on-green-dark`): status-bar text, and the inverted current tab.
+- **Swatch Black / Swatch White**: the two ends of the fastfetch colour swatches; they appear nowhere else.
+- **Shadow** (`shadow` / `shadow-dark`): the window's soft drop shadow only.
 
 ### Named Rules
-**The Lane Colour Rule.** Colour belongs to the graph, never to text. A lane's hue appears only on its wires, its sockets and the dots in its nodes' title bars; links stay Ink with a grey underline, headings stay Ink. A third hue needs a third lane.
+**The One Job Rule.** Each ANSI colour means one thing: red errors, green the prompt and status bar, yellow keys, blue Film & VFX, magenta AI tools & teaching, cyan the working directory and focus, dim comments and meta. A new use of a colour must be that same meaning; a new meaning needs a colour that has none.
 
-**The Two Modes Rule.** A new colour is only allowed as a light/dark pair under the same role name. The one exception is the Play pill over a still, which sits on the image: solid white (`pill`) with #111 text (`pill-ink`) and a soft 1px-offset shadow so it reads on any frame, the same in both modes.
+**The Pair Rule.** Every colour is defined as a light and a dark value under one custom property in `:root`, switched by `prefers-color-scheme`. Any new text colour passes 4.5:1 on both `bg` and `bar` in both themes.
 
 ## Typography
 
-**Body Font:** Geist (self-hosted 400, 500, 600; falls back to -apple-system, Segoe UI, system-ui).
+**Body Font:** Commit Mono (with ui-monospace, SFMono-Regular, Menlo, Consolas, monospace), self-hosted, weights 400 and 700.
 
-**Character:** A neutral grotesque used at a single size, so the page reads like well-set notes inside a diagram rather than a layout.
+**Character:** One terminal font at one cell size. Headings, the name, keys and tabs are the same size as body text; they differ only by weight and colour, as they would in a real terminal.
 
 ### Hierarchy
-- **Headline** (600, 15px, 1.5): the name (h1, in the About node's title bar) and the lane names (h2, set on their wire). Ink.
-- **Title** (500, 15px, 1.5): node titles in the title bars (Contact as h2; Reels, Credits, Apps, Arctic Latent as h3). Ink.
-- **Body** (400, 15px, 1.7): prose in Body Grey; `em` is upright 500 in Ink (show names). Paragraphs 16px apart, `text-wrap: pretty`; headings `balance`.
-- **Label** (400, 14px, tabular figures): meta (years, dates, episode counts, platforms), "more" links, the index, the Contact links, the Play pill (500). Meta never wraps.
+- **Body** (400, 14px; 15px from 900px; line-height 1.6): everything. Prose paragraphs cap at 72ch and use `text-wrap: pretty`.
+- **Bold** (700, same size): pane titles, the name (h1, green), keys (yellow), the working directory and `$`, app names, the current tab and current reel, the Play label, table headers (dim), the `error:` tag. `em` is upright bold, never italic.
 
 ### Named Rules
-**The One Size Rule.** Hierarchy is weight and colour, not size. A new heading is 15px; it steps by 600/500 and Ink/Quiet Grey. (Recorded as a detector exception, `flat-type-hierarchy`, in `.impeccable/config.json`; Geist is likewise a recorded `overused-font` exception.)
+**The One Cell Rule.** There is one type size. Hierarchy is weight (400/700) and ANSI colour, never size, italics or letter-spacing. (Recorded as the `flat-type-hierarchy` detector exception in `.impeccable/config.json`.)
 
-**The Tabular Meta Rule.** Every number in a meta column uses tabular figures so years and dates align down a list.
+**The Grid Rule.** Horizontal spacing is in `ch`, vertical in `lh`; ligatures are off so every character keeps its cell.
 
 ## Layout
 
-`main.canvas` is the whole page (there is no masthead or footer): 1680px max width, centred, with 24px side padding (from 1280px, `clamp(24px, 10vw - 104px, 64px)`), `clamp(32px, 6vh, 80px)` above and 56px below.
+A terminal window on a desk. On phones the window fills the screen edge to edge; from 640px the body gains `clamp(16px, 3vw, 40px)` of desk around it and the window floats, max-width 1560px, centred. A centred titlebar ("burce@arcticlatent: ~") sits on top.
 
-- **From 1280px (left to right):** a seven-column grid: About (`clamp(272px, 21vw, 320px)`) | wire (44px) | node column | wire | node column | wire | Contact (`clamp(184px, 15vw, 220px)`); the two node columns share what is left, so a 1280 laptop still gets lanes about 320px wide and the reel starts in the first screen. The first node column holds Reels, then Apps; the second Credits, then Arctic Latent; each stacks on its own, so Apps starts right under Reels and Arctic Latent right under Credits. This is done with three rows, `auto 1fr auto`: Reels is the only thing in row 1 and Arctic Latent and Contact the only things in row 3, while Credits (rows 1–2), Apps (rows 2–3) and About (rows 1–3) span the flexible middle row, so they don't stretch the first or last row. The lane sections are `display: contents` so their nodes sit on this grid; each lane name is absolutely placed in its first node's row. Positions are fixed so wires need no measuring: About, Reels and Credits start 40px down (`--top`, room for the first lane name), Apps 72px into row 2 (`--ai-pad`, room for its lane name), Arctic Latent 56px into row 3 (`--videos-pad`), Contact far enough into row 3 that its first input lines up with Arctic Latent's output (`--contact-pad`, 32px), and every node's socket rows sit 61px and 85px below its top edge (`--s1`, `--s2`: 1px border, 40px title bar, 8px, then 24px rows). Wires are CSS spans placed in the wire columns, each spanning the rows it crosses: film runs straight across (About → Reels → Credits), then down the last wire column into Contact's first input; tools runs across, down and across into Apps; apps runs across, down between the columns and across into Arctic Latent; videos runs straight across into Contact's second input. From 1280 to 1799px a video's date goes under its title.
-- **Below 1280px:** one column, 580px max. About, Reels, Credits, Apps, Arctic Latent and Contact stack, each wired to the next by a straight wire (a lane's wire runs down its middle behind its nodes; 40px straight strips join About to the first lane and the last lane to Contact), sockets sit on the top and bottom edges, About and Contact show one centred socket, and the side sockets and their labels are hidden.
-- **Lane names:** left to right, each sits 36px above its row's first node, at the lane's left edge, like a group title; in one column, on the wire (18px above and below, starting 14px right of it). Nodes in one column are 48px apart.
-- **Inside a node:** a 40px title bar (16px side padding), then (left to right only) the socket rows (8px, then 24px a row, 14px Quiet Grey labels), then a 16px body. Rows are a two-column grid (`1fr auto`, 16px gap, baseline-aligned, 10px vertical padding); rows with an image (credits, videos) become three columns (`auto 1fr auto`, centre-aligned). A list that opens a node body (or follows the reel) drops its first rule and top padding. Below 520px, video rows drop the meta under the title. App rows wrap: name, then meta pushed right, then the description on its own line; when the Apps body is narrower than 312px (a container query), the meta drops under the name.
+Inside, the panes are a grid with a 1px column gap that shows the border colour between them. Below 1100px they stack in one column. From 1100px: About spans the top (fastfetch beside `cat about.txt`, in a two-column run grid with a 4ch gap, 6ch from 1440px); Film & VFX takes the left column across two rows; AI tools & teaching and Contact stack on the right.
+
+Each pane has 2ch side padding and 1.5lh at the bottom. Within a pane: a blank line (1lh) between runs, half a line between a command and its output, 2ch between columns of `ls`-style rows. The fastfetch logo is 3lh tall on phones, 4lh at 640-1099px, 3lh at 1100-1439px (so the facts keep their lines on laptops), and 5lh from 1440px.
+
+The status bar is sticky to the bottom of the viewport; the document has a 48px bottom scroll-padding so jumps clear it.
+
+### Named Rules
+**The Whole Line Rule.** Vertical spacing is a whole or half line (`1lh`, `0.5lh`), with small fractions (0.15-0.35lh) only for bar padding and table cells.
 
 ## Elevation & Depth
 
-Flat. There are no drop shadows. Depth is a 1px line: the node's Edge border, the Hairline under its title bar and between rows, and inset rings around images so dark frames keep their edge on the dark ground. Nodes are opaque, so wires pass behind them. The only layering is the Play pill sitting over the reel still, with a small offset shadow (0 1px 2px) so it separates from dark frames.
+The terminal is flat. The only shadow in the system is the window's own, which lifts it off the desk from 640px. Inside the window, separation is the 1px border colour (window edge, pane gaps, pane-title rules) and tonal steps between desk, bar and ground.
+
+### Shadow Vocabulary
+- **Window float** (`box-shadow: 0 20px 48px -16px var(--shadow)`): the terminal window on the desk, from 640px. Nowhere else.
 
 ### Named Rules
-**The Hairline Rule.** Separation inside a node is a 1px Hairline line or ring, never a shadow or a tinted panel. The node frame itself is the page's only container, one level deep.
+**The One Window Rule.** Only the window casts a shadow. Panes, controls and images are flat; they are separated by 1px lines.
 
 ## Shapes
 
-Radii scaled to the object: 3px on posters and the focus ring, 4px on video thumbs, 6px on the reel still and player (nested inside the node's 16px body), 10px on nodes (9px on the title bar's top corners, inside the 1px border), full circles for sockets and title-bar dots, a full pill on the Play control. Wires are 2px and straight: vertical and horizontal runs with square, mitred bends, never curves.
+Square by default. The window has a 10px radius (from 640px, with `overflow: clip`), the one rounded shape, as a desktop window has. Everything inside it is square: panes, the reel frame, posters, thumbnails, the Play control, tabs, the cursor. Images carry a 1px inset outline of `fg` at 14% and a `still` fill. The pixel BB logo is drawn in crisp-edged unit squares (13x7 cells). The current reel's marker is a 1ch green triangle (clip-path).
 
 ## Components
 
-### Nodes
-A 1px Edge frame, 10px radius, Ground fill. The title bar: Bar fill, a Hairline below, an 8px dot (the lane's colour; Underline Grey for About and Contact), then the title in 500 Ink. The body: 16px padding; its last child has no bottom margin.
+### Pane
+- **Character:** a tmux pane; its title row is a 1px rule with the title cut into it: `── 1 Film & VFX ───`.
+- **Title:** bold fg text, the pane number in the pane's accent; the rules on either side (2ch before, the rest after) are the border colour.
+- **Accent:** green for About and Contact, blue for Film & VFX, magenta for AI tools & teaching.
+- **Active:** the active pane's rules take its accent (160ms ease-out). The active pane is the one jumped to, clicked, tabbed into, or that a prompt command went to; after the visitor scrolls, the one filling most of the screen; at the very bottom, Contact.
 
-### Sockets and wires
-Sockets are 12px circles in the lane's colour with a 2px Ground ring, centred on the node's edge, half outside it. Left to right they sit on the sides, each beside a lowercase label (input left, output right) on its own 24px row under the title bar: About sends film and tools; Reels takes film and sends reels; Credits takes reels and sends credits; Apps takes tools and sends apps; Arctic Latent takes apps and sends videos; Contact takes credits and videos. In one column they sit on the top (input) and bottom (output) edges instead, unlabelled. Wires are 2px lines of the lane's colour, straight, with square bends and an 8px dot of the lane's colour on every bend: left to right they are absolutely placed spans in the 48px wire columns; in one column, a lane's wire is its background, showing between nodes, and short straight strips join About and Contact. All of it is `aria-hidden` or CSS-only; it needs no JavaScript.
+### Run (command and output)
+- **Command line:** working directory bold cyan, `$` bold green, then the command in plain fg. Section headings (h3) are command lines, with a visually hidden plain name.
+- **Comments:** `#` lines in dim; links inside them return to fg.
+- **Errors:** a failed fetch prints one line with a bold red `error:` tag and a link to the source; the pane stays.
 
-### Lane names
-The h2 for each half (Film & VFX, AI tools & teaching), Headline style, not wrapping: left to right, a group title above its row; in one column, a label on its lane's wire, 14px right of it.
+### fastfetch card
+- Pixel BB logo (first B blue, second magenta), then facts: the name as h1 in bold green, a dim dashed underline, `key: value` lines with bold yellow keys and a 2ch hanging indent, then eight ANSI swatches (3ch x 1lh each): swatch-black, red, green, yellow, blue, magenta, cyan, swatch-white.
+
+### Reel player
+- **Frame:** inline 16:9, square-cornered, `still` fill. The Vimeo player replaces the still in place, only when asked for.
+- **Play control:** at the top-left (2ch, 1lh), where mpv draws its on-screen display: bg fill, 1px border, bold "play" with a green triangle and the dim length. Hover or focus inverts it (fg background, bg text, triangle in bg), 120ms.
+- **Reel list:** `ls`-style rows (marker, name, year, length right-aligned in dim); the current reel is bold, not underlined, with a green play triangle.
+
+### Lists and tables
+- **Credits:** an eza `--header` table: dim bold header, 28x42 poster, title, kind (hidden under 520px), episodes and year right-aligned in dim, `-` for none.
+- **Apps:** bold magenta name, dim platforms beside it, the description on the next line indented 2ch, max 72ch.
+- **Videos:** 64x36 thumbnail, title link, date in dim (omitted when only a relative age is known); the date drops under the title below 520px.
+- **Contact:** key/value list, bold yellow keys in a 9ch column, 2ch gap.
 
 ### Links
-Text-coloured (Ink), 1px underline in Underline Grey, offset 3px. On hover the underline turns `currentColor` (150ms ease-out). No other link style exists, including in rows and the Contact node.
+- Inherit their colour; 1px underline at 40% of currentColor, 3px offset, full currentColor on hover (120ms ease-out).
+
+### Inputs / Fields (the prompt)
+- **Without JS:** an idle prompt (`~ $`) with a solid 1ch block cursor.
+- **With JS:** a live form. The label is the cwd and `$`; the input is borderless, transparent, with a transparent caret. A 1ch x 1lh block cursor is positioned by `--at` (in ch): hollow (1px inset fg) when unfocused, solid fg and blinking (1.1s, `steps(1)`) when focused, static under reduced motion. A dim "type help" hint shows while empty and unfocused. Output prints into a log (`aria-live="polite"`); dim lines for secondary output, bold blue directory names.
+- **Behaviour:** help, ls, cd, pwd, whoami, reel/play/mpv N, credits, apps, videos, channel, reels, contact, email/linkedin/resume/github/youtube/imdb, open, clear (and Ctrl+L), history, echo, date, sudo, exit; Tab completes, arrows recall history; unknown commands answer `zsh: command not found: X`.
+- **Focus:** the focus ring is not drawn on the input; the solid blinking cursor is its focus state.
+
+### Navigation (status bar)
+- **Style:** tmux's status bar, sticky to the bottom of the viewport, green background, on-green text: `[burce]` session (bold), then `0:about 1:film 2:tools 3:contact`, then `"arcticlatent"` and the build date (dd-Mon-yy) on the right.
+- **Current:** the current tab inverts (on-green background, green bold text) with a trailing `*` and `aria-current="location"`. Hover underlines; focus uses an on-green outline at 0 offset.
+- **Narrow:** the host and date hide under 560px, the session under 420px; the four tabs then spread across the bar.
 
 ### Focus, selection, scrollbar
-- **Focus:** 2px solid Ink outline, 3px offset, 3px radius, on `:focus-visible` only.
-- **Selection:** Ink background, Ground text.
-- **Scrollbar:** Underline Grey thumb on Ground.
+- **Focus:** 2px solid cyan outline, 2px offset, everywhere except the prompt input and the status bar (above).
+- **Selection:** inverse video, fg background with bg text.
+- **Scrollbar:** border-coloured thumb on the desk.
 
-### Rows
-A borderless list; each item has a 1px Hairline top, the last also a bottom. Title (link or Ink text) left, meta right.
-
-### Posters and thumbs
-Real images only: poster 28x42 (3px radius), thumb 64x36 (4px radius), both with a 1px Hairline ring (outline, offset -1px) and a Still fill behind. A credit with no poster (not on Metacritic) keeps its 28px column, empty, with no fill or ring.
-
-### The Reel (signature)
-- **With a still:** a 16:9 frame, 6px radius, Still fill, an inset 1px Hairline ring that turns Underline Grey on hover. A solid white Play pill sits 12px from the bottom-left corner: play triangle (inline SVG, 16px) + "Play" + the length at 60% ink, tabular; on hover it gains a 4px translucent white halo.
-- **The reel list:** every reel, the one in the frame first, as rows (title left, year right). The reel in the frame is `aria-current`, set in 500 weight without an underline.
-- **Without a still** (a reel set to `still: false` in `src/site.js`): no frame, just a lone filled pill in Ink with Ground text reading "Play {title}, {year}" and the length at 70% opacity; hover adds a 4px Hairline halo.
-- **Behaviour:** pressing the still or any row loads that reel's Vimeo player into the frame with autoplay, marks its row current, scrolls the frame into view if needed (instantly under reduced motion) and moves focus to it. Without JavaScript each links to Vimeo.
-
-### About node
-The first node. Its title bar is the name (h1, Headline, 600); there is no masthead above it, and no drawing or logo: the graph is the page's only picture. The body opens with the role in Quiet Grey, "GenAI Pipeline TD · Asset Supervisor" (left to right the About column is narrow, so the two roles sit one to a line and the dot is hidden), then the bio, the line about the apps and the channel, and the contact sentence.
-
-### Index
-At the end of the About body in one column only, a two-line index at 14px: each half's name in Quiet Grey (152px column), then links to its nodes (Reels, Credits; Apps, Arctic Latent). Left to right every node is on screen at once, so the index is hidden. Nodes keep a 24px scroll margin.
-
-### Contact
-The last node, a `section#contact` inside `main` (the grid needs it there): on the right with two labelled inputs (credits, videos) left to right, at the bottom with one top socket in a column; its body (10px vertical padding) is the contact links, starting with the visible email address, all at 14px: in one column a wrapping inline list (0/14px gaps, 6px vertical padding on each link for touch); left to right one to a line (3px vertical padding), like a node's list of outputs. Left to right it is the last node in the graph's bottom row, beside Arctic Latent.
-
-### Fallbacks
-A failed section is one Quiet Grey line with a link to the source, inside its node; the node and its wires stay.
+### Link preview and favicon
+- Both follow the dark theme: the preview is the fastfetch card in a terminal window on the desk; the favicon is the pixel BB on the dark ground.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** put any new section in a node on one of the lanes, wired in, with a title bar and labelled sockets, and keep the socket rows at the shared offsets so the wires stay straight.
-- **Do** keep every text element at 15px (14px for meta and small print) and step hierarchy with weight 600/500/400 and Ink/Quiet Grey.
-- **Do** present any new list as rows inside its node: title left, tabular meta right, 1px Hairline between.
-- **Do** give every image a Still fill and a 1px Hairline ring.
-- **Do** define any new colour as a light/dark pair under one role.
-- **Do** limit motion to 150-200ms ease-out colour/opacity transitions, removed under `prefers-reduced-motion`.
+- **Do** present any new section as a pane or a run: a command line (bold cyan cwd, bold green `$`, the command), then its output, a blank line before the next run.
+- **Do** keep every text element at the one cell size and step hierarchy with weight 700 and ANSI colour.
+- **Do** size and space in `ch` and `lh`.
+- **Do** give a new colour use the job that colour already has, and define any new colour as a light/dark pair that passes 4.5:1 on `bg` and `bar`.
+- **Do** print images inline and square-cornered with a `still` fill and the 1px 14% fg inset outline.
+- **Do** show interactive states the way a terminal does: inverse video for selection and hover on controls, a block cursor for text focus.
+- **Do** limit motion to 120-160ms ease-out colour transitions and the 1.1s stepped cursor blink, all removed under `prefers-reduced-motion`.
+- **Do** keep everything readable without JavaScript; the prompt and active-pane tracking are enhancements.
 
 ### Don't:
-- **Don't** put a lane colour on text, links or fills; it lives on wires, sockets and title-bar dots only.
-- **Don't** nest a node in a node, or frame anything inside a node other than images.
-- **Don't** use drop shadows, gradients or tinted panels to separate content.
-- **Don't** set a heading larger than body size.
-- **Don't** load embeds (players, iframes) before the visitor asks for them.
+- **Don't** dress the terminal as a costume: no green-on-black, CRT scanlines, glow, or typewriter intros that hide content.
+- **Don't** set any text larger than the cell size, in italics, or with letter-spacing.
+- **Don't** round anything inside the window, or add shadows other than the window's own.
+- **Don't** use a font other than Commit Mono, or weights other than 400 and 700.
+- **Don't** load the video player before the visitor asks for it.

@@ -1,6 +1,6 @@
 # burceboran.ca
 
-My website: who I am, my reels and film and TV credits, the apps I build and my YouTube channel, on one plain page. Built with [Astro](https://astro.build), published by GitHub Pages.
+My website: who I am, my reels and film and TV credits, the apps I build and my YouTube channel, on one page that looks like a terminal running tmux. Built with [Astro](https://astro.build), published by GitHub Pages.
 
 Most of it is fetched when the site is built: the latest videos from my [YouTube channel](https://www.youtube.com/@ArcticLatent), my credits from Metacritic and the reels (with their years and stills) from Vimeo; thumbnails, posters and the reel still are downloaded and resized then, and served from the site. The reel's still is its Vimeo thumbnail, so changing that on Vimeo changes it here on the next build. The site rebuilds every day, so they stay current. If YouTube, Metacritic or Vimeo don't answer, that day's build stops and the site stays as it was.
 
@@ -16,8 +16,9 @@ npm run build    # dist/
 | The page | `src/pages/index.astro` |
 | Fetching videos, credits and reels | `src/lib/` |
 | Playing the reel (the Vimeo player loads only when it's played) | `src/scripts/reel.js` |
-| Styles: one narrow column, light and dark with the system | `src/styles/global.css` |
-| Résumé, favicon, fonts (Geist), link preview | `public/` |
+| The prompt at the end (optional commands: `help`, `cd`, `reel`, `open` …) and the status bar marking the pane in view | `src/scripts/shell.js`, `src/scripts/status.js` |
+| Styles: tmux panes in a terminal window, light and dark with the system | `src/styles/global.css` |
+| Résumé, favicon, fonts (Commit Mono), link preview | `public/` |
 | Publishing (on push, and daily) | `.github/workflows/deploy.yml` |
 | What the site is for, and its design | `PRODUCT.md`, `DESIGN.md` |
 
