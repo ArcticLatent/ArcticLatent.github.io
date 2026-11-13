@@ -71,8 +71,11 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
     {structuredData.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data)} />)}
   </head>
   <body>
-    <main>
-      <header id="about">
+    <!-- The page is a node graph: About wires into two lanes (Film & VFX, AI
+         tools & teaching), and both lanes wire into Contact. Wider screens
+         show the lanes side by side; phones get one column. -->
+    <main class="canvas">
+      <header id="about" class="head">
         <div class="masthead">
           <div>
             <h1>Burce Boran</h1>
@@ -107,168 +110,216 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
             </g>
           </svg>
         </div>
-        <p>
-          I work in the VFX industry as a GenAI TD in pipeline, bringing generative AI tools and workflows into how
-          shows get made. Before that I spent over 15 years in visual effects, most recently as an asset supervisor,
-          building and leading the models, textures and look development behind <em>The Mandalorian</em>,
-          <em>Star Trek: Discovery</em> and <em>Avatar: The Last Airbender</em>.
-        </p>
-        <p>
-          Outside the studio I make free, open-source apps like
-          <a href="https://harlo.run">harlo</a>, <a href="https://github.com/ArcticLatent/ComfyPilot">ComfyPilot</a> and
-          <a href="https://github.com/ArcticLatent/Bootcraft">Bootcraft</a>, and on my YouTube channel,
-          <a href={youtubeUrl}>Arctic Latent</a>, I teach artists ComfyUI and AI workflows. Before the channel I taught 3D
-          surfacing at Seneca Polytechnic for four years, and I've spoken about careers in VFX and 3D at TIFF Next Wave and
-          Anadolu University.
-        </p>
-        <p>
-          Get in touch at <a href={`mailto:${email}`}>{email}</a> or on <a href={linkedinUrl}>LinkedIn</a>, or read my
-          <a href={resumeUrl}>résumé</a> (PDF).
-        </p>
-        <nav class="index" aria-label="On this page">
-          <div>
-            <span>Film &amp; VFX</span>
-            <a href="#reels">Reels</a>
-            <a href="#films">Credits</a>
+
+        <div class="node">
+          <div class="node-bar">
+            <h2 class="node-title">About</h2>
           </div>
-          <div>
-            <span>AI tools &amp; teaching</span>
-            <a href="#apps">Apps</a>
-            <a href="#videos">Videos</a>
+          <div class="node-body">
+            <p>
+              I work in the VFX industry as a GenAI TD in pipeline, bringing generative AI tools and workflows into how
+              shows get made. Before that I spent over 15 years in visual effects, most recently as an asset supervisor,
+              building and leading the models, textures and look development behind <em>The Mandalorian</em>,
+              <em>Star Trek: Discovery</em> and <em>Avatar: The Last Airbender</em>.
+            </p>
+            <p>
+              Outside the studio I make free, open-source apps like
+              <a href="https://harlo.run">harlo</a>, <a href="https://github.com/ArcticLatent/ComfyPilot">ComfyPilot</a>
+              and <a href="https://github.com/ArcticLatent/Bootcraft">Bootcraft</a>, and on my YouTube channel,
+              <a href={youtubeUrl}>Arctic Latent</a>, I teach artists ComfyUI and AI workflows. Before the channel I
+              taught 3D surfacing at Seneca Polytechnic for four years, and I've spoken about careers in VFX and 3D at
+              TIFF Next Wave and Anadolu University.
+            </p>
+            <p>
+              Get in touch at <a href={`mailto:${email}`}>{email}</a> or on <a href={linkedinUrl}>LinkedIn</a>, or read
+              my <a href={resumeUrl}>résumé</a> (PDF).
+            </p>
+            <nav class="index" aria-label="On this page">
+              <div>
+                <span>Film &amp; VFX</span>
+                <a href="#reels">Reels</a>
+                <a href="#films">Credits</a>
+              </div>
+              <div>
+                <span>AI tools &amp; teaching</span>
+                <a href="#apps">Apps</a>
+                <a href="#videos">Videos</a>
+              </div>
+            </nav>
           </div>
-        </nav>
+          <span class="socket is-film is-out" aria-hidden="true"></span>
+          <span class="socket is-ai is-out" aria-hidden="true"></span>
+        </div>
       </header>
 
-      <section aria-labelledby="film-title">
-        <h2 id="film-title">Film &amp; VFX</h2>
+      <svg class="wires" viewBox="0 0 100 64" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path class="is-film is-branch" d="M38 0 C 38 34, 24 30, 24 64" />
+        <path class="is-ai is-branch" d="M62 0 C 62 34, 76 30, 76 64" />
+        <path class="is-film is-straight" d="M50 0 V 64" />
+      </svg>
 
-        <div class="block" id="reels">
-          <h3>Reels</h3>
-          {featuredReel ? (
-            <>
-              <figure class="reel">
-                <div class="reel-frame" data-reel-frame>
-                  <a
-                    class:list={["reel-still", !reelStill && "is-blank"]}
-                    href={featuredReel.url}
-                    data-reel={featuredReel.video.id}
-                    data-reel-title={reelTitle(featuredReel)}
-                    aria-label={`Play ${reelTitle(featuredReel)}`}
-                  >
-                    {reelStill &&
-                      (reelStill.startsWith("/") ? (
-                        <img src={reelStill} width="1280" height="720" alt="" />
-                      ) : (
-                        <Image src={reelStill} width={1280} height={720} alt="" loading="eager" />
-                      ))}
-                    <span class="play" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" focusable="false"><path d="M8 5.5v13l10.5-6.5z" /></svg>
-                      Play{!reelStill && ` ${reelTitle(featuredReel)}`}
-                      {featuredReel.video.length && <span class="length">{featuredReel.video.length}</span>}
-                    </span>
-                  </a>
-                </div>
-              </figure>
-              <ul class="rows reel-list">
-                {shownReels.map((reel, index) => (
-                  <li>
+      <section class="lane is-film" aria-labelledby="film-title">
+        <h2 id="film-title" class="lane-title">Film &amp; VFX</h2>
+
+        <div class="node block" id="reels">
+          <div class="node-bar">
+            <h3 class="node-title">Reels</h3>
+          </div>
+          <div class="node-body">
+            {featuredReel ? (
+              <>
+                <figure class="reel">
+                  <div class="reel-frame" data-reel-frame>
                     <a
-                      href={reel.url}
-                      data-reel={reel.video.id}
-                      data-reel-title={reelTitle(reel)}
-                      aria-current={index === 0 ? "true" : undefined}
+                      class:list={["reel-still", !reelStill && "is-blank"]}
+                      href={featuredReel.url}
+                      data-reel={featuredReel.video.id}
+                      data-reel-title={reelTitle(featuredReel)}
+                      aria-label={`Play ${reelTitle(featuredReel)}`}
                     >
-                      {reel.label}
+                      {reelStill &&
+                        (reelStill.startsWith("/") ? (
+                          <img src={reelStill} width="1280" height="720" alt="" />
+                        ) : (
+                          <Image src={reelStill} width={1280} height={720} alt="" loading="eager" />
+                        ))}
+                      <span class="play" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" focusable="false"><path d="M8 5.5v13l10.5-6.5z" /></svg>
+                        Play{!reelStill && ` ${reelTitle(featuredReel)}`}
+                        {featuredReel.video.length && <span class="length">{featuredReel.video.length}</span>}
+                      </span>
                     </a>
-                    <span class="meta">{reel.video.year}</span>
-                  </li>
-                ))}
-              </ul>
-            </>
-          ) : (
-            <p class="fallback">
-              The reels can't be shown here right now. Watch them <a href={reels[0].url}>on Vimeo</a>.
-            </p>
-          )}
+                  </div>
+                </figure>
+                <ul class="rows reel-list">
+                  {shownReels.map((reel, index) => (
+                    <li>
+                      <a
+                        href={reel.url}
+                        data-reel={reel.video.id}
+                        data-reel-title={reelTitle(reel)}
+                        aria-current={index === 0 ? "true" : undefined}
+                      >
+                        {reel.label}
+                      </a>
+                      <span class="meta">{reel.video.year}</span>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              <p class="fallback">
+                The reels can't be shown here right now. Watch them <a href={reels[0].url}>on Vimeo</a>.
+              </p>
+            )}
+          </div>
         </div>
 
-        <div class="block" id="films">
-          <h3>Credits</h3>
-          <ul class="rows credits">
-            {shownCredits.map((project) => (
-              <li>
-                {project.image ? (
-                  <Image class="poster" src={project.image} width={80} height={120} alt="" loading="lazy" />
-                ) : (
-                  <span class="poster is-empty" />
-                )}
-                <span class="title">{project.title}</span>
-                <span class="meta">
-                  {project.episodes && (
-                    <>
-                      <span aria-hidden="true">{project.episodes} ep · </span>
-                      <span class="visually-hidden">{project.episodes} episodes, </span>
-                    </>
-                  )}
-                  {project.year}
-                </span>
-              </li>
-            ))}
-          </ul>
-          <p class="more"><a href={imdbUrl}>Full filmography on IMDb</a></p>
-        </div>
-      </section>
-
-      <section aria-labelledby="tools-title">
-        <h2 id="tools-title">AI tools &amp; teaching</h2>
-
-        <div class="block" id="apps">
-          <h3>Apps</h3>
-          <ul class="rows apps">
-            {apps.map((app) => (
-              <li>
-                <a href={app.href}>{app.name}</a>
-                {app.platforms && <span class="meta">{app.platforms}</span>}
-                <p>{app.description}</p>
-              </li>
-            ))}
-          </ul>
-          <p class="more"><a href={githubUrl}>All my code on GitHub</a></p>
-        </div>
-
-        <div class="block" id="videos">
-          <h3>Arctic Latent</h3>
-          <p class="intro">My YouTube channel: ComfyUI and AI workflow tutorials for artists, on Windows and Linux.</p>
-          {videos.length ? (
-            <ul class="rows videos">
-              {videos.map((video) => (
+        <div class="node block" id="films">
+          <div class="node-bar">
+            <h3 class="node-title">Credits</h3>
+          </div>
+          <div class="node-body">
+            <ul class="rows credits">
+              {shownCredits.map((project) => (
                 <li>
-                  <Image class="thumb" src={video.thumbnail} width={160} height={90} alt="" loading="lazy" />
-                  <a href={video.href}>{video.title}</a>
-                  <span class="meta">{video.publishedAt}</span>
+                  {project.image ? (
+                    <Image class="poster" src={project.image} width={80} height={120} alt="" loading="lazy" />
+                  ) : (
+                    <span class="poster is-empty" />
+                  )}
+                  <span class="title">{project.title}</span>
+                  <span class="meta">
+                    {project.episodes && (
+                      <>
+                        <span aria-hidden="true">{project.episodes} ep · </span>
+                        <span class="visually-hidden">{project.episodes} episodes, </span>
+                      </>
+                    )}
+                    {project.year}
+                  </span>
                 </li>
               ))}
             </ul>
-          ) : (
-            <p class="fallback">The latest videos can't be shown here right now.</p>
-          )}
-          <p class="more"><a href={youtubeUrl}>Open the channel</a></p>
+            <p class="more"><a href={imdbUrl}>Full filmography on IMDb</a></p>
+          </div>
         </div>
       </section>
+
+      <section class="lane is-ai" aria-labelledby="tools-title">
+        <h2 id="tools-title" class="lane-title">AI tools &amp; teaching</h2>
+
+        <div class="node block" id="apps">
+          <div class="node-bar">
+            <h3 class="node-title">Apps</h3>
+          </div>
+          <div class="node-body">
+            <ul class="rows apps">
+              {apps.map((app) => (
+                <li>
+                  <a href={app.href}>{app.name}</a>
+                  {app.platforms && <span class="meta">{app.platforms}</span>}
+                  <p>{app.description}</p>
+                </li>
+              ))}
+            </ul>
+            <p class="more"><a href={githubUrl}>All my code on GitHub</a></p>
+          </div>
+        </div>
+
+        <div class="node block" id="videos">
+          <div class="node-bar">
+            <h3 class="node-title">Arctic Latent</h3>
+          </div>
+          <div class="node-body">
+            <p class="intro">My YouTube channel: ComfyUI and AI workflow tutorials for artists, on Windows and Linux.</p>
+            {videos.length ? (
+              <ul class="rows videos">
+                {videos.map((video) => (
+                  <li>
+                    <Image class="thumb" src={video.thumbnail} width={160} height={90} alt="" loading="lazy" />
+                    <a href={video.href}>{video.title}</a>
+                    <span class="meta">{video.publishedAt}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p class="fallback">The latest videos can't be shown here right now.</p>
+            )}
+            <p class="more"><a href={youtubeUrl}>Open the channel</a></p>
+          </div>
+        </div>
+      </section>
+
+      <svg class="wires" viewBox="0 0 100 64" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path class="is-film is-branch" d="M24 0 C 24 34, 38 30, 38 64" />
+        <path class="is-ai is-branch" d="M76 0 C 76 34, 62 30, 62 64" />
+        <path class="is-ai is-straight" d="M50 0 V 64" />
+      </svg>
     </main>
 
-    <footer>
-      <ul class="contact">
-        <li><a href={`mailto:${email}`}>{email}</a></li>
-        <li><a href={linkedinUrl}>LinkedIn</a></li>
-        <li><a href={resumeUrl}>Résumé</a></li>
-        <li><a href={githubUrl}>GitHub</a></li>
-        <li><a href={youtubeUrl}>YouTube</a></li>
-        <li><a href={imdbUrl}>IMDb</a></li>
-      </ul>
+    <footer class="foot">
+      <div class="node">
+        <span class="socket is-film is-in" aria-hidden="true"></span>
+        <span class="socket is-ai is-in" aria-hidden="true"></span>
+        <div class="node-bar">
+          <h2 class="node-title">Contact</h2>
+        </div>
+        <div class="node-body">
+          <ul class="contact">
+            <li><a href={`mailto:${email}`}>{email}</a></li>
+            <li><a href={linkedinUrl}>LinkedIn</a></li>
+            <li><a href={resumeUrl}>Résumé</a></li>
+            <li><a href={githubUrl}>GitHub</a></li>
+            <li><a href={youtubeUrl}>YouTube</a></li>
+            <li><a href={imdbUrl}>IMDb</a></li>
+          </ul>
+        </div>
+      </div>
     </footer>
 
     <script>
       import "../scripts/reel.js";
     </script>
   </body>
+</html>

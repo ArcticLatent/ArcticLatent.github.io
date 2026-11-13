@@ -43,6 +43,7 @@ A GenAI TD in VFX pipeline with over 15 years of production behind them (most re
 - Voice: first person throughout ("I supervise…", "apps I build").
 - The site no longer borrows harlo's visual identity; harlo is one of the apps, not the brand.
 - Standing preference (chosen 2026-11-13, after three rounds of themed directions): a modern, minimal developer-site look, with leerob.com as the craft bar. No themed film props, no 3D backdrop.
+- Layout (chosen 2026-11-13): the page reads as a ComfyUI-style node graph. About wires into two lanes, Film & VFX and AI tools & teaching, and both wire into Contact. The nodes keep ComfyUI's anatomy (title bars, sockets, curved wires, a dot-grid canvas) but stay in the minimal greys, with one quiet colour per lane on the wires.
 
 ## Evidence on Hand
 

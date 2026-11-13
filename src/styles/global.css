@@ -1,5 +1,6 @@
-/* One narrow column of text and lists, neutral, light or dark with the
-   system. Geist, served from public/fonts. */
+/* The page as a node graph on a dotted canvas: About wires into two lanes,
+   both lanes wire into Contact. Neutral greys, one quiet colour per lane,
+   light or dark with the system. Geist, served from public/fonts. */
 @font-face { font-family: "Geist"; font-weight: 400; font-style: normal; font-display: swap; src: url("/fonts/Geist-Regular.woff2") format("woff2"); }
 @font-face { font-family: "Geist"; font-weight: 500; font-style: normal; font-display: swap; src: url("/fonts/Geist-Medium.woff2") format("woff2"); }
 @font-face { font-family: "Geist"; font-weight: 600; font-style: normal; font-display: swap; src: url("/fonts/Geist-SemiBold.woff2") format("woff2"); }
@@ -13,7 +14,13 @@
   --line: #ebebeb;
   --underline: #a3a3a3;
   --still: #f2f2f2;
+  --edge: #dedede;
+  --bar: #fafafa;
+  --grid: #d9d9d9;
+  --film: #4f8cc9;
+  --ai: #b565b2;
   --measure: 580px;
+  --canvas: 1080px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -26,6 +33,11 @@
     --line: #1f1f1f;
     --underline: #5e5e5e;
     --still: #161616;
+    --edge: #2a2a2a;
+    --bar: #111111;
+    --grid: #262626;
+    --film: #6fa8dc;
+    --ai: #d08bcd;
   }
 }
 
@@ -35,8 +47,12 @@
   box-sizing: border-box;
 }
 
+/* The canvas: a faint dot grid, like a node editor's. */
 html {
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image: radial-gradient(circle, var(--grid) 1px, transparent 1.5px);
+  background-size: 22px 22px;
+  background-position: -11px -11px;
   scrollbar-color: var(--underline) var(--bg);
   -webkit-text-size-adjust: 100%;
 }
@@ -55,12 +71,6 @@ body {
   color: var(--bg);
 }
 
-main,
-footer {
-  max-width: var(--measure);
-  margin: 0 auto;
-}
-
 h1,
 h2,
 h3 {
@@ -71,23 +81,13 @@ h3 {
   text-wrap: balance;
 }
 
-h1 {
-  font-weight: 600;
-}
-
+h1,
 h2 {
   font-weight: 600;
-  margin-top: 56px;
 }
 
 h3 {
   font-weight: 500;
-  color: var(--muted);
-  margin: 36px 0 12px;
-}
-
-h2 + .block h3 {
-  margin-top: 16px;
 }
 
 p {
@@ -120,6 +120,140 @@ a:hover {
   border-radius: 3px;
 }
 
+/* The graph's layout. Phones and narrow windows: one column, each node wired
+   to the next. Wide windows (below): the lanes side by side. */
+.canvas,
+.foot {
+  max-width: var(--canvas);
+  margin: 0 auto;
+}
+
+.head,
+.lane,
+.wires,
+.foot > .node {
+  display: block;
+  width: 100%;
+  max-width: var(--measure);
+  margin-inline: auto;
+}
+
+.lane.is-film,
+.is-film {
+  --lane: var(--film);
+}
+
+.lane.is-ai,
+.is-ai {
+  --lane: var(--ai);
+}
+
+/* A lane's wire runs down its middle, behind its nodes: it shows between
+   them, and below the last one down to Contact. */
+.lane {
+  background: linear-gradient(var(--lane), var(--lane)) center top / 2px 100% no-repeat;
+}
+
+.lane .node + .node {
+  margin-top: 48px;
+}
+
+/* A lane's name sits on its wire, like a label. */
+.lane-title {
+  padding: 18px 0 18px calc(50% + 14px);
+  white-space: nowrap;
+}
+
+.wires {
+  height: 40px;
+  overflow: visible;
+  fill: none;
+}
+
+.wires path {
+  stroke: var(--lane);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.wires .is-branch {
+  display: none;
+}
+
+/* Nodes: a title bar and a body, in a hairline frame. */
+.node {
+  position: relative;
+  background: var(--bg);
+  border: 1px solid var(--edge);
+  border-radius: 10px;
+}
+
+.node-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--line);
+  border-radius: 9px 9px 0 0;
+  background: var(--bar);
+}
+
+.node-bar::before {
+  content: "";
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--lane, var(--underline));
+}
+
+.node-title {
+  font-weight: 500;
+}
+
+.node-body {
+  padding: 16px;
+}
+
+.node-body > :last-child {
+  margin-bottom: 0;
+}
+
+.block {
+  scroll-margin-top: 24px;
+}
+
+/* Sockets: where a wire plugs in (top) or out (bottom). */
+.lane .node::before,
+.lane .node::after,
+.socket {
+  content: "";
+  position: absolute;
+  left: calc(50% - 6px);
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--bg);
+  border-radius: 50%;
+  background: var(--lane);
+}
+
+.lane .node::before,
+.socket.is-in {
+  top: -7px;
+}
+
+.lane .node::after,
+.socket.is-out {
+  bottom: -7px;
+}
+
+/* In one column, About sends only Film & VFX down, and Contact takes only
+   what comes out of AI tools & teaching. */
+.socket.is-ai.is-out,
+.socket.is-film.is-in {
+  display: none;
+}
+
 /* The name, and a small line drawing beside it: a node graph wired into a
    wireframe sphere. Hairlines only; drawn in once on load. */
 .masthead {
@@ -127,11 +261,12 @@ a:hover {
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
-.masthead .role {
+.role {
   margin: 0;
+  color: var(--muted);
 }
 
 .graph {
@@ -190,17 +325,10 @@ a:hover {
   }
 }
 
-@media (max-width: 520px) {
-  .graph {
-    width: 112px;
-  }
-}
-
 /* Both halves of the page, from the top. */
 .index {
   display: grid;
   gap: 2px;
-  margin-top: 24px;
   font-size: 14px;
 }
 
@@ -212,41 +340,6 @@ a:hover {
 
 .index span {
   min-width: 152px;
-  color: var(--muted);
-}
-
-/* The second half starts on its own rule. */
-section + section {
-  margin-top: 96px;
-  border-top: 1px solid var(--line);
-}
-
-section + section {
-  position: relative;
-}
-
-section + section::before {
-  content: "";
-  position: absolute;
-  top: -4px;
-  left: 0;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  border: 1px solid var(--muted);
-  background: var(--bg);
-}
-
-section + section h2 {
-  margin-top: 40px;
-}
-
-.block {
-  scroll-margin-top: 24px;
-}
-
-.role {
-  margin: 0 0 24px;
   color: var(--muted);
 }
 
@@ -269,7 +362,7 @@ section + section h2 {
   width: 100%;
   aspect-ratio: 16 / 9;
   border: 0;
-  border-radius: 8px;
+  border-radius: 6px;
   overflow: hidden;
   background: var(--still);
 }
@@ -298,8 +391,8 @@ section + section h2 {
 
 .play {
   position: absolute;
-  left: 14px;
-  bottom: 14px;
+  left: 12px;
+  bottom: 12px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -346,9 +439,6 @@ section + section h2 {
   position: static;
   background: var(--fg);
   color: var(--bg);
-}
-
-.is-blank .play {
   box-shadow: none;
 }
 
@@ -400,14 +490,21 @@ section + section h2 {
   border-bottom: 1px solid var(--line);
 }
 
+/* Inside a node the first row needs no rule of its own. */
+.node-body > .rows:first-child li:first-child,
 .reel + .rows li:first-child {
   border-top: 0;
+  padding-top: 0;
 }
 
 .credits li,
 .videos li {
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
+}
+
+.node-body > .credits:first-child li:first-child {
+  padding-top: 0;
 }
 
 .credits .title {
@@ -460,14 +557,8 @@ section + section h2 {
   color: var(--muted);
 }
 
-footer {
-  margin-top: 96px;
-  padding: 18px 0 56px;
-  border-top: 1px solid var(--line);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 12px 24px;
+.foot {
+  padding-bottom: 56px;
   font-size: 14px;
 }
 
@@ -477,7 +568,7 @@ footer {
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 4px 12px;
+  gap: 0 14px;
 }
 
 .contact a {
@@ -485,7 +576,72 @@ footer {
   padding: 6px 0;
 }
 
+.foot .node-body {
+  padding-block: 10px;
+}
+
+/* Wide windows: About on top, the two lanes side by side under it, Contact
+   at the bottom. The lanes are 48% wide with a 4% gap, so their wires run
+   down at 24% and 76%; About and Contact are 48% wide and centred, with
+   their sockets at 38% and 62% of the canvas. */
+@media (min-width: 960px) {
+  .canvas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 4%;
+  }
+
+  .head,
+  .wires {
+    grid-column: 1 / -1;
+  }
+
+  .head,
+  .foot > .node {
+    width: 48%;
+    max-width: none;
+  }
+
+  .lane,
+  .wires {
+    max-width: none;
+  }
+
+  .wires {
+    height: 72px;
+  }
+
+  .wires .is-branch {
+    display: inline;
+  }
+
+  .wires .is-straight {
+    display: none;
+  }
+
+  .socket.is-ai.is-out,
+  .socket.is-film.is-in {
+    display: block;
+  }
+
+  .socket.is-film {
+    left: calc(25% - 6px);
+  }
+
+  .socket.is-ai {
+    left: calc(75% - 6px);
+  }
+
+  .lane .node + .node {
+    margin-top: 56px;
+  }
+}
+
 @media (max-width: 520px) {
+  .graph {
+    width: 112px;
+  }
+
   .videos li {
     grid-template-columns: auto minmax(0, 1fr);
   }

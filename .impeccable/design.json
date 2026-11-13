@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-13T08:37:53.590786+00:00",
+  "generatedAt": "2026-11-13T09:22:21.056842+00:00",
   "title": "Design System: Burce Boran",
   "extensions": {
     "colorMeta": {
@@ -199,6 +199,146 @@
           "#dedede",
           "#f2f2f2"
         ]
+      },
+      "edge": {
+        "role": "neutral",
+        "displayName": "Edge (light)",
+        "tonalRamp": [
+          "#1f1f1f",
+          "#333333",
+          "#4a4a4a",
+          "#6b6b6b",
+          "#8f8f8f",
+          "#b8b8b8",
+          "#dedede",
+          "#f2f2f2"
+        ]
+      },
+      "edge-dark": {
+        "role": "neutral",
+        "displayName": "Edge (dark)",
+        "tonalRamp": [
+          "#1f1f1f",
+          "#333333",
+          "#4a4a4a",
+          "#6b6b6b",
+          "#8f8f8f",
+          "#b8b8b8",
+          "#dedede",
+          "#f2f2f2"
+        ]
+      },
+      "bar": {
+        "role": "neutral",
+        "displayName": "Bar (light)",
+        "tonalRamp": [
+          "#1f1f1f",
+          "#333333",
+          "#4a4a4a",
+          "#6b6b6b",
+          "#8f8f8f",
+          "#b8b8b8",
+          "#dedede",
+          "#f2f2f2"
+        ]
+      },
+      "bar-dark": {
+        "role": "neutral",
+        "displayName": "Bar (dark)",
+        "tonalRamp": [
+          "#1f1f1f",
+          "#333333",
+          "#4a4a4a",
+          "#6b6b6b",
+          "#8f8f8f",
+          "#b8b8b8",
+          "#dedede",
+          "#f2f2f2"
+        ]
+      },
+      "grid": {
+        "role": "neutral",
+        "displayName": "Grid (light)",
+        "tonalRamp": [
+          "#1f1f1f",
+          "#333333",
+          "#4a4a4a",
+          "#6b6b6b",
+          "#8f8f8f",
+          "#b8b8b8",
+          "#dedede",
+          "#f2f2f2"
+        ]
+      },
+      "grid-dark": {
+        "role": "neutral",
+        "displayName": "Grid (dark)",
+        "tonalRamp": [
+          "#1f1f1f",
+          "#333333",
+          "#4a4a4a",
+          "#6b6b6b",
+          "#8f8f8f",
+          "#b8b8b8",
+          "#dedede",
+          "#f2f2f2"
+        ]
+      },
+      "film": {
+        "role": "accent",
+        "displayName": "Film lane (light)",
+        "tonalRamp": [
+          "#1d3f61",
+          "#2a5784",
+          "#3a71a8",
+          "#4f8cc9",
+          "#6fa8dc",
+          "#94c0e6",
+          "#bdd8f0",
+          "#e3eff9"
+        ]
+      },
+      "film-dark": {
+        "role": "accent",
+        "displayName": "Film lane (dark)",
+        "tonalRamp": [
+          "#1d3f61",
+          "#2a5784",
+          "#3a71a8",
+          "#4f8cc9",
+          "#6fa8dc",
+          "#94c0e6",
+          "#bdd8f0",
+          "#e3eff9"
+        ]
+      },
+      "ai": {
+        "role": "accent",
+        "displayName": "AI lane (light)",
+        "tonalRamp": [
+          "#4f2a4e",
+          "#6f3b6d",
+          "#924f8f",
+          "#b565b2",
+          "#d08bcd",
+          "#e0aede",
+          "#edcdeb",
+          "#f8eaf7"
+        ]
+      },
+      "ai-dark": {
+        "role": "accent",
+        "displayName": "AI lane (dark)",
+        "tonalRamp": [
+          "#4f2a4e",
+          "#6f3b6d",
+          "#924f8f",
+          "#b565b2",
+          "#d08bcd",
+          "#e0aede",
+          "#edcdeb",
+          "#f8eaf7"
+        ]
       }
     },
     "typographyMeta": {
@@ -247,6 +387,10 @@
       {
         "name": "narrow",
         "value": "520px"
+      },
+      {
+        "name": "lanes",
+        "value": "960px"
       }
     ],
     "focus": {
@@ -274,6 +418,14 @@
     ]
   },
   "components": [
+    {
+      "name": "Node",
+      "kind": "custom",
+      "refersTo": "node",
+      "description": "Hairline Edge frame, 10px radius; title bar with a lane-coloured dot; 16px body; input and output sockets on the top and bottom edges.",
+      "html": "<div class=\"ds-node\"><span class=\"ds-socket ds-in\"></span><div class=\"ds-bar\">Reels</div><div class=\"ds-body\"><p>A body of rows, prose or the reel. <a class=\"ds-link\" href=\"#\">A link</a>.</p></div><span class=\"ds-socket ds-out\"></span></div>",
+      "css": ":host{--bg:#fff;--fg:#111;--text:#3b3b3b;--muted:#6b6b6b;--line:#ebebeb;--underline:#a3a3a3;--edge:#dedede;--bar:#fafafa;--film:#4f8cc9;--ai:#b565b2;}.ds-node{position:relative;width:420px;max-width:100%;background:var(--bg);border:1px solid var(--edge);border-radius:10px;font-family:Geist,-apple-system,'Segoe UI',system-ui,sans-serif;font-size:15px;line-height:1.7;color:var(--text)}.ds-bar{display:flex;align-items:center;gap:10px;padding:8px 16px;border-bottom:1px solid var(--line);border-radius:9px 9px 0 0;background:var(--bar);color:var(--fg);font-weight:500}.ds-bar::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--film)}.ds-body{padding:16px}.ds-body p{margin:0}.ds-socket{position:absolute;left:calc(50% - 6px);width:12px;height:12px;border:2px solid var(--bg);border-radius:50%;background:var(--film)}.ds-in{top:-7px}.ds-out{bottom:-7px}.ds-link{color:var(--fg);text-decoration:underline;text-decoration-color:var(--underline);text-decoration-thickness:1px;text-underline-offset:3px}"
+    },
     {
       "name": "Link",
       "kind": "custom",
@@ -310,7 +462,7 @@
       "name": "Reel still with Play pill",
       "kind": "custom",
       "refersTo": "reel-still",
-      "description": "16:9 still, 8px radius, inset hairline ring, translucent Play pill bottom-left.",
+      "description": "16:9 still, 6px radius inside its node, inset hairline ring, solid white Play pill bottom-left.",
       "html": "<a class=\"ds-reel\" href=\"#\"><span class=\"ds-play\"><svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"currentColor\"><path d=\"M8 5.5v13l10.5-6.5z\"/></svg>Play <span class=\"ds-len\">4:37</span></span></a>",
       "css": ":host{--bg:#fff;--fg:#111;--text:#3b3b3b;--muted:#6b6b6b;--line:#ebebeb;--underline:#c4c4c4;--still:#f2f2f2;}.ds-reel{position:relative;display:block;width:420px;max-width:100%;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:var(--still);box-shadow:inset 0 0 0 1px var(--line);transition:box-shadow 200ms ease-out;font-family:Geist,-apple-system,'Segoe UI',system-ui,sans-serif;}.ds-reel:hover{box-shadow:inset 0 0 0 1px var(--underline)}.ds-reel:focus-visible{outline:2px solid var(--fg);outline-offset:3px}.ds-play{position:absolute;left:14px;bottom:14px;display:inline-flex;align-items:center;gap:6px;padding:6px 14px 6px 10px;border-radius:999px;background:rgb(0 0 0/.66);color:#fff;font-size:14px;font-weight:500;transition:background-color 200ms ease-out}.ds-reel:hover .ds-play{background:rgb(0 0 0/.86)}.ds-len{color:rgb(255 255 255/.72);font-variant-numeric:tabular-nums}"
     },
@@ -323,34 +475,34 @@
       "css": ":host{--bg:#fff;--fg:#111;--text:#3b3b3b;--muted:#6b6b6b;--line:#ebebeb;--underline:#c4c4c4;--still:#f2f2f2;}.ds-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 14px 6px 10px;border-radius:999px;background:var(--fg);color:var(--bg);font-family:Geist,-apple-system,'Segoe UI',system-ui,sans-serif;font-size:14px;font-weight:500;text-decoration:none;transition:opacity 200ms ease-out}.ds-pill:hover{opacity:.86}.ds-pill:focus-visible{outline:2px solid var(--fg);outline-offset:3px}.ds-len{opacity:.7;font-variant-numeric:tabular-nums}"
     },
     {
-      "name": "Footer",
+      "name": "Contact node",
       "kind": "nav",
-      "refersTo": "link",
-      "description": "Hairline rule, contact links left, updated date right, 14px.",
-      "html": "<footer class=\"ds-foot\"><ul><li><a class=\"ds-link\" href=\"#\">Email</a></li><li><a class=\"ds-link\" href=\"#\">LinkedIn</a></li><li><a class=\"ds-link\" href=\"#\">Résumé</a></li></ul><span class=\"ds-meta\">Updated 13 November 2026</span></footer>",
-      "css": ":host{--bg:#fff;--fg:#111;--text:#3b3b3b;--muted:#6b6b6b;--line:#ebebeb;--underline:#c4c4c4;--still:#f2f2f2;}.ds-foot{width:580px;max-width:100%;padding:24px 0;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;font-family:Geist,-apple-system,'Segoe UI',system-ui,sans-serif;font-size:14px}.ds-foot ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:4px 12px}.ds-link{color:var(--fg);text-decoration:underline;text-decoration-color:var(--underline);text-decoration-thickness:1px;text-underline-offset:3px;transition:text-decoration-color 150ms ease-out}.ds-link:hover{text-decoration-color:currentColor}.ds-meta{color:var(--muted);font-variant-numeric:tabular-nums}"
+      "refersTo": "node",
+      "description": "The footer as the last node: neutral title-bar dot, inputs from both lanes, contact links at 14px.",
+      "html": "<div class=\"ds-node\"><span class=\"ds-socket ds-in\" style=\"left:calc(25% - 6px)\"></span><span class=\"ds-socket ds-in\" style=\"left:calc(75% - 6px);background:var(--ai)\"></span><div class=\"ds-bar ds-neutral\">Contact</div><div class=\"ds-body ds-contact\"><a class=\"ds-link\" href=\"#\">burce.boran@gmail.com</a><a class=\"ds-link\" href=\"#\">LinkedIn</a><a class=\"ds-link\" href=\"#\">Résumé</a></div></div>",
+      "css": ":host{--bg:#fff;--fg:#111;--text:#3b3b3b;--muted:#6b6b6b;--line:#ebebeb;--underline:#a3a3a3;--edge:#dedede;--bar:#fafafa;--film:#4f8cc9;--ai:#b565b2;}.ds-node{position:relative;width:420px;max-width:100%;background:var(--bg);border:1px solid var(--edge);border-radius:10px;font-family:Geist,-apple-system,'Segoe UI',system-ui,sans-serif;font-size:15px;line-height:1.7;color:var(--text)}.ds-bar{display:flex;align-items:center;gap:10px;padding:8px 16px;border-bottom:1px solid var(--line);border-radius:9px 9px 0 0;background:var(--bar);color:var(--fg);font-weight:500}.ds-bar::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--film)}.ds-body{padding:16px}.ds-body p{margin:0}.ds-socket{position:absolute;left:calc(50% - 6px);width:12px;height:12px;border:2px solid var(--bg);border-radius:50%;background:var(--film)}.ds-in{top:-7px}.ds-out{bottom:-7px}.ds-link{color:var(--fg);text-decoration:underline;text-decoration-color:var(--underline);text-decoration-thickness:1px;text-underline-offset:3px}.ds-neutral::before{background:var(--underline)}.ds-contact{display:flex;flex-wrap:wrap;gap:0 14px;padding-block:10px;font-size:14px}.ds-contact a{padding:6px 0}"
     }
   ],
   "narrative": {
-    "northStar": "The Plain Page",
-    "overview": "One narrow column of text and quiet lists, in the modern minimal developer register. Hierarchy comes from weight and colour, never from size: the name, the section headings and the body all sit at 15px. Everything after the bio is a row (title left, details right, a hairline between), with small real images only where the work is visual.\n\nThe world is neutral grey on white, or on near-black when the system is dark; there is no accent colour. Links are text-coloured with a thin underline. Motion is limited to short colour and opacity transitions, and none of it runs under reduced motion. The only behaviour is the reel: a still (or a lone Play pill) that becomes the Vimeo player when pressed.",
+    "northStar": "The Wired Page",
+    "overview": "The page is a small node graph, the way a ComfyUI workflow reads: an About node wires out into two lanes, Film & VFX (Reels, Credits) and AI tools & teaching (Apps, Arctic Latent), and both lanes wire into a Contact node. It stays in the modern minimal developer register: one type size, neutral greys, hairline frames, rows inside every node, on a ground with a faint dot grid. Wires, sockets and title-bar dots carry the only colour: a quiet blue for Film & VFX and a quiet pink for AI tools & teaching. Side by side from 960px, one wired column below.",
     "keyCharacteristics": [
-      "One 580px measure, centred, generous top space.",
+      "A node graph: About → two lanes → Contact. Side by side from 960px; one wired column below.",
       "One type size (15px), stepped by weight (400/500/600) and colour; 14px only for meta and small print.",
-      "Neutral palette, light and dark by `prefers-color-scheme`, no accent.",
-      "Rows with 1px hairlines as the universal list form.",
-      "Flat: no shadows, no cards, no gradients."
+      "Neutral palette, light and dark by `prefers-color-scheme`; colour only on wires, sockets and title-bar dots, one hue per lane.",
+      "Rows with 1px hairlines as the universal list form, inside nodes.",
+      "Flat: no shadows, no gradients. Nodes are the one framed container, never nested."
     ],
     "rules": [
       {
-        "name": "The No Accent Rule",
-        "body": "Nothing is coloured. Emphasis is Ink against Body Grey; interaction is an underline darkening to `currentColor`.",
-        "section": "colors"
+        "name": "The Lane Colour Rule",
+        "section": "colors",
+        "body": "Colour belongs to the graph, never to text. A lane's hue appears only on its wires, its sockets and the dots in its nodes' title bars; links and headings stay Ink. A third hue needs a third lane."
       },
       {
         "name": "The Two Modes Rule",
-        "body": "A new colour is only allowed as a light/dark pair under the same role name. The one exception is the Play pill over a still, which sits on the image and uses fixed black at 66% (86% on hover) with white text, the same in both modes.",
-        "section": "colors"
+        "section": "colors",
+        "body": "A new colour is only allowed as a light/dark pair under the same role name. The one exception is the Play pill over a still: solid white with #111 text and a soft 1px-offset shadow, the same in both modes."
       },
       {
         "name": "The One Size Rule",
@@ -364,22 +516,24 @@
       },
       {
         "name": "The Hairline Rule",
-        "body": "Separation is a 1px Hairline line or ring, never a shadow, card or background panel.",
-        "section": "elevation"
+        "section": "elevation",
+        "body": "Separation inside a node is a 1px Hairline line or ring, never a shadow or a tinted panel. The node frame itself is the only container, one level deep."
       }
     ],
     "dos": [
-      "**Do** keep every text element at 15px (14px for meta/footer) and step hierarchy with weight 600/500/400 and Ink/Quiet Grey.",
-      "**Do** present any new list as rows: title left, tabular meta right, 1px Hairline between.",
-      "**Do** give every image a Still fill and a 1px Hairline ring.",
-      "**Do** define any new colour as a light/dark pair under one role.",
-      "**Do** limit motion to 150-200ms ease-out colour/opacity transitions, removed under `prefers-reduced-motion`."
+      "Put any new section in a node on one of the lanes, wired in, with a title bar.",
+      "Keep every text element at 15px (14px for meta and small print) and step hierarchy with weight 600/500/400 and Ink/Quiet Grey.",
+      "Present any new list as rows inside its node: title left, tabular meta right, 1px Hairline between.",
+      "Give every image a Still fill and a 1px Hairline ring.",
+      "Define any new colour as a light/dark pair under one role.",
+      "Limit motion to 150-200ms ease-out colour/opacity transitions, removed under `prefers-reduced-motion`."
     ],
     "donts": [
-      "**Don't** add an accent colour, gradient, or coloured link.",
-      "**Don't** use drop shadows, cards or tinted panels to separate content; use the hairline.",
-      "**Don't** set a heading larger than body size.",
-      "**Don't** load embeds (players, iframes) before the visitor asks for them."
+      "Don't put a lane colour on text, links or fills; it lives on wires, sockets and title-bar dots only.",
+      "Don't nest a node in a node, or frame anything inside a node other than images.",
+      "Don't use drop shadows, gradients or tinted panels to separate content.",
+      "Don't set a heading larger than body size.",
+      "Don't load embeds (players, iframes) before the visitor asks for them."
     ]
   }
 }

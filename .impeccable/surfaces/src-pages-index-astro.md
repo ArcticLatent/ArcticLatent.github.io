@@ -31,3 +31,9 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 - Footer: the contact links again and the date the site was last rebuilt.
 - A section whose fetch failed shows one line with a link to the source.
 - No JavaScript is required for anything except loading the reel player.
+
+## Amendment (2026-11-13): node layout
+The user asked for a ComfyUI-like node layout. They chose two lanes merging, at the "in between" fidelity. This supersedes the single-column thesis and the no-accent rule. Everything else above still holds: the register, one type size, rows, the reel, and no JavaScript beyond the player.
+- About (with the name, role and drawing above it) wires into two lanes, Film & VFX (Reels → Credits) and AI tools & teaching (Apps → Arctic Latent), and both wire into a Contact node, which replaces the footer.
+- Nodes have a title bar, a body and sockets. The canvas is a faint dot grid. Wires use one quiet colour per lane (ComfyUI's IMAGE blue and LATENT pink), and only on wires, sockets and title-bar dots.
+- Side by side from 960px; one wired column below. DESIGN.md records the system ("The Wired Page").
