@@ -40,7 +40,7 @@ const ogImageUrl = `${siteUrl}/og-image.png`;
 const reelTitle = (reel) => `${reel.label}, ${reel.video.year}`;
 const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredReel.still ?? featuredReel.video.still);
 
-// The three shows the bio names; the rest are counted.
+// The three shows fastfetch names; the rest are counted.
 const namedShows = ["The Mandalorian", "House of the Dragon", "Avatar: The Last Airbender"];
 const otherShows = shownCredits.length - namedShows.length;
 
@@ -98,10 +98,24 @@ const contactLinks = [
          printed. About runs across the top, Film & VFX and AI tools & teaching
          sit side by side in two panes, Contact ends it with a prompt, and the
          status bar along the bottom is the page's navigation. -->
+    <a class="skip" href="#content">skip to content</a>
     <div class="term">
-      <div class="titlebar" aria-hidden="true">burce@arcticlatent: ~</div>
+      <div class="titlebar" aria-hidden="true" data-titlebar>burce@arcticlatent: ~</div>
 
-      <main class="panes">
+      <!-- First in the source, so keyboards and screen readers reach it first;
+           CSS draws it along the bottom, where tmux keeps it. -->
+      <nav class="status" aria-label="Sections">
+        <span class="session" aria-hidden="true">[burce]</span>
+        <ul>
+          <li><a href="#about" data-goto="about"><span aria-hidden="true">0:</span>about</a></li>
+          <li><a href="#film" data-goto="film"><span aria-hidden="true">1:</span>film</a></li>
+          <li><a href="#tools" data-goto="tools"><span aria-hidden="true">2:</span>tools</a></li>
+          <li><a href="#contact" data-goto="contact"><span aria-hidden="true">3:</span>contact</a></li>
+        </ul>
+        <span class="host" aria-hidden="true">"arcticlatent" {builtDate}</span>
+      </nav>
+
+      <main class="panes" id="content" tabindex="-1">
         <header class="pane is-about" id="about" data-pane="about">
           <p class="pane-title" aria-hidden="true"><span>0</span> About</p>
 
@@ -118,12 +132,12 @@ const contactLinks = [
                   <h1>Burce Boran</h1>
                   <p class="underline" aria-hidden="true">-----------</p>
                   <dl>
-                    <div><dt>Role</dt><dd><span class="nowrap">GenAI Pipeline TD</span> · <span class="nowrap">Asset Supervisor</span></dd></div>
+                    <div><dt>Role</dt><dd><span class="nowrap">GenAI Pipeline TD</span> <span class="nowrap">· Asset Supervisor</span></dd></div>
                     <div><dt>Uptime</dt><dd>15+ years in visual effects</dd></div>
                     <div><dt>Shows</dt><dd>{namedShows.join(", ")}{otherShows > 0 && <> <a class="nowrap" href="#films">+{otherShows} more</a></>}</dd></div>
                     <div><dt>Apps</dt><dd><a href="#apps">{apps.map((app) => app.name).join(", ")}</a></dd></div>
                     <div><dt>Channel</dt><dd><a href="#videos">Arctic Latent</a>, ComfyUI and AI workflows</dd></div>
-                    <div><dt>Contact</dt><dd><a href={`mailto:${email}`}>{email}</a></dd></div>
+                    <div><dt>Contact</dt><dd><a href={`mailto:${email}`}>{email}</a> · <a class="nowrap" href={resumeUrl}>résumé (PDF)</a></dd></div>
                   </dl>
                   <p class="swatches" aria-hidden="true">
                     <span class="c0"></span><span class="c1"></span><span class="c2"></span><span class="c3"></span><span
@@ -136,21 +150,15 @@ const contactLinks = [
 
             <div class="run">
               <p class="cmd" aria-hidden="true"><span class="cwd">~</span> <span class="ps">$</span> cat about.txt</p>
-              <div class="prose">
+              <div class="prose" data-file="about.txt">
                 <p>
                   I work in the VFX industry as a GenAI pipeline TD, bringing generative AI tools and workflows into how
                   shows get made. Before that I spent over 15 years in visual effects, many of them as an asset
-                  supervisor, building and leading the models, textures and look development for films and series,
-                  including <em>The Mandalorian</em>, <em>House of the Dragon</em> and
-                  <em>Avatar: The Last Airbender</em>.
+                  supervisor, building and leading the models, textures and look development for films and series.
                 </p>
                 <p>
                   Outside the studio I make <a href="#apps">free, open-source apps</a> and teach artists ComfyUI and AI
                   workflows on my YouTube channel, <a href="#videos">Arctic Latent</a>.
-                </p>
-                <p>
-                  Get in touch at <a href={`mailto:${email}`}>{email}</a> or on <a href={linkedinUrl}>LinkedIn</a>, or
-                  read my <a href={resumeUrl}>résumé</a> (PDF).
                 </p>
               </div>
             </div>
@@ -285,7 +293,7 @@ const contactLinks = [
               <span aria-hidden="true"><span class="cwd">~/tools</span> <span class="ps">$</span> cat arctic-latent/README</span>
               <span class="visually-hidden">Arctic Latent</span>
             </h3>
-            <div class="prose">
+            <div class="prose" data-file="arctic-latent/README">
               <p>
                 My YouTube channel: ComfyUI and AI workflow tutorials for artists, on Windows and Linux. Before it I
                 taught 3D surfacing at Seneca Polytechnic for four years, and I've spoken about careers in VFX and 3D at
@@ -359,16 +367,6 @@ const contactLinks = [
         </section>
       </main>
 
-      <nav class="status" aria-label="Sections">
-        <span class="session" aria-hidden="true">[burce]</span>
-        <ul>
-          <li><a href="#about" data-goto="about"><span aria-hidden="true">0:</span>about</a></li>
-          <li><a href="#film" data-goto="film"><span aria-hidden="true">1:</span>film</a></li>
-          <li><a href="#tools" data-goto="tools"><span aria-hidden="true">2:</span>tools</a></li>
-          <li><a href="#contact" data-goto="contact"><span aria-hidden="true">3:</span>contact</a></li>
-        </ul>
-        <span class="host" aria-hidden="true">"arcticlatent" {builtDate}</span>
-      </nav>
     </div>
 
     <script>

@@ -10,6 +10,7 @@ if (shell) {
   const field = input.parentElement;
   const log = shell.querySelector("[data-log]");
   const cwdLabel = shell.querySelector("[data-cwd]");
+  const titlebar = document.querySelector("[data-titlebar]");
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
 
   shell.querySelector("[data-idle]").hidden = true;
@@ -88,22 +89,89 @@ if (shell) {
     log.append(echoed);
   };
 
+  // A command that goes somewhere says where it went (screen readers hear it
+  // from the log), and the keyboard goes there with the screen.
+  let jumped = false;
   const jump = (target) => {
     const element = document.querySelector(target);
     if (!element) return;
-    const pane = element.closest("[data-pane]")?.dataset.pane;
-    if (pane) document.dispatchEvent(new CustomEvent("pane:choose", { detail: pane }));
+    const pane = element.closest("[data-pane]");
+    if (pane) document.dispatchEvent(new CustomEvent("pane:choose", { detail: pane.dataset.pane }));
+    const paneName = pane?.querySelector(".pane-title")?.textContent.replace(/^\s*\d+\s*/, "").trim() ?? "";
+    const partName = element === pane ? "" : element.querySelector(".cmd .visually-hidden")?.textContent.trim();
+    line(`→ ${[paneName, partName].filter(Boolean).join(": ")}`, "is-dim");
+    jumped = true;
     element.scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "start" });
+    if (element.tabIndex < 0 && !element.hasAttribute("tabindex")) element.tabIndex = -1;
+    element.focus({ preventScroll: true });
+  };
+
+  // The files the page cats: their text, as printed above.
+  const files = {
+    "about.txt": () => document.querySelector('[data-file="about.txt"]'),
+    contact: () => document.querySelector(".contact"),
+    "arctic-latent/README": () => document.querySelector('[data-file="arctic-latent/README"]')
+  };
+  const fileName = (path) => {
+    const name = path.replace(/^~\//, "").replace(/^(tools|film)\//, "");
+    if (/^about(\.txt)?$/.test(name)) return "about.txt";
+    if (name === "contact") return "contact";
+    if (/(^|\/)README(\.md)?$/i.test(name)) return "arctic-latent/README";
+    return null;
+  };
+  const copyOf = (element) => {
+    const copy = element.cloneNode(true);
+    copy.removeAttribute("id");
+    for (const child of copy.querySelectorAll("[id]")) child.removeAttribute("id");
+    // The source's line breaks and indentation aren't the text's.
+    const walker = document.createTreeWalker(copy, NodeFilter.SHOW_TEXT);
+    while (walker.nextNode()) walker.currentNode.data = walker.currentNode.data.replace(/\s+/g, " ");
+    copy.normalize();
+    const first = walker.root.firstChild;
+    if (first?.nodeType === Node.TEXT_NODE) first.data = first.data.trimStart();
+    const last = walker.root.lastChild;
+    if (last?.nodeType === Node.TEXT_NODE) last.data = last.data.trimEnd();
+    return copy;
+  };
+
+  // Close typos: one or two letters off.
+  const distance = (a, b) => {
+    const row = Array.from({ length: b.length + 1 }, (_, index) => index);
+    for (let i = 1; i <= a.length; i++) {
+      let last = row[0];
+      row[0] = i;
+      for (let j = 1; j <= b.length; j++) {
+        const next = row[j];
+        row[j] = Math.min(row[j] + 1, row[j - 1] + 1, last + (a[i - 1] === b[j - 1] ? 0 : 1));
+        last = next;
+      }
+    }
+    return row[b.length];
+  };
+  const nearest = (name) => {
+    let best = null;
+    let least = name.length > 4 ? 3 : 2;
+    for (const candidate of Object.keys(commands)) {
+      const off = distance(name, candidate);
+      if (off < least) {
+        least = off;
+        best = candidate;
+      }
+    }
+    return best;
   };
   const setCwd = (next) => {
     cwd = next;
     cwdLabel.textContent = next;
+    // The window's title follows the directory, as terminals show it.
+    if (titlebar) titlebar.textContent = `burce@arcticlatent: ${next}`;
   };
 
   const commands = {
     help() {
       table([
         ["ls [dir]", "list what's here"],
+        ["cat <file>", "print about.txt, contact or arctic-latent/README"],
         ["cd <dir>", "go to about, film, tools or contact"],
         ["reel [1-4]", "play a reel"],
         ["credits", "my film and series credits"],
@@ -111,7 +179,7 @@ if (shell) {
         ["videos", "the latest Arctic Latent videos"],
         ["contact", "how to reach me"],
         ["open <name>", "open email, linkedin, résumé, github, youtube or imdb"],
-        ["whoami", "who this is"],
+        ["fastfetch", "who this is, in short"],
         ["clear", "clear the screen"]
       ]);
       line("Tab completes; the up and down arrows recall earlier commands.", "is-dim");
@@ -155,9 +223,50 @@ if (shell) {
       const reel = reels[Number(number) - 1];
       if (!reel) return line(`reel: there are ${reels.length} reels; try reel 1 to reel ${reels.length}`);
       line(`playing ${reel.dataset.reelTitle}`, "is-dim");
+      jumped = true;
       setCwd("~/film");
       document.dispatchEvent(new CustomEvent("pane:choose", { detail: "film" }));
       reel.click();
+    },
+    // mpv plays a reel by number or by its file: reels/latest.mp4 is the first.
+    mpv([file = "1"]) {
+      commands.reel([/^\d+$/.test(file) ? file : "1"]);
+    },
+    cat(paths) {
+      if (!paths.length) return line("cat: say which file: about.txt, contact or arctic-latent/README");
+      for (const path of paths) {
+        const name = fileName(path);
+        const source = name && files[name]();
+        if (!source) {
+          line(`cat: ${path}: No such file or directory`);
+          continue;
+        }
+        if (name === "contact") commands.contact();
+        else for (const paragraph of source.querySelectorAll("p")) log.append(Object.assign(copyOf(paragraph), { className: "out" }));
+      }
+    },
+    fastfetch() {
+      const facts = document.querySelector(".facts");
+      line(facts.querySelector("h1").textContent.trim(), "is-name");
+      line("-".repeat(facts.querySelector("h1").textContent.trim().length), "is-dim");
+      const block = document.createElement("div");
+      block.className = "out table";
+      for (const row of facts.querySelectorAll("dl > div")) {
+        const fact = document.createElement("div");
+        const key = document.createElement("span");
+        key.className = "key is-fact";
+        key.textContent = `${row.querySelector("dt").textContent.trim()}:`;
+        const value = document.createElement("span");
+        value.append(...copyOf(row.querySelector("dd")).childNodes);
+        fact.append(key, value);
+        block.append(fact);
+      }
+      log.append(block);
+    },
+    "yt-dlp"() {
+      const videos = [...document.querySelectorAll(".videos a")];
+      if (!videos.length) return line("ERROR: the latest videos can't be fetched right now; try youtube");
+      for (const video of videos) line(undefined).append(anchor(video.textContent.trim(), video.href, true));
     },
     contact() {
       const block = document.createElement("div");
@@ -199,7 +308,9 @@ if (shell) {
     }
   };
   commands.play = commands.reel;
-  commands.mpv = commands.reel;
+  commands.less = commands.cat;
+  commands.bat = commands.cat;
+  commands.man = commands.help;
   for (const name of ["credits", "apps", "videos", "channel", "reels"]) {
     commands[name] = () => {
       setCwd(name === "apps" || name === "videos" || name === "channel" ? "~/tools" : "~/film");
@@ -224,7 +335,8 @@ if (shell) {
     if (command) command(args);
     else {
       line(`zsh: command not found: ${name}`);
-      line("type help for the commands", "is-dim");
+      const guess = nearest(name.toLowerCase());
+      line(guess ? `did you mean ${guess}? type help for the commands` : "type help for the commands", "is-dim");
     }
     // Keep the screen from growing without end.
     while (log.childElementCount > 80) log.firstElementChild.remove();
@@ -237,6 +349,8 @@ if (shell) {
     if (command === "cd" || command === "ls") return [...Object.keys(dirs), "reels", "credits", "apps", "videos"];
     if (command === "open") return [...links.keys()].map((name) => (name === "résumé" ? "resume" : name));
     if (command === "reel" || command === "play") return reelLinks().map((_, index) => String(index + 1));
+    if (command === "mpv") return ["reels/latest.mp4", ...reelLinks().map((_, index) => String(index + 1))];
+    if (["cat", "less", "bat"].includes(command)) return Object.keys(files);
     return [];
   };
   const complete = () => {
@@ -316,11 +430,10 @@ if (shell) {
     const text = input.value;
     input.value = "";
     moveCursor();
+    jumped = false;
     run(text);
-    // Typing at the prompt keeps it on screen, unless the command jumped away.
-    if (!/^(cd|reel|play|mpv|credits|apps|videos|channel|reels)\b/.test(text.trim())) {
-      form.scrollIntoView({ block: "nearest" });
-    }
+    // The prompt stays on screen, unless the command went somewhere.
+    if (!jumped) form.scrollIntoView({ block: "nearest" });
   });
 
   // Clicking anywhere on the prompt's line focuses it.

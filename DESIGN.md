@@ -191,11 +191,13 @@ A cool, low-chroma terminal ground with the eight ANSI colours, each assigned a 
 
 ## Layout
 
-A terminal window on a desk. On phones the window fills the screen edge to edge; from 640px the body gains desk around it (`clamp(24px, 6vh, 80px)` above and below, `clamp(16px, 4vw, 64px)` at the sides) and the window floats, centred, no wider than a terminal you'd open: max-width 1100px. The window is a size container (`container: term`), so its panes follow the window's width, not the screen's. A centred titlebar ("burce@arcticlatent: ~") sits on top.
+A terminal window on a desk. On phones the window fills the screen edge to edge; from 640px the body gains desk around it (`clamp(24px, 6vh, 80px)` above and below, `clamp(16px, 4vw, 64px)` at the sides) and the window floats, centred, no wider than a terminal you'd open: max-width 1100px. The window is a size container (`container: term`), so its panes follow the window's width, not the screen's. A centred titlebar ("burce@arcticlatent: ~", following the prompt's `cd`) sits on top. The window is a flex column so the status bar, first in the source, is drawn last.
 
-Inside, the panes are a grid with a 1px column gap that shows the border colour between them. In a window narrower than 1000px (screens below about 1060px) they stack in one column. In a window 1000px or wider: About spans the top (fastfetch beside `cat about.txt`, in a two-column run grid of fixed shares, 11fr and 10fr, with a 4ch gap; never sized to the facts' content, which browsers measure differently); Film & VFX takes the left column across two rows; AI tools & teaching and Contact stack on the right.
+Inside, the panes are a grid with a 1px column gap that shows the border colour between them. In a window narrower than 1000px (screens below about 1060px) they stack in one column. In a window 1000px or wider: About spans the top (fastfetch beside `cat about.txt`, in a two-column run grid of fixed shares, 12fr and 9fr, with a 4ch gap (wide enough for the Role line on one row); never sized to the facts' content, which browsers measure differently); Film & VFX takes the left column across two rows; AI tools & teaching and Contact stack on the right.
 
-Each pane has 2ch side padding and 1.5lh at the bottom. Within a pane: a blank line (1lh) between runs, half a line between a command and its output, 2ch between columns of `ls`-style rows. The fastfetch logo is 3lh tall on phones, 4lh in a 600-999px window, and 3lh in the split layout (so the facts, up to 46ch, keep to few lines beside the bio).
+Each pane has 2ch side padding and 1.5lh at the bottom. Within a pane: a blank line (1lh) between runs, half a line between a command and its output, 2ch between columns of `ls`-style rows. The fastfetch logo is 4lh in a 600-999px window and 3lh in the split layout (so the facts, up to 46ch, keep to few lines beside the bio). In a window under 600px the logo shrinks to 2lh beside the name and underline, the facts run full width beneath, and the swatches hide, so the reel comes up sooner.
+
+On touch screens (`pointer: coarse`) the tapped lists get 0.3lh vertical padding on their links (reel rows, contact links, status tabs) and on the prompt, about a 36px target; pointers keep the tight one-line rows.
 
 The status bar is sticky to the bottom of the viewport; the document has a 48px bottom scroll-padding so jumps clear it.
 
@@ -230,7 +232,7 @@ Square by default. The window has a 10px radius (from 640px, with `overflow: cli
 - **Errors:** a failed fetch prints one line with a bold red `error:` tag and a link to the source; the pane stays.
 
 ### fastfetch card
-- Pixel BB logo (first B blue, second magenta), then facts: the name as h1 in bold green, a dim dashed underline, `key: value` lines with bold yellow keys and a 2ch hanging indent, then eight ANSI swatches (3ch x 1lh each): swatch-black, red, green, yellow, blue, magenta, cyan, swatch-white.
+- Pixel BB logo (first B blue, second magenta), then facts: the name as h1 in bold green, a dim dashed underline, `key: value` lines with bold yellow keys and a 2ch hanging indent, then eight ANSI swatches (3ch x 1lh each): swatch-black, red, green, yellow, blue, magenta, cyan, swatch-white (hidden in a window under 600px). The facts carry the named shows and the contact (email and résumé); the bio beside them tells the story without repeating them.
 
 ### Reel player
 - **Frame:** inline 16:9, square-cornered, `still` fill. The Vimeo player replaces the still in place, only when asked for.
@@ -249,12 +251,13 @@ Square by default. The window has a 10px radius (from 640px, with `overflow: cli
 ### Inputs / Fields (the prompt)
 - **Without JS:** an idle prompt (`~ $`) with a solid 1ch block cursor.
 - **With JS:** a live form. The label is the cwd and `$`; the input is borderless, transparent, with a transparent caret. A 1ch x 1lh block cursor is positioned by `--at` (in ch): hollow (1px inset fg) when unfocused, solid fg and blinking (1.1s, `steps(1)`) when focused, static under reduced motion. A dim "type help" hint shows while empty and unfocused. Output prints into a log (`aria-live="polite"`); dim lines for secondary output, bold blue directory names.
-- **Behaviour:** help, ls, cd, pwd, whoami, reel/play/mpv N, credits, apps, videos, channel, reels, contact, email/linkedin/resume/github/youtube/imdb, open, clear (and Ctrl+L), history, echo, date, sudo, exit; Tab completes, arrows recall history; unknown commands answer `zsh: command not found: X`.
+- **Behaviour:** every command printed on the page works when typed (`cat about.txt|contact|arctic-latent/README` prints the file from the page, `fastfetch` prints the facts, `yt-dlp …` lists the videos, `mpv <file>` plays the first reel, `man` is help; `less`/`bat` alias cat). Also help, ls, cd, pwd, whoami, reel/play N, credits, apps, videos, channel, reels, contact, email/linkedin/resume/github/youtube/imdb, open, clear (and Ctrl+L), history, echo, date, sudo, exit; Tab completes, arrows recall history; unknown commands answer `zsh: command not found: X`, with "did you mean" for a near miss. A command that goes somewhere prints a dim `→ Pane: part` line (heard through the live log), scrolls there and moves focus to it (`tabindex=-1`, no ring); otherwise the prompt scrolls back into view.
 - **Focus:** the focus ring is not drawn on the input; the solid blinking cursor is its focus state.
 
 ### Navigation (status bar)
 - **Style:** tmux's status bar, sticky to the bottom of the viewport, green background, on-green text: `[burce]` session (bold), then `0:about 1:film 2:tools 3:contact`, then `"arcticlatent"` and the build date (dd-Mon-yy) on the right.
 - **Current:** the current tab inverts (on-green background, green bold text) with a trailing `*` and `aria-current="location"`. Hover underlines; focus uses an on-green outline at 0 offset.
+- **Source order:** first in the source after a skip link ("skip to content", inverse video in the top-left corner, shown on focus), drawn at the bottom with flex `order`.
 - **Narrow:** the host and date hide under 560px, the session under 420px; the four tabs then spread across the bar.
 
 ### Focus, selection, scrollbar

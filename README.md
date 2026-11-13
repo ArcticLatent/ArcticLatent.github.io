@@ -16,7 +16,7 @@ npm run build    # dist/
 | The page | `src/pages/index.astro` |
 | Fetching videos, credits and reels | `src/lib/` |
 | Playing the reel (the Vimeo player loads only when it's played) | `src/scripts/reel.js` |
-| The prompt at the end (optional commands: `help`, `cd`, `reel`, `open` …) and the status bar marking the pane in view | `src/scripts/shell.js`, `src/scripts/status.js` |
+| The prompt at the end (optional commands: `help`, `cd`, `cat`, `reel`, `open` …, and every command printed on the page) and the status bar marking the pane in view | `src/scripts/shell.js`, `src/scripts/status.js` |
 | Styles: tmux panes in a terminal window, light and dark with the system | `src/styles/global.css` |
 | Résumé, favicon, fonts (Commit Mono), link preview | `public/` |
 | Publishing (on push, and daily) | `.github/workflows/deploy.yml` |

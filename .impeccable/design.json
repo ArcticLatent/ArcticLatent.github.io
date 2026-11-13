@@ -629,7 +629,7 @@
       "kind": "custom",
       "refersTo": "pane",
       "description": "Links inherit their colour: 1px underline at 40% currentColor, 3px offset, full on hover; selection is inverse video.",
-      "html": "<p class=\"ds-p\">Get in touch at <a class=\"ds-link\" href=\"#\">email</a> or on <a class=\"ds-link\" href=\"#\">LinkedIn</a>.</p>",
+      "html": "<p class=\"ds-p\">Outside the studio I make <a class=\"ds-link\" href=\"#\">free, open-source apps</a>.</p>",
       "css": ":host{--desk:#dde2e8;--bg:#f8f9fb;--bar:#eceff3;--border:#cfd5de;--still:#e6e9ee;--shadow:rgb(28 35 48/.16);--fg:#1c2330;--dim:#5c6676;--red:#b4373b;--green:#2c7a41;--yellow:#86610a;--blue:#2b67ad;--magenta:#95398f;--cyan:#1b7880;--on-green:#f8f9fb;font:400 15px/1.6 'Commit Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-variant-ligatures:none;color:var(--fg)}.ds-link{color:inherit;text-decoration:underline;text-decoration-color:color-mix(in srgb,currentColor 40%,transparent);text-decoration-thickness:1px;text-underline-offset:3px;transition:text-decoration-color 120ms ease-out}.ds-link:hover{text-decoration-color:currentColor}.ds-link:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}.ds-p{margin:0;background:var(--bg);padding:0 2ch;max-width:72ch}.ds-p::selection,.ds-p ::selection{background:var(--fg);color:var(--bg)}"
     }
   ],

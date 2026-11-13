@@ -141,6 +141,29 @@ a:hover {
   outline-offset: 2px;
 }
 
+/* Where a prompt command lands takes focus, but isn't a control to ring. */
+[tabindex="-1"]:focus {
+  outline: none;
+}
+
+/* Shown only when tabbed to: inverse video in the top corner. */
+.skip {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 10;
+  padding: 0 1ch;
+  background: var(--fg);
+  color: var(--bg);
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(calc(-100% - 16px));
+}
+
+.skip:focus {
+  transform: none;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -155,6 +178,8 @@ a:hover {
    follow the window's width, not the screen's (container queries). */
 .term {
   container: term / inline-size;
+  display: flex;
+  flex-direction: column;
   max-width: 1100px;
   margin: 0 auto;
   background: var(--bg);
@@ -263,6 +288,7 @@ a:hover {
 .comment {
   margin-top: 0.5lh;
   color: var(--dim);
+  text-wrap: pretty;
 }
 
 .comment a {
@@ -662,6 +688,21 @@ a:hover {
   font-weight: 700;
 }
 
+/* fastfetch, typed: the name in green, the keys in yellow, as printed above. */
+.log .is-name {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.log .table .key.is-fact {
+  flex-basis: 9ch;
+  color: var(--yellow);
+}
+
+.log .table > div > span:last-child {
+  min-width: 0;
+}
+
 .prompt {
   display: flex;
   column-gap: 1ch;
@@ -742,6 +783,7 @@ a:hover {
 /* tmux's status bar, pinned to the bottom of the screen: the page's
    navigation. The pane in view is marked with *. */
 .status {
+  order: 1;
   position: sticky;
   bottom: 0;
   z-index: 5;
@@ -853,7 +895,7 @@ a:hover {
      the bio a sliver. */
   .runs {
     display: grid;
-    grid-template-columns: minmax(0, 11fr) minmax(0, 10fr);
+    grid-template-columns: minmax(0, 12fr) minmax(0, 9fr);
     column-gap: 4ch;
     align-items: start;
   }
@@ -880,6 +922,65 @@ a:hover {
 @container term (min-width: 600px) and (max-width: 999px) {
   .logo {
     height: 4lh;
+  }
+}
+
+/* A phone-sized window: the logo shrinks to sit beside the name, as
+   fastfetch does in a narrow terminal, and the swatches go, so the reel
+   comes up sooner. */
+@container term (max-width: 599px) {
+  .fastfetch {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 2ch;
+    row-gap: 0;
+  }
+
+  .facts {
+    display: contents;
+  }
+
+  .logo {
+    grid-row: 1 / 3;
+    height: 2lh;
+  }
+
+  .facts h1,
+  .facts .underline {
+    grid-column: 2;
+  }
+
+  .facts dl {
+    grid-column: 1 / -1;
+    margin-top: 0.5lh;
+  }
+
+  .swatches {
+    display: none;
+  }
+}
+
+/* Fingers need bigger targets than pointers: taller rows for the lists you
+   tap (reels, contact), the status bar and the prompt. */
+@media (pointer: coarse) {
+  .reel-list li,
+  .contact > div {
+    align-items: baseline;
+  }
+
+  .reel-list a,
+  .contact dd a,
+  .status a {
+    display: inline-block;
+    padding-block: 0.3lh;
+  }
+
+  .status {
+    padding-block: 0;
+  }
+
+  .prompt {
+    padding-block: 0.3lh;
   }
 }
 
