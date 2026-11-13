@@ -1,10 +1,12 @@
-/* The résumé in the website's terminal: Commit Mono at one size, the light
+/* The résumé in the website's terminal: IBM Plex Mono at one size, the light
    "Arctic" palette (paper is light), one tmux window on one Letter page. */
-/* TrueType copies of the site's Commit Mono (resume/fonts): Chrome embeds
-   the site's CFF-flavoured fonts in a PDF as Type 3 glyphs, which viewers
-   render poorly; TrueType outlines embed as real fonts. */
-@font-face { font-family: "Commit Mono"; font-weight: 400; src: url("fonts/CommitMono-Regular.ttf") format("truetype"); }
-@font-face { font-family: "Commit Mono"; font-weight: 700; src: url("fonts/CommitMono-Bold.ttf") format("truetype"); }
+/* IBM Plex Mono rather than the site's Commit Mono: its small serifs read
+   better on paper, and its Medium weight is the body text, as Regular
+   prints too light. TrueType files (resume/fonts), because Chrome embeds
+   CFF-flavoured fonts in a PDF as Type 3 glyphs, which viewers render
+   poorly; TrueType outlines embed as real fonts. */
+@font-face { font-family: "IBM Plex Mono"; font-weight: 400; src: url("fonts/IBMPlexMono-Medium.ttf") format("truetype"); }
+@font-face { font-family: "IBM Plex Mono"; font-weight: 700; src: url("fonts/IBMPlexMono-Bold.ttf") format("truetype"); }
 
 @page {
   size: letter;
@@ -41,7 +43,7 @@ html {
 }
 
 body {
-  font: 400 7.9pt/1.38 "Commit Mono", ui-monospace, monospace;
+  font: 400 7.9pt/1.38 "IBM Plex Mono", ui-monospace, monospace;
   font-variant-ligatures: none;
   color: var(--fg);
 }

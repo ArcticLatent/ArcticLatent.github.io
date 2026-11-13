@@ -25,7 +25,7 @@ npm run build    # dist/
 
 The old addresses still work: `#reels`, `#films`, `#apps`, `#videos` and `#about` jump to their part of the page. The link preview, `public/og-image.png`, is a screenshot of `public/og-image.svg`.
 
-The résumé is `resume/index.html` (with `resume/resume.css`), printed to `public/Burce_Boran_Resume_2026.pdf` by headless Chrome or Chromium:
+The résumé is `resume/index.html` (with `resume/resume.css`, set in IBM Plex Mono from `resume/fonts/`), printed to `public/Burce_Boran_Resume_2026.pdf` by headless Chrome or Chromium:
 
 ```sh
 node resume/build.mjs   # set CHROME=/path/to/chrome if it isn't found
