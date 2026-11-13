@@ -37,3 +37,4 @@ The user asked for a ComfyUI-like node layout. They chose two lanes merging, at 
 - About (with the name, role and drawing above it) wires into two lanes, Film & VFX (Reels → Credits) and AI tools & teaching (Apps → Arctic Latent), and both wire into a Contact node, which replaces the footer.
 - Nodes have a title bar, a body and sockets. The canvas is a faint dot grid. Wires use one quiet colour per lane (ComfyUI's IMAGE blue and LATENT pink), and only on wires, sockets and title-bar dots.
 - Side by side from 960px; one wired column below. DESIGN.md records the system ("The Wired Page").
+- Revised the same day: the user asked for straight wires with dots on the bends, then for the graph to run left to right like ComfyUI. From 1400px the layout is About | lanes as rows | Contact, with labelled side sockets. Below that, one wired column.

@@ -389,8 +389,12 @@
         "value": "520px"
       },
       {
-        "name": "lanes",
-        "value": "960px"
+        "name": "graph",
+        "value": "1400px"
+      },
+      {
+        "name": "wide-lanes",
+        "value": "1800px"
       }
     ],
     "focus": {
@@ -422,9 +426,9 @@
       "name": "Node",
       "kind": "custom",
       "refersTo": "node",
-      "description": "Hairline Edge frame, 10px radius; title bar with a lane-coloured dot; 16px body; input and output sockets on the top and bottom edges.",
-      "html": "<div class=\"ds-node\"><span class=\"ds-socket ds-in\"></span><div class=\"ds-bar\">Reels</div><div class=\"ds-body\"><p>A body of rows, prose or the reel. <a class=\"ds-link\" href=\"#\">A link</a>.</p></div><span class=\"ds-socket ds-out\"></span></div>",
-      "css": ":host{--bg:#fff;--fg:#111;--text:#3b3b3b;--muted:#6b6b6b;--line:#ebebeb;--underline:#a3a3a3;--edge:#dedede;--bar:#fafafa;--film:#4f8cc9;--ai:#b565b2;}.ds-node{position:relative;width:420px;max-width:100%;background:var(--bg);border:1px solid var(--edge);border-radius:10px;font-family:Geist,-apple-system,'Segoe UI',system-ui,sans-serif;font-size:15px;line-height:1.7;color:var(--text)}.ds-bar{display:flex;align-items:center;gap:10px;padding:8px 16px;border-bottom:1px solid var(--line);border-radius:9px 9px 0 0;background:var(--bar);color:var(--fg);font-weight:500}.ds-bar::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--film)}.ds-body{padding:16px}.ds-body p{margin:0}.ds-socket{position:absolute;left:calc(50% - 6px);width:12px;height:12px;border:2px solid var(--bg);border-radius:50%;background:var(--film)}.ds-in{top:-7px}.ds-out{bottom:-7px}.ds-link{color:var(--fg);text-decoration:underline;text-decoration-color:var(--underline);text-decoration-thickness:1px;text-underline-offset:3px}"
+      "description": "Hairline Edge frame, 10px radius; 40px title bar with a lane-coloured dot; labelled socket rows (input left, output right); 16px body.",
+      "html": "<div class=\"ds-node\"><div class=\"ds-bar\">Reels</div><div class=\"ds-io\"><span class=\"ds-in\">film</span><span class=\"ds-out\">reels</span></div><div class=\"ds-body\"><p>A body of rows, prose or the reel. <a class=\"ds-link\" href=\"#\">A link</a>.</p></div></div>",
+      "css": ":host{--bg:#fff;--fg:#111;--text:#3b3b3b;--muted:#6b6b6b;--line:#ebebeb;--underline:#a3a3a3;--edge:#dedede;--bar:#fafafa;--film:#4f8cc9;--ai:#b565b2;}.ds-node{position:relative;width:420px;max-width:100%;background:var(--bg);border:1px solid var(--edge);border-radius:10px;font-family:Geist,-apple-system,'Segoe UI',system-ui,sans-serif;font-size:15px;line-height:1.7;color:var(--text)}.ds-bar{display:flex;align-items:center;gap:10px;padding:8px 16px;border-bottom:1px solid var(--line);border-radius:9px 9px 0 0;background:var(--bar);color:var(--fg);font-weight:500}.ds-bar::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--film)}.ds-body{padding:16px}.ds-body p{margin:0}.ds-socket{position:absolute;left:calc(50% - 6px);width:12px;height:12px;border:2px solid var(--bg);border-radius:50%;background:var(--film)}.ds-io{display:flex;justify-content:space-between;padding:8px 16px 0;font-size:14px;line-height:24px;color:var(--muted)}.ds-in,.ds-out{position:relative}.ds-in::before,.ds-out::after{content:\"\";position:absolute;top:6px;width:12px;height:12px;border:2px solid var(--bg);border-radius:50%;background:var(--film)}.ds-in::before{left:-23px}.ds-out::after{right:-23px}.ds-link{color:var(--fg);text-decoration:underline;text-decoration-color:var(--underline);text-decoration-thickness:1px;text-underline-offset:3px}"
     },
     {
       "name": "Link",
@@ -478,16 +482,16 @@
       "name": "Contact node",
       "kind": "nav",
       "refersTo": "node",
-      "description": "The footer as the last node: neutral title-bar dot, inputs from both lanes, contact links at 14px.",
+      "description": "The last node: neutral title-bar dot, labelled inputs credits and videos from both lanes, contact links at 14px.",
       "html": "<div class=\"ds-node\"><span class=\"ds-socket ds-in\" style=\"left:calc(25% - 6px)\"></span><span class=\"ds-socket ds-in\" style=\"left:calc(75% - 6px);background:var(--ai)\"></span><div class=\"ds-bar ds-neutral\">Contact</div><div class=\"ds-body ds-contact\"><a class=\"ds-link\" href=\"#\">burce.boran@gmail.com</a><a class=\"ds-link\" href=\"#\">LinkedIn</a><a class=\"ds-link\" href=\"#\">Résumé</a></div></div>",
       "css": ":host{--bg:#fff;--fg:#111;--text:#3b3b3b;--muted:#6b6b6b;--line:#ebebeb;--underline:#a3a3a3;--edge:#dedede;--bar:#fafafa;--film:#4f8cc9;--ai:#b565b2;}.ds-node{position:relative;width:420px;max-width:100%;background:var(--bg);border:1px solid var(--edge);border-radius:10px;font-family:Geist,-apple-system,'Segoe UI',system-ui,sans-serif;font-size:15px;line-height:1.7;color:var(--text)}.ds-bar{display:flex;align-items:center;gap:10px;padding:8px 16px;border-bottom:1px solid var(--line);border-radius:9px 9px 0 0;background:var(--bar);color:var(--fg);font-weight:500}.ds-bar::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--film)}.ds-body{padding:16px}.ds-body p{margin:0}.ds-socket{position:absolute;left:calc(50% - 6px);width:12px;height:12px;border:2px solid var(--bg);border-radius:50%;background:var(--film)}.ds-in{top:-7px}.ds-out{bottom:-7px}.ds-link{color:var(--fg);text-decoration:underline;text-decoration-color:var(--underline);text-decoration-thickness:1px;text-underline-offset:3px}.ds-neutral::before{background:var(--underline)}.ds-contact{display:flex;flex-wrap:wrap;gap:0 14px;padding-block:10px;font-size:14px}.ds-contact a{padding:6px 0}"
     }
   ],
   "narrative": {
     "northStar": "The Wired Page",
-    "overview": "The page is a small node graph, the way a ComfyUI workflow reads: an About node wires out into two lanes, Film & VFX (Reels, Credits) and AI tools & teaching (Apps, Arctic Latent), and both lanes wire into a Contact node. It stays in the modern minimal developer register: one type size, neutral greys, hairline frames, rows inside every node, on a ground with a faint dot grid. Wires, sockets and title-bar dots carry the only colour: a quiet blue for Film & VFX and a quiet pink for AI tools & teaching. Side by side from 960px, one wired column below. Wires run straight, with right-angle bends and a dot on each bend.",
+    "overview": "The page is a small node graph that runs left to right, the way a ComfyUI workflow reads: About on the left wires into two lanes laid out as rows, Film & VFX (Reels → Credits) and AI tools & teaching (Apps → Arctic Latent), and both wire into Contact on the right. Nodes have title bars and labelled side sockets (film, tools, reels, credits, apps, videos). It stays in the modern minimal developer register: one type size, neutral greys, hairline frames, rows inside every node, on a faint dot grid. Wires run straight with right-angle bends and a dot on each bend, in one quiet colour per lane (blue for Film & VFX, pink for AI tools & teaching). Left to right from 1400px; one wired column below.",
     "keyCharacteristics": [
-      "A node graph: About → two lanes → Contact. Side by side from 960px; one wired column below.",
+      "A node graph: About → two lanes → Contact, left to right from 1400px; one wired column below.",
       "One type size (15px), stepped by weight (400/500/600) and colour; 14px only for meta and small print.",
       "Neutral palette, light and dark by `prefers-color-scheme`; colour only on wires, sockets and title-bar dots, one hue per lane.",
       "Rows with 1px hairlines as the universal list form, inside nodes.",
@@ -521,7 +525,7 @@
       }
     ],
     "dos": [
-      "Put any new section in a node on one of the lanes, wired in, with a title bar.",
+      "Put any new section in a node on one of the lanes, wired in, with a title bar and labelled sockets at the shared offsets.",
       "Keep every text element at 15px (14px for meta and small print) and step hierarchy with weight 600/500/400 and Ink/Quiet Grey.",
       "Present any new list as rows inside its node: title left, tabular meta right, 1px Hairline between.",
       "Give every image a Still fill and a 1px Hairline ring.",

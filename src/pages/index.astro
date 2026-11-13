@@ -71,9 +71,10 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
     {structuredData.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data)} />)}
   </head>
   <body>
-    <!-- The page is a node graph: About wires into two lanes (Film & VFX, AI
-         tools & teaching), and both lanes wire into Contact. Wider screens
-         show the lanes side by side; phones get one column. -->
+    <!-- The page is a node graph that runs left to right, like a ComfyUI
+         workflow: About wires into two lanes (Film & VFX: Reels, Credits; AI
+         tools & teaching: Apps, Arctic Latent), and both lanes wire into
+         Contact. Narrower screens get one column, each node wired to the next. -->
     <main class="canvas">
       <header id="about" class="head">
         <div class="masthead">
@@ -117,6 +118,10 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
           <div class="node-bar">
             <h2 class="node-title">About</h2>
           </div>
+          <div class="node-io" aria-hidden="true">
+            <div class="io"><span class="out is-film">film</span></div>
+            <div class="io"><span class="out is-ai">tools</span></div>
+          </div>
           <div class="node-body">
             <p>
               I work in the VFX industry as a GenAI TD in pipeline, bringing generative AI tools and workflows into how
@@ -154,16 +159,20 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
         </div>
       </header>
 
-      <div class="wires" aria-hidden="true">
-        <svg viewBox="0 0 100 2" preserveAspectRatio="none" focusable="false">
-          <path class="is-film is-branch" d="M38 0 V 1 H 24 V 2" />
-          <path class="is-ai is-branch" d="M62 0 V 1 H 76 V 2" />
-          <path class="is-film is-straight" d="M50 0 V 2" />
-        </svg>
-        <span class="joint is-film" style="--x: 38%"></span>
-        <span class="joint is-film" style="--x: 24%"></span>
-        <span class="joint is-ai" style="--x: 62%"></span>
-        <span class="joint is-ai" style="--x: 76%"></span>
+      <!-- Wires. In one column: a short straight wire. Left to right: About's
+           film wire runs straight across into Reels; its tools wire runs
+           across, down past the film lane and across into Apps. -->
+      <div class="wires is-film" aria-hidden="true"></div>
+      <div class="link is-out-film" aria-hidden="true">
+        <span class="h is-film at-film"></span>
+        <span class="h is-ai at-about-ai to-mid"></span>
+        <span class="v is-ai at-about-ai down"></span>
+        <span class="joint is-ai at-about-ai"></span>
+      </div>
+      <div class="link is-out-ai" aria-hidden="true">
+        <span class="v is-ai at-ai up"></span>
+        <span class="h is-ai at-ai from-mid"></span>
+        <span class="joint is-ai at-ai"></span>
       </div>
 
       <section class="lane is-film" aria-labelledby="film-title">
@@ -172,6 +181,9 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
         <div class="node block" id="reels">
           <div class="node-bar">
             <h3 class="node-title">Reels</h3>
+          </div>
+          <div class="node-io" aria-hidden="true">
+            <div class="io"><span class="in">film</span><span class="out">reels</span></div>
           </div>
           <div class="node-body">
             {featuredReel ? (
@@ -223,9 +235,14 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
           </div>
         </div>
 
+        <div class="link is-mid" aria-hidden="true"><span class="h at-io"></span></div>
+
         <div class="node block" id="films">
           <div class="node-bar">
             <h3 class="node-title">Credits</h3>
+          </div>
+          <div class="node-io" aria-hidden="true">
+            <div class="io"><span class="in">reels</span><span class="out">credits</span></div>
           </div>
           <div class="node-body">
             <ul class="rows credits">
@@ -261,6 +278,9 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
           <div class="node-bar">
             <h3 class="node-title">Apps</h3>
           </div>
+          <div class="node-io" aria-hidden="true">
+            <div class="io"><span class="in">tools</span><span class="out">apps</span></div>
+          </div>
           <div class="node-body">
             <ul class="rows apps">
               {apps.map((app) => (
@@ -275,9 +295,14 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
           </div>
         </div>
 
+        <div class="link is-mid" aria-hidden="true"><span class="h at-io"></span></div>
+
         <div class="node block" id="videos">
           <div class="node-bar">
             <h3 class="node-title">Arctic Latent</h3>
+          </div>
+          <div class="node-io" aria-hidden="true">
+            <div class="io"><span class="in">apps</span><span class="out">videos</span></div>
           </div>
           <div class="node-body">
             <p class="intro">My YouTube channel: ComfyUI and AI workflow tutorials for artists, on Windows and Linux.</p>
@@ -299,25 +324,30 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
         </div>
       </section>
 
-      <div class="wires" aria-hidden="true">
-        <svg viewBox="0 0 100 2" preserveAspectRatio="none" focusable="false">
-          <path class="is-film is-branch" d="M24 0 V 1 H 38 V 2" />
-          <path class="is-ai is-branch" d="M76 0 V 1 H 62 V 2" />
-          <path class="is-ai is-straight" d="M50 0 V 2" />
-        </svg>
-        <span class="joint is-film" style="--x: 24%"></span>
-        <span class="joint is-film" style="--x: 38%"></span>
-        <span class="joint is-ai" style="--x: 76%"></span>
-        <span class="joint is-ai" style="--x: 62%"></span>
+      <!-- Into Contact: the film wire runs straight across from Credits; the
+           tools wire runs across from Arctic Latent, up and across. -->
+      <div class="link is-in-film" aria-hidden="true">
+        <span class="h is-film at-film"></span>
+        <span class="v is-ai at-about-ai down"></span>
+        <span class="h is-ai at-about-ai from-mid"></span>
+        <span class="joint is-ai at-about-ai"></span>
       </div>
-    </main>
+      <div class="link is-in-ai" aria-hidden="true">
+        <span class="h is-ai at-ai to-mid"></span>
+        <span class="v is-ai at-ai up"></span>
+        <span class="joint is-ai at-ai"></span>
+      </div>
+      <div class="wires is-ai" aria-hidden="true"></div>
 
-    <footer class="foot">
-      <div class="node">
+      <section class="node contact-node" id="contact" aria-labelledby="contact-title">
         <span class="socket is-film is-in" aria-hidden="true"></span>
         <span class="socket is-ai is-in" aria-hidden="true"></span>
         <div class="node-bar">
-          <h2 class="node-title">Contact</h2>
+          <h2 class="node-title" id="contact-title">Contact</h2>
+        </div>
+        <div class="node-io" aria-hidden="true">
+          <div class="io"><span class="in is-film">credits</span></div>
+          <div class="io"><span class="in is-ai">videos</span></div>
         </div>
         <div class="node-body">
           <ul class="contact">
@@ -329,8 +359,8 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
             <li><a href={imdbUrl}>IMDb</a></li>
           </ul>
         </div>
-      </div>
-    </footer>
+      </section>
+    </main>
 
     <script>
       import "../scripts/reel.js";

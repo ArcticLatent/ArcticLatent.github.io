@@ -1,6 +1,6 @@
 ---
 name: Burce Boran
-description: A personal page laid out as a node graph on a dotted canvas; neutral greys with one quiet colour per lane, light or dark with the system, one type size.
+description: A personal page laid out as a left-to-right node graph on a dotted canvas; neutral greys with one quiet colour per lane, light or dark with the system, one type size.
 colors:
   ground: "#ffffff"
   ink: "#111111"
@@ -65,7 +65,10 @@ spacing:
   lg: "48px"
   xl: "56px"
   measure: "580px"
-  canvas: "1080px"
+  canvas: "1680px"
+  wire-column: "48px"
+  about-column: "320px"
+  contact-column: "220px"
 components:
   link:
     textColor: "{colors.ink}"
@@ -120,12 +123,12 @@ components:
 
 **Creative North Star: "The Wired Page"**
 
-The page is a small node graph, the way a ComfyUI workflow reads: an About node at the top wires out into two lanes, Film & VFX (Reels, then Credits) and AI tools & teaching (Apps, then Arctic Latent), and both lanes wire into a Contact node at the bottom. It stays in the modern minimal developer register (leerob.com is still the craft bar): one type size, neutral greys, hairline frames, rows inside every node. The graph is the structure, not decoration; it says what the page is about (pipelines, two careers feeding one person) without a single extra word.
+The page is a small node graph that runs left to right, the way a ComfyUI workflow reads: an About node on the left wires out into two lanes laid out as rows, Film & VFX (Reels → Credits) and AI tools & teaching (Apps → Arctic Latent), and both lanes wire into a Contact node on the right. Every node has labelled sockets on its sides (inputs left, outputs right) naming what flows: film, tools, reels, credits, apps, videos. It stays in the modern minimal developer register (leerob.com is still the craft bar): one type size, neutral greys, hairline frames, rows inside every node. The graph is the structure, not decoration; it says what the page is about (pipelines, two careers feeding one person) without a single extra word.
 
 The canvas is the system ground with a faint dot grid. Nodes are opaque ground-coloured frames with a 1px Edge border, a title bar and a body. Wires and sockets carry the only colour on the page: a quiet blue for Film & VFX and a quiet pink for AI tools & teaching, after ComfyUI's IMAGE and LATENT wire colours. Everything else is grey. Motion is limited to short colour and opacity transitions and the masthead drawing's one fade-in on load; none of it runs under reduced motion. The only behaviour is the reel: a still that becomes the Vimeo player when pressed.
 
 **Key Characteristics:**
-- A node graph: About → two lanes → Contact. Side by side from 960px; one wired column below.
+- A node graph: About → two lanes → Contact, left to right from 1400px; one wired column, top to bottom, below.
 - One type size (15px), stepped by weight (400/500/600) and colour; 14px only for meta and small print.
 - Neutral palette, light and dark by `prefers-color-scheme`; colour only on wires, sockets and title-bar dots, one hue per lane.
 - Rows with 1px hairlines as the universal list form, inside nodes.
@@ -177,10 +180,10 @@ Neutrals in two modes, swapped wholesale by `prefers-color-scheme`; every token 
 
 `main.canvas` and `footer.foot` share a 1080px max width, centred, with 24px side padding and `clamp(40px, 8vh, 96px)` above.
 
-- **From 960px:** a two-column grid, columns 48% wide with a 4% gap, so each lane's wire runs down its middle at 24% and 76% of the canvas. The header (name and drawing, then the About node) and the Contact node are 48% wide and centred; their sockets sit at 25% and 75% of their own width, which is 38% and 62% of the canvas. Two full-width strips (72px tall) carry the wires from About's sockets down to the lanes and from the lanes into Contact: an SVG (`preserveAspectRatio="none"`, `vector-effect: non-scaling-stroke`) draws each wire straight down, across at half height and down again, and HTML dots sit on the bends so they stay round at any width. The lanes stretch to the same height, so the shorter lane's wire simply runs on below its last node.
-- **Below 960px:** one column, 580px max. About, Reels, Credits, Apps, Arctic Latent and Contact stack, each wired to the next by a straight wire; the strips become 40px straight wires (Film into the first lane, AI into Contact), and About and Contact show one centred socket.
-- **Within a lane:** the lane name sits on the wire (18px above and below, starting 14px right of it); nodes are 56px apart on wide screens, 48px in one column.
-- **Inside a node:** a title bar (8px 16px) over a 16px body. Rows are a two-column grid (`1fr auto`, 16px gap, baseline-aligned, 10px vertical padding); rows with an image (credits, videos) become three columns (`auto 1fr auto`, centre-aligned). A list that opens a node body (or follows the reel) drops its first rule and top padding. Below 520px, video rows drop the meta under the title.
+- **From 1400px (left to right):** a seven-column grid: About (320px) | wire (48px) | lane column | wire | lane column | wire | Contact (220px); the two lane columns share what is left. The header (name and drawing, 64px tall, then 24px) and Contact span both rows; the Film & VFX lane is row 1 and AI tools & teaching row 2, each a subgrid across the three middle columns (node, wire, node). Positions are fixed so wires need no measuring: About, Contact and the film lane's nodes start 88px down (`--top`), the AI lane's nodes 104px below the film row (`--ai-top`), and every node's socket rows sit 61px and 85px below its top edge (`--s1`, `--s2`: 1px border, 40px title bar, 8px, then 24px rows). Wires are CSS spans in the wire columns: About's film output runs straight into Reels and Credits' output straight into Contact's first input; the tools wire runs across, down the middle of its column past the film lane, and across into Apps, and Arctic Latent's output runs across, up and across into Contact's second input. Rows stretch, so the vertical runs always reach. From 1400 to 1799px a video's date goes under its title.
+- **Below 1400px:** one column, 580px max. About, Reels, Credits, Apps, Arctic Latent and Contact stack, each wired to the next by a straight wire (a lane's wire runs down its middle behind its nodes; 40px straight strips join About to the first lane and the last lane to Contact), sockets sit on the top and bottom edges, About and Contact show one centred socket, and the side sockets and their labels are hidden.
+- **Lane names:** left to right, each sits 36px above its row's first node, at the lane's left edge, like a group title; in one column, on the wire (18px above and below, starting 14px right of it). Nodes in one column are 48px apart.
+- **Inside a node:** a 40px title bar (16px side padding), then (left to right only) the socket rows (8px, then 24px a row, 14px Quiet Grey labels), then a 16px body. Rows are a two-column grid (`1fr auto`, 16px gap, baseline-aligned, 10px vertical padding); rows with an image (credits, videos) become three columns (`auto 1fr auto`, centre-aligned). A list that opens a node body (or follows the reel) drops its first rule and top padding. Below 520px, video rows drop the meta under the title.
 
 ## Elevation & Depth
 
@@ -199,10 +202,10 @@ Radii scaled to the object: 3px on posters and the focus ring, 4px on video thum
 A 1px Edge frame, 10px radius, Ground fill. The title bar: Bar fill, a Hairline below, an 8px dot (the lane's colour; Underline Grey for About and Contact), then the title in 500 Ink. The body: 16px padding; its last child has no bottom margin.
 
 ### Sockets and wires
-Sockets are 12px circles in the lane's colour with a 2px Ground ring, centred on a node's top edge (input) or bottom edge (output), half outside it. Lane nodes have one of each; About has two outputs (Film, AI) and Contact two inputs. A lane's own wire is a 2px line of its colour down the middle of the lane, drawn as the lane's background, so it shows only between nodes; the branch and merge wires are straight inline SVG paths in the same colours (down, across, down), with an 8px dot of the lane's colour on each of their two bends (joints, shown only when the lanes are side by side). All of it is `aria-hidden` or CSS-only; it needs no JavaScript.
+Sockets are 12px circles in the lane's colour with a 2px Ground ring, centred on the node's edge, half outside it. Left to right they sit on the sides, each beside a lowercase label (input left, output right) on its own 24px row under the title bar: About sends film and tools; Reels takes film and sends reels; Credits takes reels and sends credits; Apps takes tools and sends apps; Arctic Latent takes apps and sends videos; Contact takes credits and videos. In one column they sit on the top (input) and bottom (output) edges instead, unlabelled. Wires are 2px lines of the lane's colour, straight, with square bends and an 8px dot of the lane's colour on every bend: left to right they are absolutely placed spans in the 48px wire columns; in one column, a lane's wire is its background, showing between nodes, and short straight strips join About and Contact. All of it is `aria-hidden` or CSS-only; it needs no JavaScript.
 
 ### Lane names
-The h2 for each half (Film & VFX, AI tools & teaching) is set on its lane's wire, like a wire label: Headline style, starting 14px right of the wire, not wrapping.
+The h2 for each half (Film & VFX, AI tools & teaching), Headline style, not wrapping: left to right, a group title above its row; in one column, a label on its lane's wire, 14px right of it.
 
 ### Links
 Text-coloured (Ink), 1px underline in Underline Grey, offset 3px. On hover the underline turns `currentColor` (150ms ease-out). No other link style exists, including in rows and the Contact node.
@@ -231,7 +234,7 @@ Above the About node, beside the name and role: an inline SVG (156px wide, 112px
 At the end of the About body, a two-line index at 14px: each half's name in Quiet Grey (152px column), then links to its nodes (Reels, Credits; Apps, Videos). Nodes keep a 24px scroll margin.
 
 ### Contact
-The footer is the last node: two input sockets on wide screens, one in a column; its body (10px vertical padding) is the contact links as a wrapping inline list (0/14px gaps, 6px vertical padding on each link for touch), starting with the visible email address, all at 14px.
+The last node, a `section#contact` inside `main` (the grid needs it there): on the right with two labelled inputs (credits, videos) left to right, at the bottom with one top socket in a column; its body (10px vertical padding) is the contact links as a wrapping inline list (0/14px gaps, 6px vertical padding on each link for touch), starting with the visible email address, all at 14px.
 
 ### Fallbacks
 A failed section is one Quiet Grey line with a link to the source, inside its node; the node and its wires stay.
@@ -239,7 +242,7 @@ A failed section is one Quiet Grey line with a link to the source, inside its no
 ## Do's and Don'ts
 
 ### Do:
-- **Do** put any new section in a node on one of the lanes, wired in, with a title bar.
+- **Do** put any new section in a node on one of the lanes, wired in, with a title bar and labelled sockets, and keep the socket rows at the shared offsets so the wires stay straight.
 - **Do** keep every text element at 15px (14px for meta and small print) and step hierarchy with weight 600/500/400 and Ink/Quiet Grey.
 - **Do** present any new list as rows inside its node: title left, tabular meta right, 1px Hairline between.
 - **Do** give every image a Still fill and a 1px Hairline ring.
