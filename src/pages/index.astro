@@ -61,7 +61,7 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Burce Boran, Asset Supervisor" />
+    <meta property="og:image:alt" content="Burce Boran, GenAI TD in VFX pipeline" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={pageDescription} />
@@ -73,15 +73,48 @@ const reelStill = featuredReel && (featuredReel.still === false ? "" : featuredR
   <body>
     <main>
       <header id="about">
-        <h1>Burce Boran</h1>
-        <p class="role">Asset Supervisor</p>
+        <div class="masthead">
+          <div>
+            <h1>Burce Boran</h1>
+            <p class="role">GenAI TD, Pipeline</p>
+          </div>
+          <!-- A small node graph wired into a wireframe sphere: pipeline into asset. -->
+          <svg class="graph" viewBox="0 0 208 72" aria-hidden="true" focusable="false">
+            <g class="graph-wires">
+              <path d="M44 36 C 58 36, 58 18, 72 18" />
+              <path d="M44 36 C 58 36, 58 54, 72 54" />
+              <path d="M116 18 C 136 18, 132 36, 148 36" />
+              <path d="M116 54 C 136 54, 132 36, 148 36" />
+            </g>
+            <g class="graph-nodes">
+              <rect x="0.5" y="26.5" width="43" height="19" rx="4" />
+              <rect x="72.5" y="8.5" width="43" height="19" rx="4" />
+              <rect x="72.5" y="44.5" width="43" height="19" rx="4" />
+            </g>
+            <g class="graph-ports">
+              <circle cx="44" cy="36" r="2" />
+              <circle cx="72" cy="18" r="2" />
+              <circle cx="72" cy="54" r="2" />
+              <circle cx="116" cy="18" r="2" />
+              <circle cx="116" cy="54" r="2" />
+              <circle cx="148" cy="36" r="2" />
+            </g>
+            <g class="graph-mesh">
+              <circle cx="178" cy="36" r="29" />
+              <ellipse cx="178" cy="36" rx="29" ry="10" />
+              <ellipse cx="178" cy="36" rx="12" ry="29" />
+              <path d="M150 27 H206 M150 45 H206" />
+            </g>
+          </svg>
+        </div>
         <p>
-          I supervise assets for film and television visual effects. For over 15 years I've built and led the
-          models, textures and look development behind shows like <em>The Mandalorian</em>,
+          I work in the VFX industry as a GenAI TD in pipeline, bringing generative AI tools and workflows into how
+          shows get made. Before that I spent over 15 years in visual effects, most recently as an asset supervisor,
+          building and leading the models, textures and look development behind <em>The Mandalorian</em>,
           <em>Star Trek: Discovery</em> and <em>Avatar: The Last Airbender</em>.
         </p>
         <p>
-          The other half of my work is AI. I make free, open-source apps like
+          Outside the studio I make free, open-source apps like
           <a href="https://harlo.run">harlo</a>, <a href="https://github.com/ArcticLatent/ComfyPilot">ComfyPilot</a> and
           <a href="https://github.com/ArcticLatent/Bootcraft">Bootcraft</a>, and on my YouTube channel,
           <a href={youtubeUrl}>Arctic Latent</a>, I teach artists ComfyUI and AI workflows. Before the channel I taught 3D

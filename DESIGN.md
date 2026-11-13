@@ -94,7 +94,7 @@ components:
 
 One narrow column of text and quiet lists, in the modern minimal developer register. Hierarchy comes from weight and colour, never from size: the name, the section headings and the body all sit at 15px. Everything after the bio is a row (title left, details right, a hairline between), with small real images only where the work is visual.
 
-The world is neutral grey on white, or on near-black when the system is dark; there is no accent colour. Links are text-coloured with a thin underline. Motion is limited to short colour and opacity transitions, and none of it runs under reduced motion. The only behaviour is the reel: a still (or a lone Play pill) that becomes the Vimeo player when pressed.
+The world is neutral grey on white, or on near-black when the system is dark; there is no accent colour. Links are text-coloured with a thin underline. The only graphics are hairline drawings in the same greys: a small node graph wired into a wireframe sphere beside the name (pipeline into asset), and a port on the rule that starts the second half. Motion is limited to short colour and opacity transitions and the drawing's one fade-in on load; none of it runs under reduced motion. The only behaviour is the reel: a still (or a lone Play pill) that becomes the Vimeo player when pressed.
 
 **Key Characteristics:**
 - One 580px measure, centred, generous top space.
@@ -181,8 +181,11 @@ Real images only: poster 28x42 (3px radius), thumb 64x36 (4px radius), both with
 ### Footer
 A 1px Hairline rule, 18px above and 56px below; the contact links as a wrapping inline list (4px/12px gaps, 6px vertical padding on each link for touch), starting with the visible email address, all at 14px.
 
+### The line drawing
+An inline SVG beside the name (156px wide, 112px on phones), `aria-hidden`: three rounded node outlines in Underline Grey, dotted wires (2/3 dash) in Quiet Grey, ports as small Ground-filled circles with a Quiet Grey stroke, and a wireframe sphere (outline, one latitude and one longitude ellipse in Underline Grey, two faint Hairline bands). All 1px strokes, no fills. On load the nodes, wires and sphere fade in once (700ms, ease-out, staggered up to 260ms); under reduced motion it is simply there. Lines like these are the only decoration the page allows: hairline, monochrome, about the work (pipeline, assets), never filled or coloured.
+
 ### Index and halves
-Under the contact sentence, a two-line index at 14px: each half's name in Quiet Grey (152px column), then links to its blocks (Reels, Credits; Apps, Videos). The second half starts 96px down on a full-width Hairline rule, its heading 40px below it. Blocks keep a 24px scroll margin.
+Under the contact sentence, a two-line index at 14px: each half's name in Quiet Grey (152px column), then links to its blocks (Reels, Credits; Apps, Videos). The second half starts 96px down on a full-width Hairline rule with a 7px port circle (Quiet Grey stroke, Ground fill) at its left end, its heading 40px below it. Blocks keep a 24px scroll margin.
 
 ### Fallbacks
 A failed section is one Quiet Grey line with a link to the source; it never collapses the heading.

@@ -8,7 +8,7 @@ web
 
 ## Users
 
-- **Film and TV VFX studios and recruiters** looking at an Asset Supervisor for a role or a contract. They arrive cold (from LinkedIn, the résumé, IMDb, a referral) and decide in seconds whether the experience is real and relevant.
+- **Film and TV VFX studios and recruiters** looking at a GenAI TD with a long asset background for a role or a contract. They arrive cold (from LinkedIn, the résumé, IMDb, a referral) and decide in seconds whether the experience is real and relevant.
 - **Producers and teams needing freelance or contract work**: asset work, or AI/ComfyUI workflow design.
 - **Artists and creators** who know Arctic Latent or the apps, and come to install an app or follow the channel.
 
@@ -23,7 +23,7 @@ The personal site of Burce Boran: proof of 15+ years of film and television VFX 
 
 ## Positioning
 
-An Asset Supervisor who also builds the tools and teaches the workflows: production credits on major shows, alongside shipped native Linux apps and a ComfyUI tutorial channel. Few people can claim both sides.
+A GenAI TD in VFX pipeline with over 15 years of production behind them (most recently as an asset supervisor), who also builds the tools and teaches the workflows: production credits on major shows, alongside shipped native Linux apps and a ComfyUI tutorial channel. Few people can claim both sides.
 
 ## Operating Context
 
@@ -46,7 +46,7 @@ An Asset Supervisor who also builds the tools and teaches the workflows: product
 
 ## Evidence on Hand
 
-- Role: Asset Supervisor, 15+ years across design, VFX, film and television.
+- Role (updated 2026-11-13): GenAI TD in pipeline in the VFX industry. Before that, over 15 years in VFX, most recently as an asset supervisor. The site names the role only, no employer.
 - Credits (the résumé is the source of truth; the site shows exactly these, with Metacritic posters): Final Destination: Bloodlines, Borderlands, Avatar: The Last Airbender (8 episodes, all 3 seasons), Goliath (10), The Mandalorian (4), Star Trek: Discovery (21), Carnival Row (8), Colony (6), See (1), The Stand (1), Midway, Goosebumps 2: Haunted Halloween. The filmography section is fetched from Metacritic.
 - Reels on Vimeo (`src/site.js`): VFX Demo Reel, Unreal Environment Reel, VFX Demo Reel 2, VFX Demo Reel 3 (years to confirm; Vimeo titles carry some).
 - Apps: harlo (harlo.run), ComfyPilot, Bootcraft, ComfyCatalog (GitHub: ArcticLatent). ComfyCatalog has no logo of its own yet.

@@ -7,9 +7,9 @@ export const githubUrl = "https://github.com/ArcticLatent";
 export const linkedinUrl = "https://www.linkedin.com/in/burceboran/";
 export const youtubeUrl = "https://www.youtube.com/@ArcticLatent";
 
-export const pageTitle = "Burce Boran, Asset Supervisor";
+export const pageTitle = "Burce Boran, GenAI TD in VFX pipeline";
 export const pageDescription =
-  "Asset Supervisor in film and television VFX (The Mandalorian, Star Trek: Discovery, Avatar: The Last Airbender). I also teach ComfyUI on Arctic Latent and build free, open-source apps.";
+  "GenAI TD in VFX pipeline, after over 15 years in visual effects, most recently as an asset supervisor (The Mandalorian, Star Trek: Discovery, Avatar: The Last Airbender). I also teach ComfyUI on Arctic Latent and build free, open-source apps.";
 export const email = "burce.boran@gmail.com";
 
 // A reel's still is its Vimeo thumbnail unless `still` says otherwise: a
@@ -78,11 +78,13 @@ export const structuredData = [
     "@context": "https://schema.org",
     ...person,
     url: siteUrl,
-    jobTitle: "Asset Supervisor",
+    jobTitle: "GenAI TD, Pipeline",
     description: pageDescription,
     sameAs: [linkedinUrl, githubUrl, youtubeUrl, reels[0].url, imdbUrl],
     knowsAbout: [
       "Visual Effects",
+      "Generative AI",
+      "VFX Pipeline",
       "Asset Supervision",
       "3D Assets",
       "Texturing",
