@@ -23,7 +23,7 @@ The personal site of Burce Boran: proof of 15+ years of film and television VFX 
 
 ## Positioning
 
-A GenAI TD in VFX pipeline with over 15 years of production behind them (most recently as an asset supervisor), who also builds the tools and teaches the workflows: production credits on major shows, alongside shipped native Linux apps and a ComfyUI tutorial channel. Few people can claim both sides.
+A GenAI TD in VFX pipeline with over 15 years of production behind them (many of them as an asset supervisor), who also builds the tools and teaches the workflows: production credits on major shows, alongside shipped native Linux apps and a ComfyUI tutorial channel. Few people can claim both sides.
 
 ## Operating Context
 
@@ -47,7 +47,7 @@ A GenAI TD in VFX pipeline with over 15 years of production behind them (most re
 
 ## Evidence on Hand
 
-- Role (updated 2026-11-13): GenAI TD in pipeline in the VFX industry. Before that, over 15 years in VFX, most recently as an asset supervisor. The site presents both as roles, "GenAI Pipeline TD · Asset Supervisor" (the About node, page title, link preview, structured data). It names no employer.
+- Role (updated 2026-11-13): GenAI TD in pipeline in the VFX industry. Before that, over 15 years in VFX, many of them as an asset supervisor (a long stretch, not just the latest role; don't say "most recently"). The site presents both as roles, "GenAI Pipeline TD · Asset Supervisor" (the About node, page title, link preview, structured data). It names no employer.
 - Credits (the résumé is the source of truth; the site shows exactly these, with Metacritic posters): Final Destination: Bloodlines, Borderlands, Avatar: The Last Airbender (8 episodes, all 3 seasons), House of the Dragon (8 episodes; added 2026-11-13, recent work), Goliath (10), The Mandalorian (4), Star Trek: Discovery (21), Carnival Row (8), Colony (6), See (1), The Stand (1), Midway, Goosebumps 2: Haunted Halloween. The filmography section is fetched from Metacritic.
 - Reels on Vimeo (`src/site.js`): VFX Demo Reel, Unreal Environment Reel, VFX Demo Reel 2, VFX Demo Reel 3 (years to confirm; Vimeo titles carry some).
 - Apps: harlo (harlo.run), ComfyPilot, Bootcraft, ComfyCatalog (GitHub: ArcticLatent). ComfyCatalog has no logo of its own yet.
