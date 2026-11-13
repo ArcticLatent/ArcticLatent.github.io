@@ -125,7 +125,7 @@ components:
 
 The page is a small node graph that runs left to right, the way a ComfyUI workflow reads: an About node on the left wires out into two lanes laid out as rows, Film & VFX (Reels → Credits) and AI tools & teaching (Apps → Arctic Latent), and both lanes wire into a Contact node on the right. Every node has labelled sockets on its sides (inputs left, outputs right) naming what flows: film, tools, reels, credits, apps, videos. It stays in the modern minimal developer register (leerob.com is still the craft bar): one type size, neutral greys, hairline frames, rows inside every node. The graph is the structure, not decoration; it says what the page is about (pipelines, two careers feeding one person) without a single extra word.
 
-The canvas is the system ground with a faint dot grid. Nodes are opaque ground-coloured frames with a 1px Edge border, a title bar and a body. Wires and sockets carry the only colour on the page: a quiet blue for Film & VFX and a quiet pink for AI tools & teaching, after ComfyUI's IMAGE and LATENT wire colours. Everything else is grey. Motion is limited to short colour and opacity transitions and the masthead drawing's one fade-in on load; none of it runs under reduced motion. The only behaviour is the reel: a still that becomes the Vimeo player when pressed.
+The canvas is the system ground with a faint dot grid. Nodes are opaque ground-coloured frames with a 1px Edge border, a title bar and a body. Wires and sockets carry the only colour on the page: a quiet blue for Film & VFX and a quiet pink for AI tools & teaching, after ComfyUI's IMAGE and LATENT wire colours. Everything else is grey. Motion is limited to short colour transitions; none of it runs under reduced motion. The only behaviour is the reel: a still that becomes the Vimeo player when pressed.
 
 **Key Characteristics:**
 - A node graph: About → two lanes → Contact, left to right from 1400px; one wired column, top to bottom, below.
@@ -227,8 +227,8 @@ Real images only: poster 28x42 (3px radius), thumb 64x36 (4px radius), both with
 - **Without a still** (a reel set to `still: false` in `src/site.js`): no frame, just a lone filled pill in Ink with Ground text reading "Play {title}, {year}" and the length at 70% opacity; hover adds a 4px Hairline halo.
 - **Behaviour:** pressing the still or any row loads that reel's Vimeo player into the frame with autoplay, marks its row current, scrolls the frame into view if needed (instantly under reduced motion) and moves focus to it. Without JavaScript each links to Vimeo.
 
-### The masthead drawing
-Above the About node, beside the name and role: an inline SVG (156px wide, 112px on phones), `aria-hidden`: three rounded node outlines in Underline Grey, dotted right-angle wires (2/3 dash) in Quiet Grey with a small filled Quiet Grey dot where they split and join, ports as small Ground-filled circles with a Quiet Grey stroke, and a wireframe sphere (outline, one latitude and one longitude ellipse in Underline Grey, two faint Hairline bands). All 1px strokes, no fills, no lane colour. On load the nodes, wires and sphere fade in once (700ms, ease-out, staggered up to 260ms).
+### Masthead
+Above the About node: the name (h1, Headline) and, under it, the role in Quiet Grey, "GenAI Pipeline TD · Asset Supervisor". No drawing or logo beside it; the graph below is the page's only picture.
 
 ### Index
 At the end of the About body, a two-line index at 14px: each half's name in Quiet Grey (152px column), then links to its nodes (Reels, Credits; Apps, Videos). Nodes keep a 24px scroll margin.
