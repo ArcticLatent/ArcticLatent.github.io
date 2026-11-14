@@ -19,6 +19,9 @@ colors:
   swatch-black: "#1c2330"
   swatch-white: "#c7ced8"
   on-green: "#f8f9fb"
+  control-close: "#ec6a5e"
+  control-minimize: "#f4bf4f"
+  control-maximize: "#61c554"
   desk-dark: "#0b0e12"
   bg-dark: "#11151b"
   bar-dark: "#171c24"
@@ -167,12 +170,13 @@ A cool, low-chroma terminal ground with the eight ANSI colours, each assigned a 
 - **Dim** (`dim` / `dim-dark`): `#` comment lines, meta columns (years, lengths, dates, platforms), table headers, the titlebar, the fastfetch underline, the "type help" hint.
 - **On Green** (`on-green` / `on-green-dark`): status-bar text, and the inverted current tab.
 - **Swatch Black / Swatch White**: the two ends of the fastfetch colour swatches; they appear nowhere else.
+- **Window Controls** (`control-minimize`, `control-maximize`, `control-close`): the titlebar's three 12px dots, the desktop's colours rather than the terminal's, so one value serves both themes and they take no ANSI colour's job. They appear nowhere else.
 - **Shadow** (`shadow` / `shadow-dark`): the window's soft drop shadow only.
 
 ### Named Rules
 **The One Job Rule.** Each ANSI colour means one thing: red errors, green the prompt and status bar, yellow keys, blue Film & VFX, magenta AI tools & teaching, cyan the working directory and focus, dim comments and meta. A new use of a colour must be that same meaning; a new meaning needs a colour that has none.
 
-**The Pair Rule.** Every colour is defined as a light and a dark value under one custom property in `:root`, switched by `prefers-color-scheme`. Any new text colour passes 4.5:1 on both `bg` and `bar` in both themes.
+**The Pair Rule.** Every colour is defined as a light and a dark value under one custom property in `:root`, switched by `prefers-color-scheme`. The window controls are the one exception: they belong to the desktop, which keeps them the same in both. Any new text colour passes 4.5:1 on both `bg` and `bar` in both themes.
 
 ## Typography
 
@@ -191,7 +195,7 @@ A cool, low-chroma terminal ground with the eight ANSI colours, each assigned a 
 
 ## Layout
 
-A terminal window on a desk. On phones the window fills the screen edge to edge; from 640px the body gains desk around it (`clamp(24px, 6vh, 80px)` above and below, `clamp(16px, 4vw, 64px)` at the sides) and the window floats, centred, no wider than a terminal you'd open: max-width 1100px. The window is a size container (`container: term`), so its panes follow the window's width, not the screen's. A centred titlebar ("burce@arcticlatent: ~", following the prompt's `cd`) sits on top. The window is a flex column so the status bar, first in the source, is drawn last.
+A terminal window on a desk. On phones the window fills the screen edge to edge; from 640px the body gains desk around it (`clamp(24px, 6vh, 80px)` above and below, `clamp(16px, 4vw, 64px)` at the sides) and the window floats, centred, no wider than a terminal you'd open: max-width 1100px. The window is a size container (`container: term`), so its panes follow the window's width, not the screen's. A centred titlebar ("burce@arcticlatent: ~", following the prompt's `cd`) sits on top, with the window's controls at its right end: minimize, maximize, close, 12px dots 8px apart. Hovering them shows their −, + and × marks, and pressing one darkens it, but they do nothing; like the rest of the titlebar they're hidden from screen readers and aren't tab stops. The title stays centred on the window, and ellipsizes before it reaches them. The window is a flex column so the status bar, first in the source, is drawn last.
 
 Inside, the panes are a grid with a 1px column gap that shows the border colour between them. In a window narrower than 1000px (screens below about 1060px) they stack in one column. In a window 1000px or wider: About spans the top (fastfetch beside `cat about.txt`, in a two-column run grid of fixed shares, 12fr and 9fr, with a 4ch gap (wide enough for the Role line on one row); never sized to the facts' content, which browsers measure differently); Film & VFX takes the left column across two rows; AI tools & teaching and Contact stack on the right.
 
@@ -216,7 +220,7 @@ The terminal is flat. The only shadow in the system is the window's own, which l
 
 ## Shapes
 
-Square by default. The window has a 10px radius (from 640px, with `overflow: clip`), the one rounded shape, as a desktop window has. Everything inside it is square: panes, the reel frame, posters, thumbnails, the Play control, tabs, the cursor. Images carry a 1px inset outline of `fg` at 14% and a `still` fill. The fastfetch logo is a pixel-art portrait with a transparent ground (no outline or fill); the favicon's pixel BB is drawn in crisp-edged unit squares. The current reel's marker is a 1ch green triangle (clip-path).
+Square by default. The window has a 10px radius (from 640px, with `overflow: clip`), as a desktop window has; it and the titlebar's control dots, which are the desktop's too, are the only rounded shapes. Everything inside it is square: panes, the reel frame, posters, thumbnails, the Play control, tabs, the cursor. Images carry a 1px inset outline of `fg` at 14% and a `still` fill. The fastfetch logo is a pixel-art portrait with a transparent ground (no outline or fill); the favicon's pixel BB is drawn in crisp-edged unit squares. The current reel's marker is a 1ch green triangle (clip-path).
 
 ## Components
 

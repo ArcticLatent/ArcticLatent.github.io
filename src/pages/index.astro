@@ -96,7 +96,14 @@ const contactLinks = [
          status bar along the bottom is the page's navigation. -->
     <a class="skip" href="#content">skip to content</a>
     <div class="term">
-      <div class="titlebar" aria-hidden="true" data-titlebar>burce@arcticlatent: ~</div>
+      <div class="titlebar" aria-hidden="true">
+        <span class="titlebar-text" data-titlebar>burce@arcticlatent: ~</span>
+        <span class="window-controls">
+          <span class="window-control minimize"><svg viewBox="0 0 10 10"><path d="M2.5 5h5" /></svg></span>
+          <span class="window-control maximize"><svg viewBox="0 0 10 10"><path d="M5 2.5v5M2.5 5h5" /></svg></span>
+          <span class="window-control close"><svg viewBox="0 0 10 10"><path d="M3 3l4 4M7 3l-4 4" /></svg></span>
+        </span>
+      </div>
 
       <!-- First in the source, so keyboards and screen readers reach it first;
            CSS draws it along the bottom, where tmux keeps it. -->

@@ -27,6 +27,10 @@
   --swatch-black: #1c2330;
   --swatch-white: #c7ced8;
   --on-green: #f8f9fb;
+  /* The window's controls, in both themes: a desktop's, not the terminal's. */
+  --control-close: #ec6a5e;
+  --control-minimize: #f4bf4f;
+  --control-maximize: #61c554;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -203,15 +207,65 @@ main * {
   }
 }
 
+/* The title centred, the window's controls at the right: minimize, maximize,
+   close. They're the desktop's, so they press but do nothing, and they stay
+   out of the keyboard's way and the screen reader's (the bar is hidden). */
 .titlebar {
+  display: grid;
+  grid-template-columns: 1fr minmax(0, max-content) 1fr;
+  align-items: center;
+  column-gap: 2ch;
   padding: 0.35lh 2ch;
   background: var(--bar);
   border-bottom: 1px solid var(--border);
   color: var(--dim);
-  text-align: center;
+}
+
+.titlebar-text {
+  grid-column: 2;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.window-controls {
+  grid-column: 3;
+  justify-self: end;
+  display: flex;
+  gap: 8px;
+}
+
+.window-control {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 0.5px rgb(0 0 0 / 0.2);
+}
+
+.window-control.close { background: var(--control-close); }
+.window-control.minimize { background: var(--control-minimize); }
+.window-control.maximize { background: var(--control-maximize); }
+
+.window-control svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: rgb(0 0 0 / 0.55);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  opacity: 0;
+  transition: opacity 120ms ease-out;
+}
+
+/* Hovering the group shows what each does; pressing one darkens it. */
+.window-controls:hover svg {
+  opacity: 1;
+}
+
+.window-control:active {
+  filter: brightness(0.85);
 }
 
 /* tmux's panes: a 1px border between side-by-side panes, and a title row
@@ -430,6 +484,18 @@ main * {
   height: 100%;
   border: 0;
   object-fit: cover;
+}
+
+/* Vimeo's player doesn't fill the frame to the subpixel, so what's behind it
+   shows as a sliver at its edge: make that black, like the video. Its page
+   has no colour scheme, so in dark mode the browser would paint it white
+   unless the player is told it has none either. */
+.reel-frame:has(.reel-player) {
+  background: #000;
+}
+
+.reel-player {
+  color-scheme: normal;
 }
 
 /* Play sits top left, where mpv puts its on-screen display, so it shows as
