@@ -51,7 +51,7 @@ export const apps = [
     name: "harlo",
     href: "https://harlo.run",
     platforms: "Linux · iPhone",
-    description: "Your coding agents in one native app: Claude Code, OpenCode, pi and Oh My Pi, with an iPhone app to follow and answer them.",
+    description: "Your coding agents in one native app: Claude Code and the harlo agent, with an iPhone app to follow and answer them.",
     tech: ["Rust", "Qt 6", "SwiftUI"]
   },
   {
