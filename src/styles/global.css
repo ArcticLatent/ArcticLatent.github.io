@@ -416,14 +416,16 @@ main * {
   color: var(--dim);
 }
 
-.facts dl > div {
-  padding-left: 2ch;
-  text-indent: -2ch;
+/* The keys in one column and the values in the next, all starting in line,
+   so a value that wraps stays in line too. */
+.facts dl {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  column-gap: 1ch;
 }
 
-.facts dt,
-.facts dd {
-  display: inline;
+.facts dl > div {
+  display: contents;
 }
 
 .facts dt {
@@ -436,7 +438,7 @@ main * {
 }
 
 .facts dd {
-  margin-left: 1ch;
+  margin: 0;
 }
 
 .swatches {

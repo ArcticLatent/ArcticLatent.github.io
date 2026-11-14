@@ -236,7 +236,7 @@ Square by default. The window has a 10px radius (from 640px, with `overflow: cli
 - **Errors:** a failed fetch prints one line with a bold red `error:` tag and a link to the source; the pane stays.
 
 ### fastfetch card
-- The logo is a pixel-art portrait of me (`src/assets/burce-hero.png`, cropped to the figure, served as WebP at 1x-3x, alt "Burce Boran in pixel art"), then facts: the name as h1 in bold green, a dim dashed underline, `key: value` lines with bold yellow keys and a 2ch hanging indent, then eight ANSI swatches (3ch x 1lh each): swatch-black, red, green, yellow, blue, magenta, cyan, swatch-white (hidden in a window under 600px). The facts carry the named shows and the contact (email and résumé); the bio beside them tells the story without repeating them.
+- The logo is a pixel-art portrait of me (`src/assets/burce-hero.png`, cropped to the figure, served as WebP at 1x-3x, alt "Burce Boran in pixel art"), then facts: the name as h1 in bold green, a dim dashed underline, `key: value` lines in two columns, bold yellow keys and then the values, all starting in line (a value that wraps stays in line too), then eight ANSI swatches (3ch x 1lh each): swatch-black, red, green, yellow, blue, magenta, cyan, swatch-white (hidden in a window under 600px). The facts carry the named shows and the contact (email and résumé); the bio beside them tells the story without repeating them.
 
 ### Reel player
 - **Frame:** inline 16:9, square-cornered, `still` fill. The Vimeo player replaces the still in place, only when asked for.
